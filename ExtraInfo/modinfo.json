@@ -8,7 +8,7 @@
     "description": "Useful information for handbook, blocks, items and entities",
     "authors": ["Craluminum2413"],
     "contributors": ["Novocain"],
-    "version": "1.9.8",
+    "version": "1.9.9",
     "dependencies": {
         "game": "1.20.0"
     }
