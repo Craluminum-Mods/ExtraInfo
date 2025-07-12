@@ -52,8 +52,9 @@ public static class ComposeBlockInfoHudPatch
         {
             ___title = newTitle;
             ___detail = newDetail;
-            ElementBounds textBounds = ElementBounds.Fixed(EnumDialogArea.None, 0.0, 0.0, 500.0, 24.0);
-            ElementBounds detailTextBounds = textBounds.BelowCopy(0.0, 10.0);
+            ElementBounds textBounds = ElementBounds.Fixed(EnumDialogArea.CenterFixed, 0, 0, 500, 24);
+            ElementBounds detailTextBounds = textBounds.BelowCopy(0, 10);
+            detailTextBounds.Alignment = EnumDialogArea.None;
             ElementBounds overlayBounds = new ElementBounds();
             overlayBounds.BothSizing = ElementSizing.FitToChildren;
             overlayBounds.WithFixedPadding(5.0, 5.0);
