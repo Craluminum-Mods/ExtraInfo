@@ -25,6 +25,6 @@ public static class GroundStorageExtensions
         if (thisStack == null || otherStack == null) return false;
 
         CollectibleObject obj = thisStack.Collectible;
-        return obj.Equals(thisStack, otherStack, "temperature");
+        return obj.Equals(thisStack, otherStack, GlobalConstants.IgnoredStackAttributes);
     }
 }

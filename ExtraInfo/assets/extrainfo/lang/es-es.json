@@ -36,7 +36,6 @@
     "Config.Setting.ShowMechanicalBlockInfo": "Mostrar información sobre bloques mecánicos, como velocidad, fuerza de giro y resistencia.",
     "Config.Setting.ShowPileTotalItems": "Mostrar el número total de elementos de un Motón.",
     "Config.Setting.ShowStackMetalUnits": "Mostrar el total de unidades de metal en función de la cantidad de un paquete de elementos.",
-    "Config.Setting.ShowTemperatureInName": "Mostrar la temperatura en el nombre de un elemento.",
     "Config.Setting.ShowTranslocatorDestination": "Mostrar las coordenadas de destino del Translocalizador.",
     "Config.Setting.ShowTreeStats": "Mostrar el tiempo que tarda un Brote en germinar y madurar.",
 

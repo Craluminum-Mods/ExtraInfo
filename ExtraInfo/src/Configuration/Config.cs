@@ -35,7 +35,6 @@ public class Config
     public bool ShowMechanicalBlockInfo { get; set; }
     public bool ShowPileTotalItems { get; set; } = true;
     public bool ShowStackMetalUnits { get; set; } = true;
-    public bool ShowTemperatureInName { get; set; } = true;
     public bool ShowTranslocatorDestination { get; set; } = true;
     public bool ShowTreeStats { get; set; } = true;
 
@@ -76,7 +75,6 @@ public class Config
         ShowMechanicalBlockInfo = previousConfig.ShowMechanicalBlockInfo;
         ShowPileTotalItems = previousConfig.ShowPileTotalItems;
         ShowStackMetalUnits = previousConfig.ShowStackMetalUnits;
-        ShowTemperatureInName = previousConfig.ShowTemperatureInName;
         ShowTranslocatorDestination = previousConfig.ShowTranslocatorDestination;
         ShowTreeStats = previousConfig.ShowTreeStats;
     }

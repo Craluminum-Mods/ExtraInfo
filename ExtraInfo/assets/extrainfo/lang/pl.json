@@ -36,7 +36,6 @@
     "Config.Setting.ShowMechanicalBlockInfo": "Pokaż informacje o blokach mechanicznych, takie jak prędkość, moment obrotowy i odporność",
     "Config.Setting.ShowPileTotalItems": "Pokaż łączną liczbę przedmiotów w stosie",
     "Config.Setting.ShowStackMetalUnits": "Pokaż łączną liczbę jednostek metalu na podstawie wielkości stosu przedmiotu",
-    "Config.Setting.ShowTemperatureInName": "Pokaż temperaturę w nazwie przedmiotu",
     "Config.Setting.ShowTranslocatorDestination": "Pokaż cel translokatora",
     "Config.Setting.ShowTreeStats": "Pokaż czas, jaki potrzebuje sadzonka, aby wykiełkować i osiągnąć dojrzałość",
 

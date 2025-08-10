@@ -33,7 +33,6 @@
     "Config.Setting.ShowMechanicalBlockInfo": "Affiche les informations des blocs mécaniques, comme la vitesse, le couple et la résistance",
     "Config.Setting.ShowPileTotalItems": "Affiche le nombre total d'objets dans une pile",
     "Config.Setting.ShowStackMetalUnits": "Affiche le total des unités métalliques basé sur la taille de la pile d'un objet",
-    "Config.Setting.ShowTemperatureInName": "Affiche la température dans le nom d'un objet",
     "Config.Setting.ShowTranslocatorDestination": "Affiche la destination du translocateur",
     "Config.Setting.ShowTreeStats": "Affiche le temps qu'un jeune arbre met pour germer et grandir",
 

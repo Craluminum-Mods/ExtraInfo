@@ -30,7 +30,6 @@ public static class Constants
     {
         public const string MatureDaysAttr = "matureDays";
         public const string SproutDaysAttr = "sproutDays";
-        public const string TemperatureAttr = "temperature";
         public const string WorkableTemperatureAttr = "workableTemperature";
         public const string BlastRadiusAttr = "blastRadius";
         public const string InjureRadiusAttr = "injureRadius";
@@ -116,8 +115,6 @@ public static class Constants
         public static string CarburizationComplete(int percent) => Lang.Get("Carburization: {0}% complete", $"{percent}");
         public static string RemainingResistance(string percent) => Lang.Get("extrainfo:RemainingResistance", $"{percent}%");
 
-        public static string Temperature(float temperature) => Lang.Get("{0}°C", (int)temperature);
-        public static string TemperatureText(float temperature) => $"[<font color=\"{Colors.Yellow}\">{Temperature(temperature)}</font>]";
         public static string WorkableTemperature(float temperature) => Lang.Get("extrainfo:WorkableTemperature", (int)temperature);
 
         public static string WillMatureIn(int min, int max) => Lang.Get("extrainfo:mature-in-days", min, max);

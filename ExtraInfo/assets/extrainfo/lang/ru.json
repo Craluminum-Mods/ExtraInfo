@@ -36,7 +36,6 @@
     "Config.Setting.ShowMechanicalBlockInfo": "Отображение информации о механизмах, таких как скорость, крутящий момент и сопротивление",
     "Config.Setting.ShowPileTotalItems": "Показать общее количество предметов в стопке",
     "Config.Setting.ShowStackMetalUnits": "Отображение общего количества единиц металла в зависимости от размера стопки",
-    "Config.Setting.ShowTemperatureInName": "Показывать температуру в названии предмета",
     "Config.Setting.ShowTranslocatorDestination": "Показать место назначения транслокатора",
     "Config.Setting.ShowTreeStats": "Время, необходимое саженцу для прорастания и созревания",
 
