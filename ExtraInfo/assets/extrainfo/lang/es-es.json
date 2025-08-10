@@ -35,7 +35,6 @@
     "Config.Setting.ShowFarmlandProgress": "Mostrar las horas restantes hasta la siguiente fase del cultivo en la Tierra de Cultivo.",
     "Config.Setting.ShowMechanicalBlockInfo": "Mostrar información sobre bloques mecánicos, como velocidad, fuerza de giro y resistencia.",
     "Config.Setting.ShowPileTotalItems": "Mostrar el número total de elementos de un Motón.",
-    "Config.Setting.ShowSealedCrockName": "Mostrar el estado de Sellado en el nombre de una Vasija.",
     "Config.Setting.ShowStackMetalUnits": "Mostrar el total de unidades de metal en función de la cantidad de un paquete de elementos.",
     "Config.Setting.ShowTemperatureInName": "Mostrar la temperatura en el nombre de un elemento.",
     "Config.Setting.ShowTranslocatorDestination": "Mostrar las coordenadas de destino del Translocalizador.",

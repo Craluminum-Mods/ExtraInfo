@@ -32,7 +32,6 @@
     "Config.Setting.ShowFarmlandProgress": "Affiche les heures restantes avant la prochaine étape de croissance des cultures sur les terres agricoles",
     "Config.Setting.ShowMechanicalBlockInfo": "Affiche les informations des blocs mécaniques, comme la vitesse, le couple et la résistance",
     "Config.Setting.ShowPileTotalItems": "Affiche le nombre total d'objets dans une pile",
-    "Config.Setting.ShowSealedCrockName": "Affiche le statut scellé dans le nom d'un pot",
     "Config.Setting.ShowStackMetalUnits": "Affiche le total des unités métalliques basé sur la taille de la pile d'un objet",
     "Config.Setting.ShowTemperatureInName": "Affiche la température dans le nom d'un objet",
     "Config.Setting.ShowTranslocatorDestination": "Affiche la destination du translocateur",

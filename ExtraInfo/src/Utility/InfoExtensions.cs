@@ -216,28 +216,6 @@ public static class InfoExtensions
         dsc.Append(totalAmountSame).AppendLine();
     }
 
-    public static string GetCrockSealedInName(this string __result, ItemSlot inSlot)
-    {
-        if (Core.Config == null || !Core.Config.ShowSealedCrockName)
-        {
-            return __result;
-        }
-
-        StringBuilder oldSb = new(__result);
-
-        if (inSlot?.Itemstack?.Attributes?.GetBool(Text.SealedAttr) == true)
-        {
-            StringBuilder newSb = new();
-
-            newSb.Append(Text.SealedText);
-            newSb.Append(' ');
-
-            oldSb.Insert(0, newSb);
-        }
-
-        return oldSb.ToString();
-    }
-
     public static void GetFarmlandDropSoilChanceInfo(this StringBuilder dsc, BlockEntityFarmland blockEntity)
     {
         if (Core.Config == null || !Core.Config.ShowFarmlandDropsSoil)

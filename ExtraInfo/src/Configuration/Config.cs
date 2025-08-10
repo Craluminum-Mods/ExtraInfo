@@ -34,7 +34,6 @@ public class Config
     public bool ShowFarmlandProgress { get; set; } = true;
     public bool ShowMechanicalBlockInfo { get; set; }
     public bool ShowPileTotalItems { get; set; } = true;
-    public bool ShowSealedCrockName { get; set; } = true;
     public bool ShowStackMetalUnits { get; set; } = true;
     public bool ShowTemperatureInName { get; set; } = true;
     public bool ShowTranslocatorDestination { get; set; } = true;
@@ -76,7 +75,6 @@ public class Config
         ShowFarmlandProgress = previousConfig.ShowFarmlandProgress;
         ShowMechanicalBlockInfo = previousConfig.ShowMechanicalBlockInfo;
         ShowPileTotalItems = previousConfig.ShowPileTotalItems;
-        ShowSealedCrockName = previousConfig.ShowSealedCrockName;
         ShowStackMetalUnits = previousConfig.ShowStackMetalUnits;
         ShowTemperatureInName = previousConfig.ShowTemperatureInName;
         ShowTranslocatorDestination = previousConfig.ShowTranslocatorDestination;

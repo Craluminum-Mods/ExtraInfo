@@ -35,7 +35,6 @@
     "Config.Setting.ShowFarmlandProgress": "Show the hours remaining until the next crop stage on farmland",
     "Config.Setting.ShowMechanicalBlockInfo": "Show mechanical block information, such as speed, torque, and resistance",
     "Config.Setting.ShowPileTotalItems": "Show the total number of items in a pile",
-    "Config.Setting.ShowSealedCrockName": "Show sealed status in the name of a crock",
     "Config.Setting.ShowStackMetalUnits": "Show the total metal units based on an item's stack size",
     "Config.Setting.ShowTemperatureInName": "Show temperature in the name of an item",
     "Config.Setting.ShowTranslocatorDestination": "Show the destination of the translocator",

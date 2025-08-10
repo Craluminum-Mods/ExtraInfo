@@ -28,11 +28,7 @@ public static class Constants
 
     public static class Text
     {
-        public static readonly string Sealed = Lang.Get("Sealed.").TrimEnd('.', ' ');
-        public static readonly string SealedText = $"[<font color=\"{Colors.Green}\">{Sealed}</font>]";
-
         public const string MatureDaysAttr = "matureDays";
-        public const string SealedAttr = "sealed";
         public const string SproutDaysAttr = "sproutDays";
         public const string TemperatureAttr = "temperature";
         public const string WorkableTemperatureAttr = "workableTemperature";

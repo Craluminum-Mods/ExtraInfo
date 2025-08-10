@@ -35,7 +35,6 @@
     "Config.Setting.ShowFarmlandProgress": "Pokaż liczbę godzin pozostałych do następnego etapu wzrostu uprawy na polu uprawnym",
     "Config.Setting.ShowMechanicalBlockInfo": "Pokaż informacje o blokach mechanicznych, takie jak prędkość, moment obrotowy i odporność",
     "Config.Setting.ShowPileTotalItems": "Pokaż łączną liczbę przedmiotów w stosie",
-    "Config.Setting.ShowSealedCrockName": "Pokaż stan zapieczętowania w nazwie garnka",
     "Config.Setting.ShowStackMetalUnits": "Pokaż łączną liczbę jednostek metalu na podstawie wielkości stosu przedmiotu",
     "Config.Setting.ShowTemperatureInName": "Pokaż temperaturę w nazwie przedmiotu",
     "Config.Setting.ShowTranslocatorDestination": "Pokaż cel translokatora",
