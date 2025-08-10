@@ -9,7 +9,6 @@ public class HarmonyPatches : ModSystem
         HarmonyInstance.PatchCategory("Other");
         HarmonyInstance.PatchCategory("OpenHandbookForEntity");
         HarmonyInstance.PatchCategory("RemoveTradeHandbookInfo");
-        HarmonyInstance.PatchCategory("FixVTMLInBlockTooltip");
     }
 
     public override void Dispose()

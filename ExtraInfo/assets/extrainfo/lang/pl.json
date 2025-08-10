@@ -2,9 +2,6 @@
     "Config.Setting.HighlightReinforcedBlocks": "Włącz skrót klawiszowy 'Podświetlanie wzmocnionych bloków'",
     "Config.Setting.HighlightMycelium": "Włącz skrót klawiszowy 'Podświetlanie grzybni'",
 
-    "Config.Category.Fixes": "Poprawki",
-    "Config.Setting.FixVTMLInBlockTooltip": "Napraw problemy z formatowaniem VTML w podpowiedziach bloków, np. nieprawidłowe renderowanie tagu <font color>",
-
     "Config.Category.Handbook": "Podręcznik",
     "Config.Setting.OpenHandbookPageForEntity": "Włącz opcję otwierania strony podręcznika dla stworzenia, na które patrzysz",
     "Config.Setting.ShowHandbookCreatureDiet": "Pokaż dietę stworzenia",

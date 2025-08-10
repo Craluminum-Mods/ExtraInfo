@@ -5,8 +5,6 @@ public class Config
     public bool HighlightReinforcedBlocks { get; set; } = true;
     public bool HighlightMycelium { get; set; } = true;
 
-    public bool FixVTMLInBlockTooltip { get; set; } = true;
-
     public bool OpenHandbookPageForEntity { get; set; } = true;
     public bool ShowHandbookCreatureDiet { get; set; } = true;
     public bool ShowHandbookEatableByCreatures { get; set; } = true;
@@ -44,8 +42,6 @@ public class Config
     {
         HighlightReinforcedBlocks = previousConfig.HighlightReinforcedBlocks;
         HighlightMycelium = previousConfig.HighlightMycelium;
-
-        FixVTMLInBlockTooltip = previousConfig.FixVTMLInBlockTooltip;
 
         OpenHandbookPageForEntity = previousConfig.OpenHandbookPageForEntity;
         ShowHandbookCreatureDiet = previousConfig.ShowHandbookCreatureDiet;

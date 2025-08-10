@@ -1,7 +1,4 @@
 {
-    "Config.Category.Fixes": "Correctifs",
-    "Config.Setting.FixVTMLInBlockTooltip": "Corrige les problèmes de formatage VTML dans les infobulles des blocs, tels que le rendu incorrect des balises <font color>",
-
     "Config.Category.Handbook": "Manuel",
     "Config.Setting.OpenHandbookPageForEntity": "Active l'option pour ouvrir la page du manuel de la créature observée",
     "Config.Setting.ShowHandbookCreatureDiet": "Affiche le régime alimentaire d'une créature",

@@ -2,9 +2,6 @@
     "Config.Setting.HighlightReinforcedBlocks": "Горячая клавиша включения «Подсвечивание укреплённых блоков»",
     "Config.Setting.HighlightMycelium": "Горячая клавиша включения «Подсвечивание мицелия»",
 
-    "Config.Category.Fixes": "Fixes",
-    "Config.Setting.FixVTMLInBlockTooltip": "Исправьте проблемы с форматированием VTML в блоках всплывающих подсказках, например, неправильное отображение тега <font color>.",
-
     "Config.Category.Handbook": "Руководство",
     "Config.Setting.OpenHandbookPageForEntity": "Включите опцию, чтобы открыть страницу руководства для существа, на которое вы смотрите",
     "Config.Setting.ShowHandbookCreatureDiet": "Показать рацион существа",

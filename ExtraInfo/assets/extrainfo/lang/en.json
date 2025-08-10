@@ -2,9 +2,6 @@
     "Config.Setting.HighlightReinforcedBlocks": "Enable 'Highlight reinforced blocks' hotkey",
     "Config.Setting.HighlightMycelium": "Enable 'Mycelium highlighting' hotkey",
 
-    "Config.Category.Fixes": "Fixes",
-    "Config.Setting.FixVTMLInBlockTooltip": "Fix VTML formatting issues in block tooltips, such as incorrect <font color> tag rendering",
-
     "Config.Category.Handbook": "Handbook",
     "Config.Setting.OpenHandbookPageForEntity": "Enable the option to open the handbook page for the creature you are looking at",
     "Config.Setting.ShowHandbookCreatureDiet": "Show the diet of a creature",

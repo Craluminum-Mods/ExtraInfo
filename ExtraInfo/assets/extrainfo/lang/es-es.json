@@ -2,9 +2,6 @@
     "Config.Setting.HighlightReinforcedBlocks": "Activar la Tecla de 'Resaltado de Bloques Reforzados'.",
     "Config.Setting.HighlightMycelium": "Activar la Tecla de 'Resaltado de Hongos'.",
 
-    "Config.Category.Fixes": "Correcciones",
-    "Config.Setting.FixVTMLInBlockTooltip": "Corrección de problemas de formato VTML en información emergente de bloques, como la representación incorrecta de la etiqueta <font color>.",
-
     "Config.Category.Handbook": "Manual",
     "Config.Setting.OpenHandbookPageForEntity": "Mostrar la página del Manual de Supervivencia de la criatura que estás viendo al usar la tecla H (predeterminada).",
     "Config.Setting.ShowHandbookCreatureDiet": "Mostrar la dieta de una criatura.",
