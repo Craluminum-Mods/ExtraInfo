@@ -12,9 +12,10 @@ global using Vintagestory.API.MathTools;
 global using Vintagestory.API.Util;
 global using Vintagestory.Client.NoObf;
 global using Vintagestory.GameContent;
-global using static ExtraInfo.TextExtensions;
 global using static ExtraInfo.Constants;
+global using static ExtraInfo.TextExtensions;
 using ExtraInfo.Configuration;
+using Newtonsoft.Json.Linq;
 
 namespace ExtraInfo;
 
@@ -47,6 +48,12 @@ public class Core : ModSystem
 
         foreach (CollectibleObject obj in api.World.Collectibles)
         {
+            if (obj?.Code != null && obj.Code.ToString().Contains("trader"))
+            {
+                obj.Attributes ??= new JsonObject(new JObject());
+                obj.Attributes.Token["handbook"] ??= new JObject();
+                obj.Attributes.Token["handbook"]["exclude"] = JToken.FromObject(false);
+            }
             if (obj is ItemTreeSeed or BlockPlant)
             {
                 obj.CollectibleBehaviors = obj.CollectibleBehaviors.Append(new CollectibleBehaviorTreeGrowthDescription(obj));
