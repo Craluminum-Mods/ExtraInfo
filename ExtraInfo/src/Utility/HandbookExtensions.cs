@@ -185,42 +185,6 @@ public static class HandbookExtensions
         }
     }
 
-    public static void AddEntityHealthAndDamageInfo(this List<RichTextComponentBase> list, ItemSlot inSlot, ICoreClientAPI capi)
-    {
-        if (Core.Config == null || !Core.Config.ShowHandbookEntityStats)
-        {
-            return;
-        }
-
-        if (inSlot.Itemstack.Collectible is not ItemCreature itemCreature) return;
-
-        EntityProperties entityType = capi.World.GetEntityType(new AssetLocation(itemCreature.Code.Domain, itemCreature.CodeEndWithoutParts(1)));
-
-        StringBuilder sb = new();
-
-        if (ServerEntityType.HealthList.TryGetValue(entityType.Code, out float health) && health != 0)
-        {
-            sb.AppendLine(Text.Health(health));
-        }
-        if (ServerEntityType.DamageList.TryGetValue(entityType.Code, out float damage) && damage != 0)
-        {
-            sb.AppendLine(Text.Damage(damage));
-        }
-        if (ServerEntityType.DamageTierList.TryGetValue(entityType.Code, out int damageTier) && damage != 0)
-        {
-            sb.AppendLine(Text.DamageTier(damageTier));
-        }
-
-        if (sb.Length == 0) return;
-
-        string text = sb.ToString();
-
-        list.Add(new RichTextComponent(capi, text, CairoFont.WhiteSmallText())
-        {
-            VerticalAlign = EnumVerticalAlign.Middle
-        });
-    }
-
     public static void AddEntityDropsInfo(this List<RichTextComponentBase> list, ItemSlot inSlot, ICoreClientAPI capi, ActionConsumable<string> openDetailPageFor)
     {
         if (Core.Config == null || !Core.Config.ShowHandbookEntityDrops)

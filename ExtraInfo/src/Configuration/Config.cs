@@ -9,7 +9,6 @@ public class Config
     public bool ShowHandbookCreatureDiet { get; set; } = true;
     public bool ShowHandbookEatableByCreatures { get; set; } = true;
     public bool ShowHandbookEntityDrops { get; set; } = true;
-    public bool ShowHandbookEntityStats { get; set; } = true;
     public bool ShowHandbookPanningDrops { get; set; } = true;
     public bool ShowHandbookPitKiln { get; set; } = true;
     public bool ShowHandbookTraderGoods { get; set; } = true;
@@ -47,7 +46,6 @@ public class Config
         ShowHandbookCreatureDiet = previousConfig.ShowHandbookCreatureDiet;
         ShowHandbookEatableByCreatures = previousConfig.ShowHandbookEatableByCreatures;
         ShowHandbookEntityDrops = previousConfig.ShowHandbookEntityDrops;
-        ShowHandbookEntityStats = previousConfig.ShowHandbookEntityStats;
         ShowHandbookPanningDrops = previousConfig.ShowHandbookPanningDrops;
         ShowHandbookPitKiln = previousConfig.ShowHandbookPitKiln;
         ShowHandbookTraderGoods = previousConfig.ShowHandbookTraderGoods;
