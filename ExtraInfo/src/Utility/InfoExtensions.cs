@@ -341,17 +341,18 @@ public static class InfoExtensions
                 return __result;
             }
 
-            double? hours = neighborBE?.GetHoursLeft(neighborBE.GetField<double>("burnStartTotalHours"));
-
-            if (!hours.HasValue)
+            if (neighborBE == null)
             {
                 continue;
             }
 
+            double burnStart = neighborBE.GetField<double>("burnStartTotalHours");
+            double hours = 12.0 - (world.Calendar.TotalHours - burnStart);
+
             sb.AppendLine()
                 .Append(ColorText(Text.Coke))
                 .Append(": ")
-                .Append(ColorText(Text.Hours(hours.Value)));
+                .Append(ColorText(Text.Hours(hours)));
 
             return sb.ToString().TrimEnd();
         }
