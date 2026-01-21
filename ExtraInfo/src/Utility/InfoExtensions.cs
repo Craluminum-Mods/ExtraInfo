@@ -352,7 +352,7 @@ public static class InfoExtensions
             sb.AppendLine()
                 .Append(ColorText(Text.Coke))
                 .Append(": ")
-                .Append(ColorText(Text.Hours(hours)));
+                .Append(ColorText(Text.HoursAndMinutes(hours)));
 
             return sb.ToString().TrimEnd();
         }
