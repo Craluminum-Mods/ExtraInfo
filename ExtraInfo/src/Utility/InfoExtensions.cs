@@ -367,41 +367,76 @@ public static class InfoExtensions
             return __result;
         }
 
-        if (world.BlockAccessor.GetBlock(pos) is not BlockDoor blockDoor) return __result;
-        if (blockDoor.FirstCodePart() != "irondoor") return __result;
+        Block block = world.BlockAccessor.GetBlock(pos);
+        string codePath = block.Code.Path;
+
+        // Check if this is an iron door (regular or metal variant)
+        bool isIronDoor = codePath.Contains("irondoor") ||
+                          (codePath.Contains("door") && codePath.Contains("iron"));
+        if (!isIronDoor) return __result;
 
         StringBuilder sb = new(__result);
 
-        BlockPos _pos = blockDoor.IsUpperHalf() switch
-        {
-            true => pos.DownCopy(),
-            false => pos,
-        };
-
+        // From door, coffin is 2 blocks away in a cardinal direction at same Y level
         BlockPos[] neighborPositions = new BlockPos[]
         {
-            _pos.NorthCopy(3),
-            _pos.EastCopy(3),
-            _pos.SouthCopy(3),
-            _pos.WestCopy(3)
+            pos.NorthCopy(2),
+            pos.EastCopy(2),
+            pos.SouthCopy(2),
+            pos.WestCopy(2)
         };
 
-        foreach (BlockPos blockPos in neighborPositions)
+        foreach (BlockPos coffinPos in neighborPositions)
         {
-            if (world.BlockAccessor.GetBlockEntity(blockPos) is not BlockEntityStoneCoffin be) continue;
+            var coffinBlock = world.BlockAccessor.GetBlock(coffinPos);
 
-            bool processComplete = be.GetField<bool>("processComplete");
-            if (processComplete)
+            // Look for stonecoffin or stonecoffinsection
+            if (!coffinBlock.Code.Path.Contains("stonecoffin")) continue;
+
+            // Get the coffin entity (stonecoffinsection has BlockEntityStoneCoffin)
+            if (world.BlockAccessor.GetBlockEntity(coffinPos) is BlockEntityStoneCoffin be)
             {
-                sb.AppendLine(Lang.Get("Carburization process complete. Break to retrieve blister steel."));
-                continue;
+                bool processComplete = be.GetField<bool>("processComplete");
+                if (processComplete)
+                {
+                    sb.AppendLine(Lang.Get("Carburization process complete. Break to retrieve blister steel."));
+                }
+                else
+                {
+                    double progress = be.GetField<double>("progress");
+                    if (progress > 0.0)
+                    {
+                        int percent = (int)(progress * 100.0);
+                        sb.AppendLine(Text.CarburizationComplete(percent));
+                    }
+                }
             }
 
-            double progress = be.GetField<double>("progress");
-            if (progress <= 0.0) continue;
+            // Fuel is 2 blocks below the coffin
+            BlockPos fuelPos = coffinPos.DownCopy(2);
+            if (world.BlockAccessor.GetBlockEntity(fuelPos) is BlockEntityCoalPile fuelPile)
+            {
+                if (fuelPile.IsBurning)
+                {
+                    // Calculate actual burn time based on fuel type and stack size
+                    float burnHoursPerLayer = fuelPile.BurnHoursPerLayer;
+                    var inventory = fuelPile.GetField<InventoryGeneric>("inventory");
+                    int stackSize = inventory?[0]?.StackSize ?? 0;
+                    double totalBurnHours = stackSize / 2.0 * burnHoursPerLayer;
 
-            int percent = (int)(progress * 100.0);
-            sb.AppendLine(Text.CarburizationComplete(percent));
+                    double burnStart = fuelPile.GetField<double>("burnStartTotalHours");
+                    double hoursElapsed = world.Calendar.TotalHours - burnStart;
+                    double hours = totalBurnHours - hoursElapsed;
+
+                    sb.AppendLine(ColorText(Text.Fuel + ": " + Text.HoursAndMinutes(hours)));
+                }
+                else
+                {
+                    sb.AppendLine(ColorText(Text.Fuel + ": " + Lang.Get("Not burning")));
+                }
+            }
+
+            break; // Found the coffin, no need to check other directions
         }
 
         return sb.ToString().TrimEnd();
