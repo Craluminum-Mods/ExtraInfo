@@ -393,6 +393,11 @@ public static class InfoExtensions
             // Look for stonecoffin or stonecoffinsection
             if (!coffinBlock.Code.Path.Contains("stonecoffin")) continue;
 
+            // Check fuel status first (2 blocks below the coffin)
+            BlockPos fuelPos = coffinPos.DownCopy(2);
+            var fuelPile = world.BlockAccessor.GetBlockEntity(fuelPos) as BlockEntityCoalPile;
+            bool isBurning = fuelPile?.IsBurning ?? false;
+
             // Get the coffin entity (stonecoffinsection has BlockEntityStoneCoffin)
             if (world.BlockAccessor.GetBlockEntity(coffinPos) is BlockEntityStoneCoffin be)
             {
@@ -409,14 +414,17 @@ public static class InfoExtensions
                         int percent = (int)(progress * 100.0);
                         sb.AppendLine(Text.CarburizationComplete(percent));
                     }
+                    else if (isBurning)
+                    {
+                        sb.AppendLine(Lang.Get("extrainfo:Carburization.Starting"));
+                    }
                 }
             }
 
-            // Fuel is 2 blocks below the coffin
-            BlockPos fuelPos = coffinPos.DownCopy(2);
-            if (world.BlockAccessor.GetBlockEntity(fuelPos) is BlockEntityCoalPile fuelPile)
+            // Display fuel status
+            if (fuelPile != null)
             {
-                if (fuelPile.IsBurning)
+                if (isBurning)
                 {
                     // Calculate actual burn time based on fuel type and stack size
                     float burnHoursPerLayer = fuelPile.BurnHoursPerLayer;
