@@ -61,6 +61,11 @@ public static class Constants
         public static readonly string WarmingUp = Lang.Get("Warming up...");
         public static readonly string YouCanBuy = Lang.Get("You can Buy");
         public static readonly string YouCanSell = Lang.Get("You can Sell");
+        public static readonly string Kiln = Lang.Get("Kiln");
+        public static readonly string KilnFiringComplete = Lang.Get("Kiln firing complete");
+        public static readonly string NotBurning = Lang.Get("Not burning");
+        public static readonly string Unfired = Lang.Get("extrainfo:Unfired");
+        public static readonly string Fired = Lang.Get("extrainfo:Fired");
 
         public static string Damage(float damage) => Lang.Get("extrainfo:Damage", damage);
         public static string DamageTier(int damageTier) => Lang.Get("Damage tier: {0}", damageTier);

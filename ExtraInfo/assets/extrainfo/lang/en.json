@@ -67,4 +67,6 @@
     "Mechanics.NetworkResistance": "Resistance: {0:G4}",
 
     "Carburization.Starting": "Carburization: Starting..."
+    "Unfired": "Unfired",
+    "Fired": "Fired"
 }
