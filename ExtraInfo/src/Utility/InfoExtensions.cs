@@ -360,6 +360,60 @@ public static class InfoExtensions
         return __result;
     }
 
+    // Beehive kiln takes approximately 10.9 hours total to fire items.
+    // See: https://wiki.vintagestory.at/Beehive_kiln/draft
+    private const double BeehiveKilnFiringHours = 10.9;
+
+    public static string GetBeehiveKilnInfo(this string __result, IWorldAccessor world, BlockPos pos)
+    {
+        if (Core.Config == null || !Core.Config.ShowBeehiveKilnProgress)
+        {
+            return __result;
+        }
+
+        Block block = world.BlockAccessor.GetBlock(pos);
+        if (block?.Code?.Path == null || !block.Code.Path.Contains("doorkiln")) return __result;
+
+        StringBuilder sb = new(__result);
+
+        // Search nearby for the kiln entity (within 2 blocks in all directions)
+        for (int dx = -2; dx <= 2; dx++)
+        {
+            for (int dy = -2; dy <= 2; dy++)
+            {
+                for (int dz = -2; dz <= 2; dz++)
+                {
+                    var neighborPos = pos.AddCopy(dx, dy, dz);
+                    var be = world.BlockAccessor.GetBlockEntity(neighborPos);
+                    if (be?.GetType().Name != "BlockEntityBeeHiveKiln") continue;
+
+                    bool receivesHeat = be.GetField<bool>("receivesHeat");
+                    if (!receivesHeat) continue;
+
+                    double totalHoursHeatReceived = be.GetField<double>("TotalHoursHeatReceived");
+                    double hoursRemaining = BeehiveKilnFiringHours - totalHoursHeatReceived;
+
+                    if (hoursRemaining > 0)
+                    {
+                        sb.AppendLine();
+                        sb.Append(ColorText(Lang.Get("Kiln")));
+                        sb.Append(": ");
+                        sb.Append(ColorText(Text.HoursAndMinutes(hoursRemaining)));
+                    }
+                    else
+                    {
+                        sb.AppendLine();
+                        sb.Append(ColorText(Lang.Get("Kiln firing complete")));
+                    }
+
+                    return sb.ToString().TrimEnd();
+                }
+            }
+        }
+
+        return __result;
+    }
+
     public static string GetSteelInfo(this string __result, IWorldAccessor world, BlockPos pos)
     {
         if (Core.Config == null || !Core.Config.ShowCementationFurnaceProgress)

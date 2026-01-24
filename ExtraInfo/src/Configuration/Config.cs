@@ -16,6 +16,7 @@ public class Config
     public bool ShowHandbookWorkableTemp { get; set; } = true;
 
     public bool ShowAnvilWorkableTemp { get; set; } = true;
+    public bool ShowBeehiveKilnProgress { get; set; } = true;
     public bool ShowBloomeryProgress { get; set; } = true;
     public bool ShowCementationFurnaceProgress { get; set; } = true;
     public bool ShowCharcoalPitProgress { get; set; } = true;
@@ -53,6 +54,7 @@ public class Config
         ShowHandbookWorkableTemp = previousConfig.ShowHandbookWorkableTemp;
 
         ShowAnvilWorkableTemp = previousConfig.ShowAnvilWorkableTemp;
+        ShowBeehiveKilnProgress = previousConfig.ShowBeehiveKilnProgress;
         ShowBloomeryProgress = previousConfig.ShowBloomeryProgress;
         ShowCementationFurnaceProgress = previousConfig.ShowCementationFurnaceProgress;
         ShowCharcoalPitProgress = previousConfig.ShowCharcoalPitProgress;

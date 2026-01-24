@@ -16,6 +16,7 @@
 
     "Config.Category.Crafting": "Crafting",
     "Config.Setting.ShowAnvilWorkableTemp": "Show the workable temperature on the anvil",
+    "Config.Setting.ShowBeehiveKilnProgress": "Show remaining time for the beehive kiln on the door",
     "Config.Setting.ShowBloomeryProgress": "Show progress of the bloomery",
     "Config.Setting.ShowCementationFurnaceProgress": "Show progress for steel production in the cementation furnace",
     "Config.Setting.ShowCharcoalPitProgress": "Show progress of charcoal production in the charcoal pit",
