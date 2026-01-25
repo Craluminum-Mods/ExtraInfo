@@ -42,6 +42,7 @@ public class ConfigLibCompatibility
         ImGui.NewLine();
         ImGui.TextWrapped(Lang.Get(categoryCrafting));
         config.ShowAnvilWorkableTemp = OnCheckBox(id, config.ShowAnvilWorkableTemp, nameof(config.ShowAnvilWorkableTemp));
+        config.ShowBeehiveKilnProgress = OnCheckBox(id, config.ShowBeehiveKilnProgress, nameof(config.ShowBeehiveKilnProgress));
         config.ShowBloomeryProgress = OnCheckBox(id, config.ShowBloomeryProgress, nameof(config.ShowBloomeryProgress));
         config.ShowCementationFurnaceProgress = OnCheckBox(id, config.ShowCementationFurnaceProgress, nameof(config.ShowCementationFurnaceProgress));
         config.ShowCharcoalPitProgress = OnCheckBox(id, config.ShowCharcoalPitProgress, nameof(config.ShowCharcoalPitProgress));

@@ -4,6 +4,13 @@ namespace ExtraInfo;
 
 public static class InfoExtensions
 {
+    // Debug logging helper - kept for future debugging needs.
+    // Usage: DebugLog(world, "message");
+    private static void DebugLog(IWorldAccessor world, string message)
+    {
+        world?.Logger?.Notification("[ExtraInfo] " + message);
+    }
+
     public static void GetWorkableTempInfoForAnvil(this StringBuilder dsc, BlockEntityAnvil blockEntity)
     {
         if (Core.Config == null || !Core.Config.ShowAnvilWorkableTemp)
@@ -358,6 +365,260 @@ public static class InfoExtensions
         }
 
         return __result;
+    }
+
+    // Beehive kiln takes approximately 10.9 hours total to fire items.
+    // See: https://wiki.vintagestory.at/Beehive_kiln/draft
+    private const double BeehiveKilnFiringHours = 10.9;
+
+    public static string GetBeehiveKilnInfo(this string __result, IWorldAccessor world, BlockPos pos)
+    {
+        if (Core.Config == null || !Core.Config.ShowBeehiveKilnProgress)
+        {
+            return __result;
+        }
+
+        Block block = world.BlockAccessor.GetBlock(pos);
+        if (block?.Code?.Path == null || !block.Code.Path.Contains("doorkiln")) return __result;
+
+        StringBuilder sb = new(__result);
+
+        // Search nearby for the kiln entity (within 2 blocks in all directions)
+        for (int dx = -2; dx <= 2; dx++)
+        {
+            for (int dy = -2; dy <= 2; dy++)
+            {
+                for (int dz = -2; dz <= 2; dz++)
+                {
+                    var neighborPos = pos.AddCopy(dx, dy, dz);
+                    var be = world.BlockAccessor.GetBlockEntity(neighborPos);
+                    if (be?.GetType().Name != "BlockEntityBeeHiveKiln") continue;
+
+                    // Calculate direction from door to kiln interior (only use X/Z, ignore Y)
+                    int dirX = Math.Sign(neighborPos.X - pos.X);
+                    int dirZ = Math.Sign(neighborPos.Z - pos.Z);
+
+                    // If kiln entity is at same position as door, detect direction by looking for ground storage
+                    if (dirX == 0 && dirZ == 0)
+                    {
+                        // Check each cardinal direction for ground storage
+                        BlockPos[] cardinals = new[] { pos.NorthCopy(), pos.EastCopy(), pos.SouthCopy(), pos.WestCopy() };
+                        foreach (var checkPos in cardinals)
+                        {
+                            if (world.IsGroundStorage(checkPos, out _))
+                            {
+                                dirX = Math.Sign(checkPos.X - pos.X);
+                                dirZ = Math.Sign(checkPos.Z - pos.Z);
+                                break;
+                            }
+                        }
+
+                        // If no ground storage, try to find grating blocks (at Y-1)
+                        if (dirX == 0 && dirZ == 0)
+                        {
+                            foreach (var checkPos in cardinals)
+                            {
+                                var grateCheckPos = checkPos.DownCopy(1);
+                                var grateBlock = world.BlockAccessor.GetBlock(grateCheckPos);
+                                if (grateBlock?.Code?.Path?.Contains("grating") == true)
+                                {
+                                    dirX = Math.Sign(checkPos.X - pos.X);
+                                    dirZ = Math.Sign(checkPos.Z - pos.Z);
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Still couldn't determine direction
+                        if (dirX == 0 && dirZ == 0) continue;
+                    }
+
+                    // Perpendicular direction for the 3-wide grid
+                    int perpX = dirZ;
+                    int perpZ = -dirX;
+
+                    // Build 3x3 grid positions (depth 1-3, width -1 to +1)
+                    List<BlockPos> gridPositions = new();
+                    for (int depth = 1; depth <= 3; depth++)
+                    {
+                        for (int side = -1; side <= 1; side++)
+                        {
+                            int gx = dirX * depth + perpX * side;
+                            int gz = dirZ * depth + perpZ * side;
+                            gridPositions.Add(pos.AddCopy(gx, 0, gz));
+                        }
+                    }
+
+                    // Analyze kiln contents - includes max heat received by any unfired item
+                    var (unfired, fired, maxHoursHeatReceived) = AnalyzeKilnContents(world, gridPositions);
+
+                    // Get fuel time remaining
+                    double fuelTimeRemaining = GetMinFuelTimeRemaining(world, gridPositions);
+
+                    // Get kiln status and calculate time remaining based on item heat, not kiln total
+                    bool receivesHeat = be.GetField<bool>("receivesHeat");
+                    double hoursRemaining = BeehiveKilnFiringHours - maxHoursHeatReceived;
+
+                    // Display kiln timer
+                    sb.AppendLine();
+                    if (receivesHeat && unfired > 0)
+                    {
+                        // Kiln is actively firing with unfired items
+                        if (hoursRemaining > 0)
+                        {
+                            sb.Append(ColorText(Text.Kiln));
+                            sb.Append(": ");
+                            sb.Append(ColorText(Text.HoursAndMinutes(hoursRemaining)));
+                        }
+                        else
+                        {
+                            // Timer exceeded but still receiving heat - items should be done soon
+                            sb.Append(ColorText(Text.Kiln));
+                            sb.Append(": ");
+                            sb.Append(ColorText(Lang.Get("Firing")));
+                        }
+                    }
+                    else if (receivesHeat && unfired == 0 && fired > 0)
+                    {
+                        sb.Append(ColorText(Text.KilnFiringComplete));
+                    }
+                    else if (receivesHeat && unfired == 0 && fired == 0)
+                    {
+                        sb.Append(ColorText(Lang.Get("Nothing in kiln to fire")));
+                    }
+                    else if (!receivesHeat && unfired > 0)
+                    {
+                        sb.Append(ColorText(Lang.Get("Items still unfired - add fuel")));
+                    }
+                    else if (!receivesHeat && unfired == 0 && fired > 0)
+                    {
+                        sb.Append(ColorText(Text.KilnFiringComplete));
+                    }
+                    else
+                    {
+                        sb.Append(ColorText(Text.Kiln));
+                        sb.Append(": ");
+                        sb.Append(ColorText(Text.NotBurning));
+                    }
+
+                    // Display item counts if any items present
+                    if (unfired > 0 || fired > 0)
+                    {
+                        sb.AppendLine();
+                        if (unfired > 0)
+                        {
+                            sb.Append(ColorText(Text.Unfired));
+                            sb.Append(": ");
+                            sb.Append(unfired);
+                        }
+                        if (unfired > 0 && fired > 0)
+                        {
+                            sb.Append(" | ");
+                        }
+                        if (fired > 0)
+                        {
+                            sb.Append(ColorText(Text.Fired));
+                            sb.Append(": ");
+                            sb.Append(fired);
+                        }
+                    }
+
+                    // Display fuel status
+                    sb.AppendLine();
+                    sb.Append(ColorText(Text.Fuel));
+                    sb.Append(": ");
+                    if (fuelTimeRemaining >= 0)
+                    {
+                        sb.Append(ColorText(Text.HoursAndMinutes(fuelTimeRemaining)));
+                    }
+                    else
+                    {
+                        sb.Append(ColorText(Text.NotBurning));
+                    }
+
+                    return sb.ToString().TrimEnd();
+                }
+            }
+        }
+
+        return __result;
+    }
+
+    private static bool IsUnfiredItem(ItemStack stack)
+    {
+        if (stack == null) return false;
+        string code = stack.Collectible.Code.Path.ToLowerInvariant();
+        return code.Contains("-raw") || code.Contains("rawclay") ||
+               code.Contains("clayform") || code.Contains("unfired");
+    }
+
+    private static (int unfired, int fired, double maxHoursHeatReceived) AnalyzeKilnContents(IWorldAccessor world, List<BlockPos> positions)
+    {
+        int unfired = 0;
+        int fired = 0;
+        double maxHoursHeatReceived = 0;
+
+        foreach (var gridPos in positions)
+        {
+            if (world.IsGroundStorage(gridPos, out var gs))
+            {
+                var stack = gs.GetContainedStack();
+                if (stack != null)
+                {
+                    int amount = gs.GetTotalAmount();
+                    if (IsUnfiredItem(stack))
+                    {
+                        unfired += amount;
+
+                        // Track max hoursHeatReceived for unfired items
+                        double itemHeatReceived = stack.Attributes?.TryGetFloat("hoursHeatReceived") ?? 0;
+                        if (itemHeatReceived > maxHoursHeatReceived)
+                        {
+                            maxHoursHeatReceived = itemHeatReceived;
+                        }
+                    }
+                    else
+                    {
+                        fired += amount;
+                    }
+                }
+            }
+        }
+
+        return (unfired, fired, maxHoursHeatReceived);
+    }
+
+    private static double GetMinFuelTimeRemaining(IWorldAccessor world, List<BlockPos> itemPositions)
+    {
+        double minTime = double.MaxValue;
+        bool anyBurning = false;
+
+        foreach (var gridPos in itemPositions)
+        {
+            // Fuel is 2 blocks below grating/item position
+            var fuelPos = gridPos.DownCopy(2);
+
+            if (world.BlockAccessor.GetBlockEntity(fuelPos) is BlockEntityCoalPile pile && pile.IsBurning)
+            {
+                anyBurning = true;
+
+                float burnHoursPerLayer = pile.BurnHoursPerLayer;
+                var inv = pile.GetField<InventoryGeneric>("inventory");
+                int stackSize = inv?[0]?.StackSize ?? 0;
+                double totalHours = stackSize / 2.0 * burnHoursPerLayer;
+
+                double burnStart = pile.GetField<double>("burnStartTotalHours");
+                double elapsed = world.Calendar.TotalHours - burnStart;
+                double remaining = totalHours - elapsed;
+
+                if (remaining < minTime)
+                {
+                    minTime = remaining;
+                }
+            }
+        }
+
+        return anyBurning ? Math.Max(0, minTime) : -1;
     }
 
     public static string GetSteelInfo(this string __result, IWorldAccessor world, BlockPos pos)
