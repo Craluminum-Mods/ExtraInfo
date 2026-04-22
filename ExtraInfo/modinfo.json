@@ -4,10 +4,10 @@
     "modid": "extrainfo",
     "name": "Extra Info",
     "description": "Useful information for handbook, blocks, items and entities",
-    "authors": ["Craluminum2413"],
+    "authors": ["Craluminum2413 (Dana)"],
     "contributors": ["Novocain"],
-    "version": "1.11.2",
+    "version": "2.0.0",
     "dependencies": {
-        "game": "1.21.0"
+        "game": "1.22.0"
     }
 }
