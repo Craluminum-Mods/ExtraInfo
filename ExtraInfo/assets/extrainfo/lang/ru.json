@@ -28,7 +28,6 @@
     "Config.Setting.ShowBlockBreakingTime": "Показать время разрушения блока",
     "Config.Setting.ShowBlockTransitionInfo": "Показать количество часов, оставшихся до перехода блока в окончательное состояние",
     "Config.Setting.ShowBombStats": "Показать подробную информацию о бомбах, включая радиус взрыва, тип взрыва и время взрыва",
-    "Config.Setting.ShowFarmlandDropsSoil": "Show the chance of farmland dropping soil (for Farmland Drops Soil mod)",
     "Config.Setting.ShowFarmlandProgress": "Показать часы, оставшиеся до следующего этапа роста на грядках",
     "Config.Setting.ShowMechanicalBlockInfo": "Отображение информации о механизмах, таких как скорость, крутящий момент и сопротивление",
     "Config.Setting.ShowPileTotalItems": "Показать общее количество предметов в стопке",

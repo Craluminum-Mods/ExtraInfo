@@ -21,11 +21,6 @@ public static class Constants
         public const string Green = "#90EE90";
     }
 
-    public static class Modid
-    {
-        public const string FarmlandDropsSoil = "farmlanddropssoil";
-    }
-
     public static class Text
     {
         public const string MatureDaysAttr = "matureDays";

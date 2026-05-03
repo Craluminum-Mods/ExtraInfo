@@ -197,28 +197,6 @@ public static class InfoExtensions
         dsc.Append(totalAmountSame).AppendLine();
     }
 
-    public static void GetFarmlandDropSoilChanceInfo(this StringBuilder dsc, BlockEntityFarmland blockEntity)
-    {
-        if (Core.Config == null || !Core.Config.ShowFarmlandDropsSoil)
-        {
-            return;
-        }
-
-        if (blockEntity == null) return;
-
-        bool isModEnabled = blockEntity.Api.ModLoader.IsModEnabled(Modid.FarmlandDropsSoil);
-        if (!isModEnabled)
-        {
-            return;
-        }
-
-        Mod mod = blockEntity.Api.ModLoader.GetMod(Modid.FarmlandDropsSoil);
-
-        float nutrients = blockEntity.Nutrients.Zip(blockEntity.OriginalFertility, (current, original) => current / original).Min();
-
-        dsc.AppendLine(ColorText(string.Format(Text.FormatPercent, mod.Info.Name, (int)(nutrients * 100))));
-    }
-
     public static void GetQuernInfo(this StringBuilder dsc, BlockEntityOpenableContainer blockEntity)
     {
         if (Core.Config == null || !Core.Config.ShowQuernGrindingProgress)

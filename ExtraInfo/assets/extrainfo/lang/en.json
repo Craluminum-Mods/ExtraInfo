@@ -29,7 +29,6 @@
     "Config.Setting.ShowBlockBreakingTime": "Show block breaking time",
     "Config.Setting.ShowBlockTransitionInfo": "Show the number of hours left for a block's transition state to complete",
     "Config.Setting.ShowBombStats": "Show detailed information about bombs, including explosion radius, explosion type, and fuse time",
-    "Config.Setting.ShowFarmlandDropsSoil": "Show the chance of farmland dropping soil (for Farmland Drops Soil mod)",
     "Config.Setting.ShowFarmlandProgress": "Show the hours remaining until the next crop stage on farmland",
     "Config.Setting.ShowMechanicalBlockInfo": "Show mechanical block information, such as speed, torque, and resistance",
     "Config.Setting.ShowPileTotalItems": "Show the total number of items in a pile",
