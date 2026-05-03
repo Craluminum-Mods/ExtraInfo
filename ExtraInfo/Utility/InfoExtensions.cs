@@ -133,32 +133,6 @@ public static class InfoExtensions
         dsc.AppendLine(ColorText(Lang.Get("game:smeltdesc-" + smelttype + "ore-plural", units.ToString("0.#"), metalname)));
     }
 
-    public static string GetBlockBreakingTimeInfo(this string __result, IWorldAccessor world, BlockPos pos)
-    {
-        if (Core.Config == null || !Core.Config.ShowBlockBreakingTime)
-        {
-            return __result;
-        }
-
-        StringBuilder sb = new(__result);
-
-        Dictionary<BlockPos, BlockDamage> damagedBlocks = (world as ClientMain).GetField<Dictionary<BlockPos, BlockDamage>>("damagedBlocks");
-        if (damagedBlocks?.Count == 0) return __result;
-
-        BlockDamage currentBlockDamage = damagedBlocks.FirstOrDefault(x => x.Key == pos).Value;
-        if (currentBlockDamage == null) return __result;
-
-        Block block = world.BlockAccessor.GetBlock(pos);
-        float totalValue = block.GetResistance(world.BlockAccessor, pos);
-        float remainingValue = currentBlockDamage.RemainingResistance;
-
-        float remainingPercentage = remainingValue / totalValue * 100;
-
-        sb.AppendLine().Append(ColorText(Text.RemainingResistance(remainingPercentage.ToString("F0"))));
-
-        return sb.ToString().TrimEnd();
-    }
-
     public static void GetGroundStorageInfo(this StringBuilder dsc, BlockEntityGroundStorage blockEntity)
     {
         if (Core.Config == null || !Core.Config.ShowPileTotalItems)

@@ -37,9 +37,11 @@
     "Config.Setting.ShowTranslocatorDestination": "Show the destination of the translocator",
     "Config.Setting.ShowTreeStats": "Show time a sapling takes to sprout and mature",
 
+    "UntilBroken": "Until broken:\n{0}",
+
+
     "WorkableTemperature": "Workable Temperature: {0}°C",
     "AlwaysWorkable": "Workable Temperature: Always",
-    "RemainingResistance": "Remaining Resistance: {0}",
     "Current": "Current",
     "Damage": "Damage: {0}",
     "One": "One",

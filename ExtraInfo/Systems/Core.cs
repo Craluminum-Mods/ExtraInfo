@@ -48,7 +48,9 @@ public class Core : ModSystem
 
         foreach (CollectibleObject obj in api.World.Collectibles)
         {
-            if (obj?.Code != null && obj.Code.ToString().Contains("trader"))
+            if (obj == null || obj.Code == null) continue;
+
+            if (obj.Code.ToString().Contains("trader"))
             {
                 obj.Attributes ??= new JsonObject(new JObject());
                 obj.Attributes.Token["handbook"] ??= new JObject();

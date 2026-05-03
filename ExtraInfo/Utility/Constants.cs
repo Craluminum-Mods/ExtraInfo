@@ -118,7 +118,6 @@ public static class Constants
         public static string TeleportsTo(BlockPos pos) => Lang.Get("Teleports to {0}", pos);
 
         public static string CarburizationComplete(int percent) => Lang.Get("Carburization: {0}% complete", $"{percent}");
-        public static string RemainingResistance(string percent) => Lang.Get("extrainfo:RemainingResistance", $"{percent}%");
 
         public static string WorkableTemperature(float temperature) => Lang.Get("extrainfo:WorkableTemperature", (int)temperature);
 
