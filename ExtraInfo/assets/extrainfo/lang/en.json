@@ -42,6 +42,7 @@
     "InGameTime": "In-game time: {0}",
     "InRealTime": "Real-time: {0}",
     "CenteredBoldText": "<font weight=\"bold\" align=\"center\">{0}</font>",
+    "TimeUntilTransition": "Time until transition:",
 
     "WorkableTemperature": "Workable Temperature: {0}°C",
     "AlwaysWorkable": "Workable Temperature: Always",
