@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace ExtraInfo.Systems.BreakingTimeInfo;
+namespace ExtraInfo.Systems.BreakingTime;
 
 [HarmonyPatch(typeof(Block), nameof(Block.GetPlacedBlockInfo))]
 public static class BlockBreakingTimePatch

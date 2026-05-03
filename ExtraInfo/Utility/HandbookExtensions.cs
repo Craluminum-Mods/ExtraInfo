@@ -4,21 +4,18 @@ public static class HandbookExtensions
 {
     public static void AddPitKilnInfo(this List<RichTextComponentBase> list, ItemSlot inSlot, ICoreClientAPI capi, ActionConsumable<string> openDetailPageFor)
     {
-        if (Core.Config == null || !Core.Config.ShowHandbookPitKiln)
-        {
-            return;
-        }
-
-        if (inSlot.Itemstack.Collectible is not BlockPitkiln blockPitKiln) return;
+        if (Core.Config?.ShowHandbookPitKiln != true) return;
+        if (inSlot.Itemstack!.Collectible is not BlockPitkiln blockPitKiln) return;
 
         List<JsonItemStackBuildStage> fuelStacks = blockPitKiln.GetFuelStacks(capi);
 
         list.AddMarginAndTitle(capi, marginTop: 7, titletext: Text.Fuel);
 
-        List<RichTextComponentBase> richText = new();
+        List<RichTextComponentBase> richText = [];
 
         foreach (JsonItemStackBuildStage fuel in fuelStacks)
         {
+            if (fuel.ResolvedItemstack == null || fuel.BurnTimeHours == null) continue;
             richText.AddStack(capi, openDetailPageFor, fuel.ResolvedItemstack);
             richText.Add(new RichTextComponent(capi, Text.Hours((float)fuel.BurnTimeHours) + "\n", CairoFont.WhiteSmallText())
             {
@@ -31,18 +28,14 @@ public static class HandbookExtensions
 
     public static void AddPanningDropsInfo(this List<RichTextComponentBase> list, ItemSlot inSlot, ICoreClientAPI capi, ActionConsumable<string> openDetailPageFor)
     {
-        if (Core.Config == null || !Core.Config.ShowHandbookPanningDrops)
-        {
-            return;
-        }
-
-        if (inSlot.Itemstack.Collectible is not BlockPan blockPan) return;
+        if (Core.Config?.ShowHandbookPanningDrops != true) return;
+        if (inSlot.Itemstack!.Collectible is not BlockPan blockPan) return;
 
         Dictionary<ItemStack[], PanningDrop[]> panningDrops = GetPanningDrops(capi, blockPan);
 
         list.AddMarginAndTitle(capi, marginTop: 7, titletext: Text.PanningDrops);
 
-        List<RichTextComponentBase> richText = new();
+        List<RichTextComponentBase> richText = [];
 
         foreach (KeyValuePair<ItemStack[], PanningDrop[]> keyVal in panningDrops)
         {
@@ -58,7 +51,7 @@ public static class HandbookExtensions
             int count = 3;
             foreach (PanningDrop drop in panningDrops[keyVal.Key])
             {
-                if (!drop.Resolve(capi.World, "")) continue;
+                if (!drop.Resolve(capi.World, "") || drop.ResolvedItemstack == null) continue;
                 richText.AddStack(capi, openDetailPageFor, drop.ResolvedItemstack);
 
                 float extraMul = drop.DropModbyStat is null ? 1f : capi.World.Player.Entity.Stats.GetBlended(drop.DropModbyStat);
@@ -80,12 +73,8 @@ public static class HandbookExtensions
 
     public static void AddTroughInfo(this List<RichTextComponentBase> list, ItemSlot inSlot, ICoreClientAPI capi, ActionConsumable<string> openDetailPageFor)
     {
-        if (Core.Config == null || !Core.Config.ShowHandbookTroughFeedOptions)
-        {
-            return;
-        }
-
-        if (inSlot.Itemstack.Collectible is not BlockTroughBase blockTrough) return;
+        if (Core.Config?.ShowHandbookTroughFeedOptions != true) return;
+        if (inSlot.Itemstack!.Collectible is not BlockTroughBase blockTrough) return;
 
         list.AddMarginAndTitle(capi, marginTop: 7, titletext: Constants.Text.ValidAnimalFeed);
 
@@ -98,29 +87,29 @@ public static class HandbookExtensions
             }
             else
             {
-                list.AddStack(capi, openDetailPageFor, config.Content.ResolvedItemstack);
+                if (config.Content.ResolvedItemstack != null)
+                {
+                    list.AddStack(capi, openDetailPageFor, config.Content.ResolvedItemstack);
+                }
             }
         }
     }
 
     public static void AddEntitiesThatEatCollectible(this List<RichTextComponentBase> list, ItemSlot inSlot, ICoreClientAPI capi, ActionConsumable<string> openDetailPageFor)
     {
-        if (Core.Config == null || !Core.Config.ShowHandbookEatableByCreatures)
-        {
-            return;
-        }
+        if (Core.Config?.ShowHandbookEatableByCreatures != true) return;
 
-        List<EntityProperties> entityTypes = new();
-        for (int i = 0; i < capi.World.EntityTypes.Count; i++)
+        List<EntityProperties> entityTypes = [];
+        foreach (EntityProperties entityType in capi.World.EntityTypes)
         {
-            CreatureDiet creatureDiet = capi.World.EntityTypes[i].Attributes?["creatureDiet"].AsObject<CreatureDiet>();
+            CreatureDiet? creatureDiet = entityType.Attributes?["creatureDiet"].AsObject<CreatureDiet>();
             if (creatureDiet?.Matches(inSlot.Itemstack) == true)
             {
-                entityTypes.Add(capi.World.EntityTypes[i]);
+                entityTypes.Add(entityType);
             }
         }
 
-        if (entityTypes?.Count == 0) return;
+        if (entityTypes.Count == 0) return;
 
         list.AddMarginAndTitle(capi, marginTop: 7, titletext: Text.EatenBy);
 
@@ -140,21 +129,14 @@ public static class HandbookExtensions
 
     public static void AddEntityDietInfo(this List<RichTextComponentBase> list, ItemSlot inSlot, ICoreClientAPI capi, ActionConsumable<string> openDetailPageFor)
     {
-        if (Core.Config == null || !Core.Config.ShowHandbookCreatureDiet)
-        {
-            return;
-        }
+        if (Core.Config?.ShowHandbookCreatureDiet != true) return;
+        if (inSlot.Itemstack!.Collectible is not ItemCreature itemCreature) return;
 
-        if (inSlot.Itemstack.Collectible is not ItemCreature itemCreature) return;
+        EntityProperties? entityType = capi.World.GetEntityType(new AssetLocation(itemCreature.Code.Domain, itemCreature.CodeEndWithoutParts(1)));
+        CreatureDiet? creatureDiet = entityType?.Attributes?["creatureDiet"].AsObject<CreatureDiet>();
+        if (creatureDiet == null) return;
 
-        EntityProperties entityType = capi.World.GetEntityType(new AssetLocation(itemCreature.Code.Domain, itemCreature.CodeEndWithoutParts(1)));
-        CreatureDiet creatureDiet = entityType?.Attributes?["creatureDiet"].AsObject<CreatureDiet>();
-        if (creatureDiet == null)
-        {
-            return;
-        }
-
-        List<ItemStack> stacks = new();
+        List<ItemStack> stacks = [];
         for (int i = 0; i < capi.World.Collectibles.Count; i++)
         {
             if (creatureDiet.Matches(capi.World.Collectibles[i]))
@@ -167,7 +149,7 @@ public static class HandbookExtensions
             }
         }
 
-        if (stacks?.Count == 0) return;
+        if (stacks.Count == 0) return;
 
         list.AddMarginAndTitle(capi, marginTop: 7, titletext: Text.Food);
 
@@ -187,24 +169,22 @@ public static class HandbookExtensions
 
     public static void AddEntityDropsInfo(this List<RichTextComponentBase> list, ItemSlot inSlot, ICoreClientAPI capi, ActionConsumable<string> openDetailPageFor)
     {
-        if (Core.Config == null || !Core.Config.ShowHandbookEntityDrops)
-        {
-            return;
-        }
+        if (Core.Config?.ShowHandbookEntityDrops != true) return;
+        if (inSlot.Itemstack!.Collectible is not ItemCreature itemCreature) return;
 
-        if (inSlot.Itemstack.Collectible is not ItemCreature itemCreature) return;
-
-        EntityProperties entityType = capi.World.GetEntityType(new AssetLocation(itemCreature.Code.Domain, itemCreature.CodeEndWithoutParts(1)));
+        EntityProperties? entityType = capi.World.GetEntityType(new AssetLocation(itemCreature.Code.Domain, itemCreature.CodeEndWithoutParts(1)));
+        if (entityType == null) return;
 
         List<BlockDropItemStack> harvestStacks = GetHarvestableDrops(capi, entityType);
         if (harvestStacks != null && harvestStacks.Count != 0)
         {
             list.AddMarginAndTitle(capi, marginTop: 7, titletext: Text.ObtainedByKillingAndHarvesting);
 
-            List<RichTextComponentBase> richTextHarvest = new();
+            List<RichTextComponentBase> richTextHarvest = [];
 
             foreach (BlockDropItemStack stack in harvestStacks)
             {
+                if (stack.ResolvedItemstack == null) continue;
                 richTextHarvest.AddStack(capi, openDetailPageFor, stack.ResolvedItemstack);
                 richTextHarvest.Add(new RichTextComponent(capi, GetMinMax(stack.Quantity) + "\n", CairoFont.WhiteSmallText())
                 {
@@ -219,10 +199,11 @@ public static class HandbookExtensions
         {
             list.AddMarginAndTitle(capi, marginTop: 7, titletext: Text.ObtainedByKilling);
 
-            List<RichTextComponentBase> richTextOther = new();
+            List<RichTextComponentBase> richTextOther = [];
 
             foreach (BlockDropItemStack stack in entityType.Drops)
             {
+                if (stack.ResolvedItemstack == null) continue;
                 richTextOther.AddStack(capi, openDetailPageFor, stack.ResolvedItemstack);
                 richTextOther.Add(new RichTextComponent(capi, GetMinMax(stack.Quantity) + "\n", CairoFont.WhiteSmallText())
                 {
@@ -236,43 +217,40 @@ public static class HandbookExtensions
 
     public static void AddEntityDropsInfoForDrop(this List<RichTextComponentBase> list, ItemSlot inSlot, ICoreClientAPI capi, ActionConsumable<string> openDetailPageFor)
     {
-        if (Core.Config == null || !Core.Config.ShowHandbookEntityDrops)
-        {
-            return;
-        }
+        if (Core.Config?.ShowHandbookEntityDrops != true) return;
 
-        CollectibleObject collObj = inSlot.Itemstack.Collectible;
+        CollectibleObject collObj = inSlot.Itemstack!.Collectible;
 
-        List<RichTextComponentBase> richTextHarvest = new();
-        List<RichTextComponentBase> richTextDrop = new();
+        List<RichTextComponentBase> richTextHarvest = [];
+        List<RichTextComponentBase> richTextDrop = [];
 
         foreach (EntityProperties entityType in capi.World.EntityTypes)
         {
             List<BlockDropItemStack> harvestStacks = GetHarvestableDrops(capi, entityType);
             if (harvestStacks?.Count != 0 && harvestStacks?.Find(stack => stack?.Code == collObj?.Code) != null)
             {
-                ItemStack stack = entityType.GetCreatureStack(capi);
+                ItemStack? stack = entityType.GetCreatureStack(capi);
                 if (stack == null) continue;
 
                 richTextHarvest.AddStack(capi, openDetailPageFor, stack);
             }
 
-            if (entityType.Drops?.Length != 0 && entityType.Drops.ToList().Find(stack => stack.Code == collObj.Code) != null)
+            if (entityType.Drops.Length != 0 && entityType.Drops.ToList().Find(stack => stack.Code == collObj.Code) != null)
             {
-                ItemStack stack = entityType.GetCreatureStack(capi);
+                ItemStack? stack = entityType.GetCreatureStack(capi);
                 if (stack == null) continue;
 
                 richTextDrop.AddStack(capi, openDetailPageFor, stack);
             }
         }
 
-        if (richTextHarvest?.Count != 0)
+        if (richTextHarvest.Count != 0)
         {
             list.AddMarginAndTitle(capi, marginTop: 7, titletext: Text.ObtainedByKillingAndHarvesting);
             list.AddRange(richTextHarvest);
         }
 
-        if (richTextDrop?.Count != 0)
+        if (richTextDrop.Count != 0)
         {
             list.AddMarginAndTitle(capi, marginTop: 7, titletext: Text.ObtainedByKilling);
             list.AddRange(richTextDrop);
@@ -281,15 +259,12 @@ public static class HandbookExtensions
 
     public static void AddTraderInfo(this List<RichTextComponentBase> list, ItemSlot inSlot, ICoreClientAPI capi, ActionConsumable<string> openDetailPageFor)
     {
-        if (Core.Config == null || !Core.Config.ShowHandbookTraderGoods)
-        {
-            return;
-        }
+        if (Core.Config?.ShowHandbookTraderGoods != true) return;
 
-        CollectibleObject collObj = inSlot.Itemstack.Collectible;
+        CollectibleObject collObj = inSlot.Itemstack!.Collectible;
         if (collObj is ItemCreature itemCreature)
         {
-            if (!TraderInfoSystem.unresolvedTradeProps.TryGetValue(itemCreature.Code, out TradeProperties tradeProps) || tradeProps == null)
+            if (!TraderInfoSystem.unresolvedTradeProps.TryGetValue(itemCreature.Code, out TradeProperties? tradeProps) || tradeProps == null)
             {
                 return;
             }
@@ -299,7 +274,7 @@ public static class HandbookExtensions
             List<TradeItem> sellingStacks = tradeProps.Selling.List.Where(tradeItem2 => tradeItem2.Resolve(capi.World, "")).ToList();
 
             list.AddMarginAndTitle(capi, marginTop: 7, titletext: Text.YouCanSell);
-            List<RichTextComponentBase> richTextSell = new();
+            List<RichTextComponentBase> richTextSell = [];
             foreach (TradeItem item in buyingStacks)
             {
                 richTextSell.AddTraderInfo(capi, item, openDetailPageFor, gear);
@@ -307,7 +282,7 @@ public static class HandbookExtensions
             list.AddRange(richTextSell);
 
             list.AddMarginAndTitle(capi, marginTop: 7, titletext: Text.YouCanBuy);
-            List<RichTextComponentBase> richTextBuy = new();
+            List<RichTextComponentBase> richTextBuy = [];
             foreach (TradeItem item in sellingStacks)
             {
                 richTextBuy.AddTraderInfo(capi, item, openDetailPageFor, gear);
@@ -316,16 +291,13 @@ public static class HandbookExtensions
         }
 
         bool any = false;
-        List<RichTextComponentBase> richTextSellBy = new();
+        List<RichTextComponentBase> richTextSellBy = [];
         foreach ((AssetLocation traderCode, TradeProperties props) in TraderInfoSystem.unresolvedTradeProps)
         {
             if (props.Buying.List.Any(x => x.Code == collObj.Code) == true)
             {
-                Item traderItem = capi.World.GetItem(traderCode);
-                if (traderItem == null)
-                {
-                    continue;
-                }
+                Item? traderItem = capi.World.GetItem(traderCode);
+                if (traderItem == null) continue;
 
                 ItemStack traderStack = new ItemStack(traderItem);
                 richTextSellBy.AddStack(capi, openDetailPageFor, traderStack);
@@ -339,16 +311,13 @@ public static class HandbookExtensions
         }
 
         any = false;
-        List<RichTextComponentBase> richTextBuyBy = new();
+        List<RichTextComponentBase> richTextBuyBy = [];
         foreach ((AssetLocation traderCode, TradeProperties props) in TraderInfoSystem.unresolvedTradeProps)
         {
             if (props.Selling.List.Any(x => x.Code == collObj.Code) == true)
             {
-                Item traderItem = capi.World.GetItem(traderCode);
-                if (traderItem == null)
-                {
-                    continue;
-                }
+                Item? traderItem = capi.World.GetItem(traderCode);
+                if (traderItem == null) continue;
 
                 ItemStack traderStack = new ItemStack(traderItem);
                 richTextBuyBy.AddStack(capi, openDetailPageFor, traderStack);
@@ -366,10 +335,10 @@ public static class HandbookExtensions
     {
         return ObjectCacheUtil.GetOrCreate(capi, "pitKilnFuelStacks-" + blockPitKiln.Code, delegate
         {
-            JsonItemStackBuildStage[] fuelStacks = blockPitKiln?.Attributes?["buildMats"]?["fuel"]?.AsObject<JsonItemStackBuildStage[]>();
+            JsonItemStackBuildStage[]? fuelStacks = blockPitKiln?.Attributes?["buildMats"]?["fuel"]?.AsObject<JsonItemStackBuildStage[]>();
+            if (fuelStacks == null) return [];
 
-            List<JsonItemStackBuildStage> stacks = new();
-            stacks.AddRange(fuelStacks.Where(stack => stack?.BurnTimeHours != null));
+            List<JsonItemStackBuildStage> stacks = [.. fuelStacks.Where(stack => stack?.BurnTimeHours != null)];
 
             foreach (JsonItemStackBuildStage stack in stacks)
             {
@@ -386,14 +355,14 @@ public static class HandbookExtensions
         {
             Dictionary<string, PanningDrop[]> dropsBySourceMat = blockPan.GetField<Dictionary<string, PanningDrop[]>>("dropsBySourceMat");
 
-            Dictionary<ItemStack[], PanningDrop[]> panningDrops = new();
+            Dictionary<ItemStack[], PanningDrop[]> panningDrops = [];
 
             foreach (string key in dropsBySourceMat.Keys)
             {
-                List<ItemStack> blockStacks = new();
-                foreach (Block block in capi.World.Blocks.Where(x => x.WildCardMatch(key)))
+                List<ItemStack> blockStacks = [];
+                foreach (Block block in capi.World.Blocks.Where(code => code != null && code.WildCardMatch(key)))
                 {
-                    string rocktype = block?.Variant["rock"];
+                    string? rocktype = block.Variant["rock"];
 
                     foreach (PanningDrop drop in dropsBySourceMat[key])
                     {
@@ -409,7 +378,7 @@ public static class HandbookExtensions
                     blockStacks.Add(stack);
                 }
                 panningDrops.Add(blockStacks.ToArray(), dropsBySourceMat[key]);
-                blockStacks = new();
+                blockStacks = [];
             }
             return panningDrops;
         });
@@ -419,7 +388,7 @@ public static class HandbookExtensions
     {
         return ObjectCacheUtil.GetOrCreate(capi, "troughWildcardStacks-" + config.Code, delegate
         {
-            List<ItemStack> stacks = new();
+            List<ItemStack> stacks = [];
             foreach (CollectibleObject obj in capi.World.Collectibles.Where(x => x.WildCardMatch(config.Content.Code)))
             {
                 ItemStack stack = new(obj);
@@ -434,11 +403,9 @@ public static class HandbookExtensions
     {
         return ObjectCacheUtil.GetOrCreate(capi, "harvestableDrops-" + entityType.Code, delegate
         {
-            BlockDropItemStack[] harvestableDrops = entityType.Attributes?["harvestableDrops"]?.AsArray<BlockDropItemStack>();
-            if (harvestableDrops == null)
-            {
-                return null;
-            }
+            BlockDropItemStack[]? harvestableDrops = entityType.Attributes?["harvestableDrops"]?.AsObject<BlockDropItemStack[]>();
+            if (harvestableDrops == null) return [];
+
             BlockDropItemStack[] array = harvestableDrops;
             foreach (BlockDropItemStack hstack in array)
             {

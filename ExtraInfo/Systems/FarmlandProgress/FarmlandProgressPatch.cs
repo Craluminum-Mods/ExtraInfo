@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ExtraInfo.Systems.FarmlandInfo;
+namespace ExtraInfo.Systems.FarmlandProgress;
 
 [HarmonyPatch(typeof(BlockEntityFarmland), nameof(BlockEntityFarmland.GetBlockInfo))]
 public static class FarmlandProgressPatch

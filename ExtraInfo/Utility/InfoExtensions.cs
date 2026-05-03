@@ -6,17 +6,9 @@ public static class InfoExtensions
 {
     public static void GetWorkableTempInfoForAnvil(this StringBuilder dsc, BlockEntityAnvil blockEntity)
     {
-        if (Core.Config == null || !Core.Config.ShowAnvilWorkableTemp)
-        {
-            return;
-        }
-
+        if (Core.Config?.ShowAnvilWorkableTemp != true) return;
         if (blockEntity == null) return;
-
-        if (blockEntity.WorkItemStack == null || blockEntity.SelectedRecipe == null)
-        {
-            return;
-        }
+        if (blockEntity.WorkItemStack == null || blockEntity.SelectedRecipe == null) return;
 
         ItemStack stack = blockEntity.WorkItemStack;
 
@@ -37,15 +29,8 @@ public static class InfoExtensions
 
     public static void GetWorkableTempInfoForItem(this StringBuilder dsc, ItemSlot inSlot, IWorldAccessor world)
     {
-        if (Core.Config == null || !Core.Config.ShowHandbookWorkableTemp)
-        {
-            return;
-        }
-
-        if (inSlot.Itemstack.Collectible is not IAnvilWorkable)
-        {
-            return;
-        }
+        if (Core.Config?.ShowHandbookWorkableTemp != true) return;
+        if (inSlot.Itemstack?.Collectible is not IAnvilWorkable) return;
 
         float temperature = inSlot.Itemstack.Collectible.GetTemperature(world, inSlot.Itemstack);
         float meltingpoint = inSlot.Itemstack.Collectible.GetMeltingPoint(world, null, inSlot);
@@ -72,15 +57,8 @@ public static class InfoExtensions
 
     public static void GetStackSizeUnitsForOre(this StringBuilder dsc, ItemSlot inSlot, IWorldAccessor world)
     {
-        if (Core.Config == null || !Core.Config.ShowStackMetalUnits)
-        {
-            return;
-        }
-
-        if (inSlot.Itemstack.Collectible is not ItemOre || inSlot.StackSize <= 1)
-        {
-            return;
-        }
+        if (Core.Config?.ShowStackMetalUnits != true) return;
+        if (inSlot.Itemstack?.Collectible is not ItemOre || inSlot.StackSize <= 1) return;
 
         if (inSlot.Itemstack.Collectible.CombustibleProps?.SmeltedStack?.ResolvedItemstack == null && inSlot.Itemstack.ItemAttributes?["metalUnits"].Exists == true)
         {
@@ -91,8 +69,8 @@ public static class InfoExtensions
                 orename = orename.Split('_')[1];
             }
             AssetLocation loc = new("nugget-" + orename);
-            Item item = world.GetItem(loc);
-            if (item.CombustibleProps?.SmeltedStack?.ResolvedItemstack != null)
+            Item? item = world.GetItem(loc);
+            if (item?.CombustibleProps?.SmeltedStack?.ResolvedItemstack != null)
             {
                 string metalname2 = item.CombustibleProps.SmeltedStack.ResolvedItemstack.GetName().Replace(" ingot", "");
                 dsc.AppendLine(ColorText(Lang.Get("{0} units of {1}", units2.ToString("0.#"), metalname2)));
@@ -102,22 +80,12 @@ public static class InfoExtensions
 
     public static void GetStackSizeUnitsForNugget(this StringBuilder dsc, ItemSlot inSlot)
     {
-        if (Core.Config == null || !Core.Config.ShowStackMetalUnits)
-        {
-            return;
-        }
-
-        if (inSlot.Itemstack.Collectible is not ItemNugget)
-        {
-            return;
-        }
+        if (Core.Config?.ShowStackMetalUnits != true) return;
+        if (inSlot.Itemstack?.Collectible is not ItemNugget) return;
 
         CombustibleProperties combProps = inSlot.Itemstack.Collectible.CombustibleProps;
 
-        if (inSlot.StackSize <= 1 || combProps?.SmeltedStack == null)
-        {
-            return;
-        }
+        if (inSlot.StackSize <= 1 || combProps.SmeltedStack == null || combProps.SmeltedStack.ResolvedItemstack == null) return;
 
         string smelttype = combProps.SmeltingType.ToString().ToLowerInvariant();
         int instacksize = combProps.SmeltedRatio;
@@ -128,15 +96,10 @@ public static class InfoExtensions
 
     public static void GetGroundStorageInfo(this StringBuilder dsc, BlockEntityGroundStorage blockEntity)
     {
-        if (Core.Config == null || !Core.Config.ShowPileTotalItems)
-        {
-            return;
-        }
-
-        if (blockEntity == null || blockEntity?.StorageProps?.Layout != EnumGroundStorageLayout.Stacking || blockEntity?.Inventory?.Count == 0)
-        {
-            return;
-        }
+        if (Core.Config?.ShowPileTotalItems != true) return;
+        if (blockEntity == null) return;
+        if (blockEntity.StorageProps?.Layout != EnumGroundStorageLayout.Stacking) return;
+        if (blockEntity.Inventory?.Count == 0) return;
 
         ICoreAPI api = blockEntity.Api;
         BlockPos centerPos = blockEntity.Pos;
@@ -147,8 +110,10 @@ public static class InfoExtensions
         for (int y = centerPos.Y - 1; ; y--)
         {
             BlockPos pos = new(centerPos.X, y, centerPos.Z, centerPos.dimension);
-            if (api.World.IsGroundStorage(pos, out BlockEntityGroundStorage blockEntityGroundStorage))
+            if (api.World.IsGroundStorage(pos, out BlockEntityGroundStorage? blockEntityGroundStorage))
             {
+                if (blockEntityGroundStorage == null) break;
+
                 totalAmount += blockEntityGroundStorage.GetTotalAmount();
 
                 if (blockEntity.HasSameContent(blockEntityGroundStorage))
@@ -165,8 +130,10 @@ public static class InfoExtensions
         for (int y = centerPos.Y + 1; ; y++)
         {
             BlockPos pos = new(centerPos.X, y, centerPos.Z, centerPos.dimension);
-            if (api.World.IsGroundStorage(pos, out BlockEntityGroundStorage blockEntityGroundStorage))
+            if (api.World.IsGroundStorage(pos, out BlockEntityGroundStorage? blockEntityGroundStorage))
             {
+                if (blockEntityGroundStorage == null) break;
+
                 totalAmount += blockEntityGroundStorage.GetTotalAmount();
 
                 if (blockEntity.HasSameContent(blockEntityGroundStorage))
@@ -192,10 +159,7 @@ public static class InfoExtensions
 
     public static void GetBombInfo(this StringBuilder sb, Block block, BlockEntityBomb blockEntity)
     {
-        if (Core.Config == null || !Core.Config.ShowBombStats)
-        {
-            return;
-        }
+        if (Core.Config?.ShowBombStats != true) return;
 
         if (blockEntity != null)
         {
@@ -215,13 +179,8 @@ public static class InfoExtensions
 
     public static void GetTranslocatorInfo(this StringBuilder dsc, BlockEntityStaticTranslocator blockEntity)
     {
-        if (Core.Config == null || !Core.Config.ShowTranslocatorDestination)
-        {
-            return;
-        }
-
-        if (blockEntity == null) return;
-        if (blockEntity.tpLocation == null) return;
+        if (Core.Config?.ShowTranslocatorDestination != true) return;
+        if (blockEntity?.tpLocation == null) return;
 
         BlockPos pos = blockEntity.Api.World.DefaultSpawnPosition.AsBlockPos;
         BlockPos targetpos = blockEntity.tpLocation.Copy().Sub(pos.X, 0, pos.Z);
@@ -234,12 +193,9 @@ public static class InfoExtensions
 
     public static void GetMechanicalBlockInfo(this StringBuilder sb, BlockEntity blockEntity)
     {
-        if (Core.Config == null || !Core.Config.ShowMechanicalBlockInfo)
-        {
-            return;
-        }
+        if (Core.Config?.ShowMechanicalBlockInfo != true) return;
 
-        MechanicalNetwork network = blockEntity?.GetBehavior<BEBehaviorMPBase>()?.Network;
+        MechanicalNetwork? network = blockEntity?.GetBehavior<BEBehaviorMPBase>()?.Network;
         if (network == null) return;
 
         sb.AppendLine(ColorText(Lang.Get("extrainfo:Mechanics.Speed", network.Speed)));

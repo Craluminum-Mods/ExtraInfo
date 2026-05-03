@@ -2,11 +2,12 @@ namespace ExtraInfo;
 
 public static class ItemstackExtensions
 {
-    public static ItemStack GetCreatureStack(this EntityProperties entityType, ICoreClientAPI capi)
+    public static ItemStack? GetCreatureStack(this EntityProperties entityType, ICoreClientAPI capi)
     {
         AssetLocation location = entityType.Code.Clone().WithPathPrefix("creature-");
-        Item item = capi.World.GetItem(location);
-        return item == null ? null : new ItemStack(item);
+        Item? item = capi.World.GetItem(location);
+        if (item == null) return null;
+        return new ItemStack(item);
     }
 
     public static List<List<ItemStack>> GroupStacksByFirstCodePart(this List<ItemStack> stacks)
@@ -18,7 +19,7 @@ public static class ItemstackExtensions
             string firstCodePart = stack.Collectible.FirstCodePart();
             if (!groups.ContainsKey(firstCodePart))
             {
-                groups[firstCodePart] = new List<ItemStack>();
+                groups[firstCodePart] = [];
             }
 
             groups[firstCodePart].Add(stack);
@@ -32,13 +33,10 @@ public static class ItemstackExtensions
         Dictionary<string, List<ItemStack>> groups = new();
         foreach (EntityProperties entityType in entityTypes)
         {
-            ItemStack stack = entityType.GetCreatureStack(capi);
-            if (stack == null)
-            {
-                continue;
-            }
+            ItemStack? stack = entityType.GetCreatureStack(capi);
+            if (stack == null) continue;
 
-            string groupcode = entityType.Attributes?["handbook"]?["groupcode"].AsString();
+            string? groupcode = entityType.Attributes?["handbook"]?["groupcode"].AsString();
             if (string.IsNullOrEmpty(groupcode))
             {
                 groupcode = entityType.Code;
@@ -46,7 +44,7 @@ public static class ItemstackExtensions
 
             if (!groups.ContainsKey(groupcode))
             {
-                groups[groupcode] = new List<ItemStack>();
+                groups[groupcode] = [];
             }
 
             groups[groupcode].Add(stack);

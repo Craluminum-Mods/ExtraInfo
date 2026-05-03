@@ -6,6 +6,8 @@ public static class RichTextExtensions
 {
     public static void AddTraderInfo(this List<RichTextComponentBase> richText, ICoreClientAPI capi, TradeItem val, ActionConsumable<string> openDetailPageFor, ItemStack gear)
     {
+        if (val.ResolvedItemstack == null) return;
+
         richText.AddStack(capi, openDetailPageFor, val.ResolvedItemstack, showStacksize: true);
         richText.Add(new RichTextComponent(capi, "\t" + GetMinMax(val.Stock), CairoFont.WhiteSmallText())
         {
