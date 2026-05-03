@@ -634,19 +634,6 @@ public static class InfoExtensions
         }
     }
 
-    public static void GetSkepInfo(this StringBuilder dsc, BlockEntityBeehive blockEntity)
-    {
-        if (Core.Config == null || !Core.Config.ShowSkepProgress)
-        {
-            return;
-        }
-
-        if (blockEntity == null) return;
-        if (blockEntity.Block is not BlockSkep) return;
-        double hours = blockEntity.GetField<double>("harvestableAtTotalHours") - blockEntity.Api.World.Calendar.TotalHours;
-        dsc.AppendLine(ColorText(Text.HoursAndMinutes(hours)));
-    }
-
     public static void GetTranslocatorInfo(this StringBuilder dsc, BlockEntityStaticTranslocator blockEntity)
     {
         if (Core.Config == null || !Core.Config.ShowTranslocatorDestination)
