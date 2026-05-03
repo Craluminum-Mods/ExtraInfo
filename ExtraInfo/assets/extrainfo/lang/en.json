@@ -36,13 +36,15 @@
     "Config.Setting.ShowTranslocatorDestination": "Show the destination of the translocator",
     "Config.Setting.ShowTreeStats": "Show time a sapling takes to sprout and mature",
 
-    "UntilBroken": "Until broken:\n{0}",
+    "block-info-header-until-broken": "Until broken:",
     "WillFinishIn": "Will finish in:",
     "NextStageIn": "Next growth stage in:",
     "InGameTime": "In-game time: {0}",
     "InRealTime": "Real-time: {0}",
     "CenteredBoldText": "<font weight=\"bold\" align=\"center\">{0}</font>",
     "TimeUntilTransition": "Time until transition:",
+    "quern-progress-info-header-total": "Total:",
+    "quern-progress-info-header-single-item": "Single item:",
 
     "WorkableTemperature": "Workable Temperature: {0}°C",
     "AlwaysWorkable": "Workable Temperature: Always",

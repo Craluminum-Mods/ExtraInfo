@@ -1,4 +1,6 @@
-﻿namespace ExtraInfo.Systems.BreakingTimeInfo;
+﻿using System.Security.Cryptography;
+
+namespace ExtraInfo.Systems.BreakingTimeInfo;
 
 [HarmonyPatch(typeof(Block), nameof(Block.GetPlacedBlockInfo))]
 public static class BlockBreakingTimePatch
@@ -16,14 +18,10 @@ public static class BlockBreakingTimePatch
 
         float completedPercent = 100f - Math.Clamp((damage.RemainingResistance / total) * 100f, 0, 100);
 
-        StringBuilder barBuilder = new StringBuilder();
-        ProgressBar.Build(barBuilder, completedPercent, width: 15);
-
-        string translatedLine = Lang.Get("extrainfo:UntilBroken", barBuilder.ToString());
-
         StringBuilder sb = new(__result);
-        sb.AppendLine().Append(translatedLine);
-
+        sb.AppendLine();
+        sb.AppendLine(Lang.Get("extrainfo:block-info-header-until-broken"));
+        ProgressBar.Build(sb, completedPercent, width: 15);
         __result = sb.ToString().TrimEnd();
     }
 }

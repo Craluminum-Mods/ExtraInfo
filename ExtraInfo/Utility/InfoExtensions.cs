@@ -4,13 +4,6 @@ namespace ExtraInfo;
 
 public static class InfoExtensions
 {
-    // Debug logging helper - kept for future debugging needs.
-    // Usage: DebugLog(world, "message");
-    private static void DebugLog(IWorldAccessor world, string message)
-    {
-        world?.Logger?.Notification("[ExtraInfo] " + message);
-    }
-
     public static void GetWorkableTempInfoForAnvil(this StringBuilder dsc, BlockEntityAnvil blockEntity)
     {
         if (Core.Config == null || !Core.Config.ShowAnvilWorkableTemp)
@@ -195,36 +188,6 @@ public static class InfoExtensions
         dsc.Append(ColorText(Text.Current));
         dsc.Append(": ");
         dsc.Append(totalAmountSame).AppendLine();
-    }
-
-    public static void GetQuernInfo(this StringBuilder dsc, BlockEntityOpenableContainer blockEntity)
-    {
-        if (Core.Config == null || !Core.Config.ShowQuernGrindingProgress)
-        {
-            return;
-        }
-
-        if (blockEntity == null) return;
-        if (blockEntity is not BlockEntityQuern quern) return;
-
-        if (quern.CanGrind() && quern.GrindSpeed > 0)
-        {
-            double percent = quern.inputGrindTime / quern.maxGrindingTime();
-            int mss = quern.InputSlot?.Itemstack?.StackSize + (quern.OutputSlot?.Itemstack?.StackSize ?? 0) ?? 1;
-            double stackSize = (double)(quern.InputSlot?.Itemstack?.StackSize ?? 0) / mss;
-            stackSize = 1.0 - stackSize;
-            stackSize += percent / mss;
-            stackSize *= 100;
-            percent *= 100;
-
-            dsc.Append(ColorText(Text.Everything));
-            dsc.Append(' ');
-            dsc.AppendFormat("{0:#}%", Math.Round(stackSize, 2)).AppendLine();
-
-            dsc.Append(ColorText(Text.One));
-            dsc.Append(' ');
-            dsc.AppendFormat("{0:#}%", Math.Round(percent, 2)).AppendLine();
-        }
     }
 
     public static void GetBombInfo(this StringBuilder sb, Block block, BlockEntityBomb blockEntity)
