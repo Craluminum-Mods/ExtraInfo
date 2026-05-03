@@ -41,11 +41,10 @@ public static class FarmlandProgressPatch
             float speedOfTime = api.World.Calendar.SpeedOfTime;
 
             string verticalBlock = TimeFormatter.BuildVerticalTimeBlock(
-                igSeconds,
-                speedOfTime,
-                completedPercent,
-                "extrainfo:NextStageIn"
-            );
+                igSeconds: igSeconds,
+                speedOfTime: speedOfTime,
+                completedPercent: completedPercent,
+                headerKey: Lang.Get("extrainfo:NextStageIn"));
 
             dsc.AppendLine().Append(verticalBlock);
         }

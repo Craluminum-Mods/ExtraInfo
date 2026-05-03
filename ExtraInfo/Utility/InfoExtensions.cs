@@ -634,23 +634,6 @@ public static class InfoExtensions
         }
     }
 
-    public static void GetTransientInfo(this StringBuilder dsc, BlockEntityTransient blockEntity)
-    {
-        if (Core.Config == null || !Core.Config.ShowBlockTransitionInfo)
-        {
-            return;
-        }
-
-        if (blockEntity == null) return;
-        TransientProperties props = blockEntity.GetField<TransientProperties>("props");
-        if (props == null) return;
-
-        blockEntity.CheckTransition(0);
-
-        double hoursLeft = blockEntity.GetField<double>("transitionHoursLeft");
-        dsc.AppendLine(ColorText(Text.Hours(hoursLeft)));
-    }
-
     public static void GetSkepInfo(this StringBuilder dsc, BlockEntityBeehive blockEntity)
     {
         if (Core.Config == null || !Core.Config.ShowSkepProgress)

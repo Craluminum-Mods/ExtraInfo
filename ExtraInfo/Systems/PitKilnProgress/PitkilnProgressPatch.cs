@@ -29,10 +29,10 @@ public static class PitKilnProgressPatch
             float speedOfTime = api.World.Calendar.SpeedOfTime;
 
             string verticalBlock = TimeFormatter.BuildVerticalTimeBlock(
-                igSeconds,
-                speedOfTime,
-                completedPercent
-            );
+                igSeconds: igSeconds,
+                speedOfTime: speedOfTime,
+                completedPercent: completedPercent,
+                headerKey: Lang.Get("extrainfo:WillFinishIn"));
 
             dsc.AppendLine().Append(verticalBlock);
         }

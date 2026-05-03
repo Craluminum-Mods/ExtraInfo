@@ -24,7 +24,11 @@ public static class BloomeryProgressPatch
                 double igSeconds = remainingDays * api.World.Calendar.HoursPerDay * 3600;
                 float speedOfTime = api.World.Calendar.SpeedOfTime;
 
-                string verticalBlock = TimeFormatter.BuildVerticalTimeBlock(igSeconds, speedOfTime, completedPercent);
+                string verticalBlock = TimeFormatter.BuildVerticalTimeBlock(
+                    igSeconds: igSeconds,
+                    speedOfTime: speedOfTime,
+                    completedPercent: completedPercent,
+                    headerKey: Lang.Get("extrainfo:WillFinishIn"));
 
                 dsc.AppendLine().Append(verticalBlock);
             }

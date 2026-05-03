@@ -38,11 +38,12 @@ public static class CharcoalPitProgressPatch
                             double startHours = finishedAfterTotalHours - burnHours;
                             float completedPercent = (float)Math.Clamp(((currentHours - startHours) / burnHours) * 100, 0, 100);
 
-                            dsc.AppendLine().Append(TimeFormatter.BuildVerticalTimeBlock(
-                                hoursRemaining * 3600,
-                                speedOfTime,
-                                completedPercent
-                            ));
+                            dsc.AppendLine()
+                                .Append(TimeFormatter.BuildVerticalTimeBlock(
+                                    igSeconds: hoursRemaining * 3600,
+                                    speedOfTime: speedOfTime,
+                                    completedPercent: completedPercent,
+                                    headerKey: Lang.Get("extrainfo:WillFinishIn")));
                         }
 
                         break;
@@ -57,12 +58,12 @@ public static class CharcoalPitProgressPatch
                             double startHours = startingAfterTotalHours - ignitionDuration;
                             float completedPercent = (float)Math.Clamp(((currentHours - startHours) / ignitionDuration) * 100, 0, 100);
 
-                            dsc.AppendLine().Append(TimeFormatter.BuildVerticalTimeBlock(
-                                hoursRemaining * 3600,
-                                speedOfTime,
-                                completedPercent,
-                                "Warming up..."
-                            ));
+                            dsc.AppendLine()
+                                .Append(TimeFormatter.BuildVerticalTimeBlock(
+                                    igSeconds: hoursRemaining * 3600,
+                                    speedOfTime: speedOfTime,
+                                    completedPercent: completedPercent,
+                                    headerKey: Lang.Get("Warming up...")));
                         }
 
                         break;

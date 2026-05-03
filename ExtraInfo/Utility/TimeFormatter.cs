@@ -6,30 +6,44 @@ public static class TimeFormatter
     {
         TimeSpan t = TimeSpan.FromSeconds(totalSeconds);
 
-        if (t.TotalDays >= 1) return Lang.Get("{0} days", Math.Floor(t.TotalDays));
+        if (t.TotalDays >= 1)
+        {
+            int days = (int)Math.Floor(t.TotalDays);
+            int hours = t.Hours;
+
+            return hours > 0
+                ? Lang.Get("{0} days, {1} hours", days, hours)
+                : Lang.Get("count-days", days);
+        }
 
         if (t.TotalHours >= 1)
         {
-            return t.Minutes > 0
-                ? Lang.Get("{0} hours, {1} minutes", Math.Floor(t.TotalHours), t.Minutes)
-                : Lang.Get("{0} hours", Math.Floor(t.TotalHours));
+            int hours = (int)Math.Floor(t.TotalHours);
+            int minutes = t.Minutes;
+
+            return minutes > 0
+                ? Lang.Get("{0} hours, {1} minutes", hours, minutes)
+                : Lang.Get("{0} hours", hours);
         }
 
         if (t.TotalMinutes >= 1)
         {
-            return t.Seconds > 0
-                ? Lang.Get("{0} minutes, {1} seconds", t.Minutes, t.Seconds)
-                : Lang.Get("{0} minutes", t.Minutes);
+            int minutes = t.Minutes;
+            int seconds = t.Seconds;
+
+            return seconds > 0
+                ? Lang.Get("{0} minutes, {1} seconds", minutes, seconds)
+                : Lang.Get("{0} minutes", minutes);
         }
 
         return Lang.Get("{0} seconds", t.Seconds);
     }
 
-    public static string BuildVerticalTimeBlock(double igSeconds, float speedOfTime, float completedPercent, string headerKey = "extrainfo:WillFinishIn")
+    public static string BuildVerticalTimeBlock(double igSeconds, float speedOfTime, float completedPercent, string headerKey)
     {
         StringBuilder sb = new StringBuilder();
 
-        sb.AppendLine(Lang.Get(headerKey));
+        sb.AppendLine(headerKey);
 
         StringBuilder barBuilder = new StringBuilder();
         ProgressBar.Build(barBuilder, completedPercent, width: 15);
