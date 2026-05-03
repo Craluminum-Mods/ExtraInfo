@@ -6,7 +6,7 @@
     "description": "Useful information for handbook, blocks, items and entities",
     "authors": ["Craluminum2413 (Dana)"],
     "contributors": ["Novocain"],
-    "version": "2.0.0",
+    "version": "2.0.1",
     "dependencies": {
         "game": "1.22.0"
     }
