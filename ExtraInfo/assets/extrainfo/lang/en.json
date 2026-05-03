@@ -43,6 +43,7 @@
     "InRealTime": "Real-time: {0}",
     "CenteredBoldText": "<font weight=\"bold\" align=\"center\">{0}</font>",
     "TimeUntilTransition": "Time until transition:",
+    "BeehiveKilnPaused": "Kiln is cooling (Add fuel)",
 
     "WorkableTemperature": "Workable Temperature: {0}°C",
     "AlwaysWorkable": "Workable Temperature: Always",
