@@ -7,7 +7,6 @@ public static class PlacedBlockInfoPatch
     [HarmonyPostfix]
     public static void Postfix(ref string __result, IWorldAccessor world, BlockPos pos)
     {
-        __result = __result.GetCokeInfo(world, pos);
         __result = __result.GetSteelInfo(world, pos);
     }
 }

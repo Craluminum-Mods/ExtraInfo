@@ -227,46 +227,6 @@ public static class InfoExtensions
         }
     }
 
-    public static string GetCokeInfo(this string __result, IWorldAccessor world, BlockPos pos)
-    {
-        if (Core.Config == null || !Core.Config.ShowCokeOvenProgress)
-        {
-            return __result;
-        }
-
-        if (world.BlockAccessor.GetBlock(pos) is not BlockCokeOvenDoor) return __result;
-
-        StringBuilder sb = new(__result);
-
-        BlockPos[] positions = new[] { pos.NorthCopy(), pos.EastCopy(), pos.SouthCopy(), pos.WestCopy() };
-        foreach (BlockPos neighborPos in positions)
-        {
-            BlockEntityCoalPile neighborBE = world.BlockAccessor.GetBlockEntity(neighborPos) as BlockEntityCoalPile;
-
-            if (neighborBE?.IsBurning == false)
-            {
-                return __result;
-            }
-
-            if (neighborBE == null)
-            {
-                continue;
-            }
-
-            double burnStart = neighborBE.GetField<double>("burnStartTotalHours");
-            double hours = 12.0 - (world.Calendar.TotalHours - burnStart);
-
-            sb.AppendLine()
-                .Append(ColorText(Text.Coke))
-                .Append(": ")
-                .Append(ColorText(Text.HoursAndMinutes(hours)));
-
-            return sb.ToString().TrimEnd();
-        }
-
-        return __result;
-    }
-
     public static string GetSteelInfo(this string __result, IWorldAccessor world, BlockPos pos)
     {
         if (Core.Config == null || !Core.Config.ShowCementationFurnaceProgress)
