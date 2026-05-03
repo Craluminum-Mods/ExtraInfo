@@ -22,7 +22,7 @@ public static class PlacedBlockInfoPatch
         double hoursRemaining = Math.Max(0, targetHours - __instance.TotalHoursHeatReceived);
         float completedPercent = (float)Math.Clamp((float)(__instance.TotalHoursHeatReceived / targetHours) * 100, 0, 100);
 
-        string statusKey = ___receivesHeat ? "extrainfo:WillFinishIn" : "extrainfo:BeehiveKilnPaused";
+        string statusKey = ___receivesHeat ? "extrainfo:WillFinishIn" : "Out of fuel.";
 
         double displaySeconds = ___receivesHeat ? hoursRemaining * 3600 : 0;
 
