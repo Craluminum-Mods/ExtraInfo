@@ -254,23 +254,6 @@ public static class InfoExtensions
         }
     }
 
-    public static void GetBloomeryInfo(this StringBuilder dsc, BlockEntityBloomery blockEntity)
-    {
-        if (Core.Config == null || !Core.Config.ShowBloomeryProgress)
-        {
-            return;
-        }
-
-        if (blockEntity == null) return;
-        ICoreAPI api = blockEntity.Api;
-
-        if (blockEntity.GetField<bool>("burning"))
-        {
-            double hours = (blockEntity.GetField<double>("burningUntilTotalDays") - api.World.Calendar.TotalDays) * api.World.Calendar.HoursPerDay;
-            dsc.AppendLine(ColorText(Text.HoursAndMinutes(hours)));
-        }
-    }
-
     public static void GetQuernInfo(this StringBuilder dsc, BlockEntityOpenableContainer blockEntity)
     {
         if (Core.Config == null || !Core.Config.ShowQuernGrindingProgress)

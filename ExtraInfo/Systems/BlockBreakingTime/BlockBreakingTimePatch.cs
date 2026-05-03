@@ -1,6 +1,5 @@
 ﻿namespace ExtraInfo.Systems.BreakingTimeInfo;
 
-[HarmonyPatchCategory("Other")]
 [HarmonyPatch(typeof(Block), nameof(Block.GetPlacedBlockInfo))]
 public static class BlockBreakingTimePatch
 {

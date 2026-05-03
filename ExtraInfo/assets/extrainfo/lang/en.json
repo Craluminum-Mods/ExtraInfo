@@ -38,7 +38,9 @@
     "Config.Setting.ShowTreeStats": "Show time a sapling takes to sprout and mature",
 
     "UntilBroken": "Until broken:\n{0}",
-
+    "WillFinishIn": "Will finish in:",
+    "InGameTime": "In-game time: {0}",
+    "InRealTime": "Real-time: {0}",
 
     "WorkableTemperature": "Workable Temperature: {0}°C",
     "AlwaysWorkable": "Workable Temperature: Always",

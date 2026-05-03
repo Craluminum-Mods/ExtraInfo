@@ -9,6 +9,7 @@ public class HarmonyPatches : ModSystem
         HarmonyInstance.PatchCategory("Other");
         HarmonyInstance.PatchCategory("OpenHandbookForEntity");
         HarmonyInstance.PatchCategory("RemoveTradeHandbookInfo");
+        HarmonyInstance.PatchAllUncategorized();
     }
 
     public override void Dispose()
