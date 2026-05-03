@@ -219,41 +219,6 @@ public static class InfoExtensions
         dsc.AppendLine(ColorText(string.Format(Text.FormatPercent, mod.Info.Name, (int)(nutrients * 100))));
     }
 
-    public static void GetFarmlandInfo(this StringBuilder dsc, BlockEntityFarmland blockEntity)
-    {
-        if (Core.Config == null || !Core.Config.ShowFarmlandProgress)
-        {
-            return;
-        }
-
-        if (blockEntity == null) return;
-
-        double hours = blockEntity.TotalHoursForNextStage - blockEntity.Api.World.Calendar.TotalHours;
-
-        Block block = GetCrop();
-
-        if (block != null && (GetCropStage(block) < block.CropProps.GrowthStages))
-        {
-            dsc.AppendLine(ColorText(Text.HoursAndMinutes(hours)));
-        }
-
-        Block GetCrop()
-        {
-            Block block = blockEntity.Api.World.BlockAccessor.GetBlock(blockEntity.UpPos);
-            if (block == null || block.CropProps == null)
-            {
-                return null;
-            }
-            return block;
-        }
-
-        static int GetCropStage(Block block)
-        {
-            _ = int.TryParse(block.LastCodePart(), out int stage);
-            return stage;
-        }
-    }
-
     public static void GetQuernInfo(this StringBuilder dsc, BlockEntityOpenableContainer blockEntity)
     {
         if (Core.Config == null || !Core.Config.ShowQuernGrindingProgress)

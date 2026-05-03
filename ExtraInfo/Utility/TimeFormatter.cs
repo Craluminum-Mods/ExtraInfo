@@ -25,11 +25,11 @@ public static class TimeFormatter
         return Lang.Get("{0} seconds", t.Seconds);
     }
 
-    public static string BuildVerticalTimeBlock(double igSeconds, float speedOfTime, float completedPercent)
+    public static string BuildVerticalTimeBlock(double igSeconds, float speedOfTime, float completedPercent, string headerKey = "extrainfo:WillFinishIn")
     {
         StringBuilder sb = new StringBuilder();
 
-        sb.AppendLine(Lang.Get("extrainfo:WillFinishIn"));
+        sb.AppendLine(Lang.Get(headerKey));
 
         StringBuilder barBuilder = new StringBuilder();
         ProgressBar.Build(barBuilder, completedPercent, width: 15);
