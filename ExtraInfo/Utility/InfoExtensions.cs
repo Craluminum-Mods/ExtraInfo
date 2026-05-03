@@ -646,23 +646,6 @@ public static class InfoExtensions
         }
     }
 
-    public static void GetPitKilnInfo(this StringBuilder dsc, BlockEntityPitKiln blockEntity)
-    {
-        if (Core.Config == null || !Core.Config.ShowPitKilnProgress)
-        {
-            return;
-        }
-
-        if (blockEntity == null) return;
-        ICoreAPI api = blockEntity.Api;
-
-        if (blockEntity.Lit)
-        {
-            double hours = blockEntity.BurningUntilTotalHours - api.World.Calendar.TotalHours;
-            dsc.AppendLine(ColorText(Text.HoursAndMinutes(hours)));
-        }
-    }
-
     public static void GetBombInfo(this StringBuilder sb, Block block, BlockEntityBomb blockEntity)
     {
         if (Core.Config == null || !Core.Config.ShowBombStats)
