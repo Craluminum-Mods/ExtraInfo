@@ -611,41 +611,6 @@ public static class InfoExtensions
         return sb.ToString().TrimEnd();
     }
 
-    public static string GetCharcoalPitInfo(this string __result, IWorldAccessor world, BlockPos pos)
-    {
-        if (Core.Config == null || !Core.Config.ShowCharcoalPitProgress)
-        {
-            return __result;
-        }
-
-        if (world.BlockAccessor.GetBlockEntity(pos.DownCopy()) is not BlockEntityCharcoalPit blockEntity) return __result;
-
-        StringBuilder sb = new(__result);
-
-        switch (blockEntity.GetField<int>("state"))
-        {
-            case > 0:
-                {
-                    double hours = blockEntity.GetField<double>("finishedAfterTotalHours") - world.Calendar.TotalHours;
-                    sb.Append(ColorText(Text.CharcoalPit));
-                    sb.Append(": ");
-                    sb.AppendLine(ColorText(Text.HoursAndMinutes(hours)));
-                    return sb.ToString().TrimEnd();
-                }
-
-            default:
-                {
-                    double hours = blockEntity.GetField<double>("startingAfterTotalHours") - world.Calendar.TotalHours;
-                    sb.Append(ColorText(Text.CharcoalPit));
-                    sb.Append(": ");
-                    sb.Append(ColorText(Text.WarmingUp));
-                    sb.Append(' ');
-                    sb.AppendLine(ColorText(Text.MinutesAndSeconds(hours)));
-                    return sb.ToString().TrimEnd();
-                }
-        }
-    }
-
     public static void GetBombInfo(this StringBuilder sb, Block block, BlockEntityBomb blockEntity)
     {
         if (Core.Config == null || !Core.Config.ShowBombStats)

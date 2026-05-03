@@ -9,7 +9,6 @@ public static class PlacedBlockInfoPatch
     {
         __result = __result.GetCokeInfo(world, pos);
         __result = __result.GetSteelInfo(world, pos);
-        __result = __result.GetCharcoalPitInfo(world, pos);
         __result = __result.GetBeehiveKilnInfo(world, pos);
     }
 }
