@@ -1,4 +1,5 @@
 using HarmonyLib;
+using System.Linq;
 using System.Text;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
@@ -14,63 +15,56 @@ public static class PileTotalItemsPatch
     public static void Postfix(BlockEntityGroundStorage __instance, StringBuilder dsc)
     {
         if (Config?.ShowPileTotalItems != true) return;
-        if (__instance == null) return;
-        if (__instance.StorageProps?.Layout != EnumGroundStorageLayout.Stacking) return;
-        if (__instance.Inventory?.Count == 0) return;
+        if (__instance?.Inventory == null || __instance.StorageProps?.Layout != EnumGroundStorageLayout.Stacking) return;
+        if (__instance.Inventory.Empty) return;
 
         ICoreAPI api = __instance.Api;
-        BlockPos centerPos = __instance.Pos;
 
-        int totalAmount = __instance.GetTotalAmount();
+        BlockPos searchPos = __instance.Pos.Copy();
+
+        int totalAmount = __instance.Inventory.Sum(x => x.StackSize);
         int totalAmountSame = totalAmount;
 
-        for (int y = centerPos.Y - 1; ; y--)
+        int[] dirs = { -1, 1 };
+
+        foreach (int dir in dirs)
         {
-            BlockPos pos = new(centerPos.X, y, centerPos.Z, centerPos.dimension);
-            if (api.World.IsGroundStorage(pos, out BlockEntityGroundStorage? blockEntityGroundStorage))
+            searchPos.Y = __instance.Pos.Y;
+
+            for (int i = 0; i < 64; i++)
             {
-                if (blockEntityGroundStorage == null) break;
+                searchPos.Y += dir;
 
-                totalAmount += blockEntityGroundStorage.GetTotalAmount();
-
-                if (__instance.HasSameContent(blockEntityGroundStorage))
+                if (api.World.BlockAccessor.GetBlockEntity(searchPos) is BlockEntityGroundStorage begs)
                 {
-                    totalAmountSame += blockEntityGroundStorage.GetTotalAmount();
+                    int amount = begs.Inventory.Sum(x => x.StackSize);
+                    totalAmount += amount;
+
+                    if (__instance.HasSameContent(begs))
+                    {
+                        totalAmountSame += amount;
+                    }
                 }
-            }
-            else
-            {
-                break;
-            }
-        }
-
-        for (int y = centerPos.Y + 1; ; y++)
-        {
-            BlockPos pos = new(centerPos.X, y, centerPos.Z, centerPos.dimension);
-            if (api.World.IsGroundStorage(pos, out BlockEntityGroundStorage? blockEntityGroundStorage))
-            {
-                if (blockEntityGroundStorage == null) break;
-
-                totalAmount += blockEntityGroundStorage.GetTotalAmount();
-
-                if (__instance.HasSameContent(blockEntityGroundStorage))
-                {
-                    totalAmountSame += blockEntityGroundStorage.GetTotalAmount();
-                }
-            }
-            else
-            {
-                break;
+                else break;
             }
         }
 
         dsc.AppendLine();
-        dsc.Append(Lang.Get("tabname-general")); // Everything
-        dsc.Append(": ");
-        dsc.Append(totalAmount).AppendLine();
+        dsc.AppendLine(Lang.Get("extrainfo:ground-storage-total-pile-item-count", totalAmount));
 
-        dsc.Append(Lang.Get("extrainfo:Current"));
-        dsc.Append(": ");
-        dsc.Append(totalAmountSame).AppendLine();
+        if (totalAmountSame != totalAmount)
+        {
+            dsc.AppendLine(Lang.Get("extrainfo:ground-storage-current-pile-type-count", totalAmountSame));
+        }
+    }
+
+    private static bool HasSameContent(this BlockEntityGroundStorage a, BlockEntityGroundStorage b)
+    {
+        ItemStack? stackA = a.Inventory.FirstNonEmptySlot?.Itemstack;
+        ItemStack? stackB = b.Inventory.FirstNonEmptySlot?.Itemstack;
+
+        if (stackA == null || stackB == null) return false;
+
+        return stackA.Collectible.Equals(stackA, stackB, GlobalConstants.IgnoredStackAttributes);
     }
 }

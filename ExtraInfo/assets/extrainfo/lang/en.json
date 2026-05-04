@@ -43,6 +43,8 @@
     "TimeUntilTransition": "Time until transition:",
     "quern-progress-info-header-total": "Total:",
     "quern-progress-info-header-single-item": "Single item:",
+    "ground-storage-total-pile-item-count": "Total item count: {0}",
+    "ground-storage-current-pile-type-count": "Current type item count: {0}",
 
     "WorkableTemperature": "Workable Temperature: {0}°C",
     "AlwaysWorkable": "Workable Temperature: Always",
