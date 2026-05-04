@@ -23,8 +23,6 @@ public class ConfigLibCompatibility
 
     private void Edit(ICoreAPI api, Configuration.Config config, string id)
     {
-        config.HighlightReinforcedBlocks = OnCheckBox(id, config.HighlightReinforcedBlocks, nameof(config.HighlightReinforcedBlocks));
-        config.HighlightMycelium = OnCheckBox(id, config.HighlightMycelium, nameof(config.HighlightMycelium));
         ImGui.NewLine();
         ImGui.TextWrapped(Lang.Get($"{MOD_ID}:Config.Category.Handbook"));
         config.OpenHandbookPageForEntity = OnCheckBox(id, config.OpenHandbookPageForEntity, nameof(config.OpenHandbookPageForEntity));

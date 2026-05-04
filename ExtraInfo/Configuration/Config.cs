@@ -2,9 +2,6 @@ namespace ExtraInfo.Configuration;
 
 public class Config
 {
-    public bool HighlightReinforcedBlocks { get; set; } = true;
-    public bool HighlightMycelium { get; set; } = true;
-
     public bool OpenHandbookPageForEntity { get; set; } = true;
     public bool ShowHandbookCreatureDiet { get; set; } = true;
     public bool ShowHandbookEatableByCreatures { get; set; } = true;
@@ -37,10 +34,9 @@ public class Config
 
     public Config() { }
 
-    public Config(Config previousConfig)
+    public Config(Config? previousConfig)
     {
-        HighlightReinforcedBlocks = previousConfig.HighlightReinforcedBlocks;
-        HighlightMycelium = previousConfig.HighlightMycelium;
+        if (previousConfig == null) return;
 
         OpenHandbookPageForEntity = previousConfig.OpenHandbookPageForEntity;
         ShowHandbookCreatureDiet = previousConfig.ShowHandbookCreatureDiet;

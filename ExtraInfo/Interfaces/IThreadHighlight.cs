@@ -4,7 +4,7 @@ namespace ExtraInfo;
 
 public interface IThreadHighlight
 {
-    bool Enabled { get; set; }
-    Thread OpThread { get; set; }
+    bool Enabled { get; }
+    Thread OpThread { get; }
     string ThreadName { get; }
 }
