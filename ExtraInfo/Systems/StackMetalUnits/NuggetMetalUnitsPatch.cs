@@ -3,7 +3,6 @@ using System.Text;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.GameContent;
-using static ExtraInfo.TextExtensions;
 
 namespace ExtraInfo.Systems.StackMetalUnits;
 
@@ -29,6 +28,6 @@ public static class NuggetMetalUnitsPatch
             ? Lang.Get("material-" + metalCode) 
             : props.SmeltedStack.ResolvedItemstack.GetName().Replace(" ingot", "");
 
-        dsc.AppendLine(ColorText(Lang.Get("game:smeltdesc-" + smeltingType + "ore-plural", totalUnits.ToString("0.#"), metalName)));
+        dsc.AppendLine(Lang.Get("game:smeltdesc-" + smeltingType + "ore-plural", totalUnits.ToString("0.#"), metalName));
     }
 }
