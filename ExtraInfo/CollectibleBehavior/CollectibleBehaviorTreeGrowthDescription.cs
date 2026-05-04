@@ -18,33 +18,33 @@ public class CollectibleBehaviorTreeGrowthDescription : CollectibleBehavior
     {
         if (inSlot?.Itemstack?.Collectible == null) return;
 
-        NatFloat sproutDays = null;
-        NatFloat matureDays = null;
+        NatFloat? sproutDays = null;
+        NatFloat? matureDays = null;
 
         if (inSlot.Itemstack.Collectible is ItemTreeSeed item)
         {
-            Block block = world.GetBlock($"{item.Code.Domain}:sapling-{item.Variant["type"]}-free");
+            Block? block = world.GetBlock($"{item.Code.Domain}:sapling-{item.Variant["type"]}-free");
             if (block == null) return;
             if (block.Attributes == null) return;
 
-            sproutDays = block.Attributes[Text.SproutDaysAttr].AsObject<NatFloat>();
-            matureDays = block.Attributes[Text.MatureDaysAttr].AsObject<NatFloat>();
+            sproutDays = block.Attributes["sproutDays"].AsObject<NatFloat>();
+            matureDays = block.Attributes["matureDays"].AsObject<NatFloat>();
         }
         else if (inSlot.Itemstack.Collectible is BlockPlant block && !string.IsNullOrEmpty(block.EntityClass))
         {
             if (block.Attributes == null) return;
 
-            sproutDays = block.Attributes[Text.SproutDaysAttr].AsObject<NatFloat>();
-            matureDays = block.Attributes[Text.MatureDaysAttr].AsObject<NatFloat>();
+            sproutDays = block.Attributes["sproutDays"].AsObject<NatFloat>();
+            matureDays = block.Attributes["matureDays"].AsObject<NatFloat>();
         }
 
         if (sproutDays != null)
         {
-            dsc.AppendLine(ColorText(Text.WillSproutIn(GetMin(sproutDays), GetMax(sproutDays))));
+            dsc.AppendLine(Lang.Get("extrainfo:sprout-in-days", GetMin(sproutDays), GetMax(sproutDays)));
         }
         if (matureDays != null)
         {
-            dsc.AppendLine(ColorText(Text.WillMatureIn(GetMin(matureDays), GetMax(matureDays))));
+            dsc.AppendLine(Lang.Get("extrainfo:mature-in-days", GetMin(matureDays), GetMax(matureDays)));
         }
     }
 }

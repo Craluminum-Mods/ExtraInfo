@@ -9,7 +9,7 @@ public class HighlightMycelium : ModSystemHighlight
 
     public static int Radius => 64;
 
-    public static int HighlightColor => ColorsRGBA.Yellow;
+    public static int HighlightColor => ColorUtil.ColorFromRgba(new Vec4f(1f, 1f, 0.4f, 0.5f)); // #ffff66
 
     public override void StartClientSide(ICoreClientAPI api)
     {
@@ -32,11 +32,9 @@ public class HighlightMycelium : ModSystemHighlight
         {
             BlockPos bPos = new(x, y, z, playerPos.dimension);
 
-            BlockEntityMycelium beMycelium = GetMycelium(bPos, capi);
-            if (beMycelium == null)
-            {
-                return;
-            }
+            BlockEntityMycelium? beMycelium = GetMycelium(bPos, capi);
+            if (beMycelium == null) return;
+
             positions.Add(bPos);
             colors.Add(HighlightColor);
 
@@ -56,5 +54,5 @@ public class HighlightMycelium : ModSystemHighlight
         capi.Event.EnqueueMainThreadTask(new Action(() => capi.World.HighlightBlocks(capi.World.Player, 5229, positions, colors)), ThreadName);
     }
 
-    private static BlockEntityMycelium GetMycelium(BlockPos pos, ICoreAPI api) => api.World.BlockAccessor.GetBlockEntity(pos) as BlockEntityMycelium;
+    private static BlockEntityMycelium? GetMycelium(BlockPos pos, ICoreAPI api) => api.World.BlockAccessor.GetBlockEntity(pos) as BlockEntityMycelium;
 }

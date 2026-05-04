@@ -9,9 +9,9 @@ public class HighlightReinforced : ModSystemHighlight
 
     public static int Radius => 10;
 
-    public static int HighlightColor => ColorsRGBA.Cyan;
+    public static int HighlightColor => ColorUtil.ColorFromRgba(new Vec4f(0f, 1f, 1f, 0.5f)); // #77f7f7
 
-    public ModSystemBlockReinforcement ModSysBlockReinforcement { get; protected set; }
+    public required ModSystemBlockReinforcement ModSysBlockReinforcement { get; set; }
 
     public override void StartClientSide(ICoreClientAPI api)
     {

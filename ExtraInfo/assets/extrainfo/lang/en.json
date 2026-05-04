@@ -72,9 +72,5 @@
     "Mechanics.Speed": "Speed: {0:G4}",
     "Mechanics.TotalAvailableTorque": "Available Torque: {0:G4}",
     "Mechanics.NetworkTorque": "Total Torque: {0:G4}",
-    "Mechanics.NetworkResistance": "Resistance: {0:G4}",
-
-    "Carburization.Starting": "Carburization: Starting...",
-    "Unfired": "Unfired",
-    "Fired": "Fired"
+    "Mechanics.NetworkResistance": "Resistance: {0:G4}"
 }

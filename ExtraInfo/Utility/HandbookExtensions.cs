@@ -9,7 +9,7 @@ public static class HandbookExtensions
 
         List<JsonItemStackBuildStage> fuelStacks = blockPitKiln.GetFuelStacks(capi);
 
-        list.AddMarginAndTitle(capi, marginTop: 7, titletext: Text.Fuel);
+        list.AddMarginAndTitle(capi, marginTop: 7, titletext: Lang.Get("extrainfo:Fuel"));
 
         List<RichTextComponentBase> richText = [];
 
@@ -17,7 +17,7 @@ public static class HandbookExtensions
         {
             if (fuel.ResolvedItemstack == null || fuel.BurnTimeHours == null) continue;
             richText.AddStack(capi, openDetailPageFor, fuel.ResolvedItemstack);
-            richText.Add(new RichTextComponent(capi, Text.Hours((float)fuel.BurnTimeHours) + "\n", CairoFont.WhiteSmallText())
+            richText.Add(new RichTextComponent(capi, Lang.Get("{0} hours", (float)fuel.BurnTimeHours) + "\n", CairoFont.WhiteSmallText())
             {
                 VerticalAlign = EnumVerticalAlign.Middle
             });
@@ -33,7 +33,7 @@ public static class HandbookExtensions
 
         Dictionary<ItemStack[], PanningDrop[]> panningDrops = GetPanningDrops(capi, blockPan);
 
-        list.AddMarginAndTitle(capi, marginTop: 7, titletext: Text.PanningDrops);
+        list.AddMarginAndTitle(capi, marginTop: 7, titletext: Lang.Get("extrainfo:PanningDrops"));
 
         List<RichTextComponentBase> richText = [];
 
@@ -76,7 +76,7 @@ public static class HandbookExtensions
         if (Core.Config?.ShowHandbookTroughFeedOptions != true) return;
         if (inSlot.Itemstack!.Collectible is not BlockTroughBase blockTrough) return;
 
-        list.AddMarginAndTitle(capi, marginTop: 7, titletext: Constants.Text.ValidAnimalFeed);
+        list.AddMarginAndTitle(capi, marginTop: 7, titletext: Lang.Get("extrainfo:trough-validfeed"));
 
         foreach (ContentConfig config in blockTrough.contentConfigs)
         {
@@ -111,7 +111,7 @@ public static class HandbookExtensions
 
         if (entityTypes.Count == 0) return;
 
-        list.AddMarginAndTitle(capi, marginTop: 7, titletext: Text.EatenBy);
+        list.AddMarginAndTitle(capi, marginTop: 7, titletext: Lang.Get("Eaten by"));
 
         List<List<ItemStack>> groupedStacks = entityTypes.GetGroupedCreatureStacks(capi);
         for (int i = 0; i < groupedStacks.Count; i++)
@@ -151,7 +151,7 @@ public static class HandbookExtensions
 
         if (stacks.Count == 0) return;
 
-        list.AddMarginAndTitle(capi, marginTop: 7, titletext: Text.Food);
+        list.AddMarginAndTitle(capi, marginTop: 7, titletext: Lang.Get("extrainfo:Food"));
 
         List<List<ItemStack>> groupedStacks = stacks.GroupStacksByFirstCodePart();
         for (int i = 0; i < groupedStacks.Count; i++)
@@ -178,7 +178,7 @@ public static class HandbookExtensions
         List<BlockDropItemStack> harvestStacks = GetHarvestableDrops(capi, entityType);
         if (harvestStacks != null && harvestStacks.Count != 0)
         {
-            list.AddMarginAndTitle(capi, marginTop: 7, titletext: Text.ObtainedByKillingAndHarvesting);
+            list.AddMarginAndTitle(capi, marginTop: 7, titletext: Lang.Get("Obtained by killing & harvesting"));
 
             List<RichTextComponentBase> richTextHarvest = [];
 
@@ -197,7 +197,7 @@ public static class HandbookExtensions
 
         if (entityType.Drops != null && entityType.Drops.Length != 0)
         {
-            list.AddMarginAndTitle(capi, marginTop: 7, titletext: Text.ObtainedByKilling);
+            list.AddMarginAndTitle(capi, marginTop: 7, titletext: Lang.Get("Obtained by killing"));
 
             List<RichTextComponentBase> richTextOther = [];
 
@@ -246,13 +246,13 @@ public static class HandbookExtensions
 
         if (richTextHarvest.Count != 0)
         {
-            list.AddMarginAndTitle(capi, marginTop: 7, titletext: Text.ObtainedByKillingAndHarvesting);
+            list.AddMarginAndTitle(capi, marginTop: 7, titletext: Lang.Get("Obtained by killing & harvesting"));
             list.AddRange(richTextHarvest);
         }
 
         if (richTextDrop.Count != 0)
         {
-            list.AddMarginAndTitle(capi, marginTop: 7, titletext: Text.ObtainedByKilling);
+            list.AddMarginAndTitle(capi, marginTop: 7, titletext: Lang.Get("Obtained by killing"));
             list.AddRange(richTextDrop);
         }
     }
@@ -273,7 +273,7 @@ public static class HandbookExtensions
             List<TradeItem> buyingStacks = tradeProps.Buying.List.Where(tradeItem => tradeItem.Resolve(capi.World, "")).ToList();
             List<TradeItem> sellingStacks = tradeProps.Selling.List.Where(tradeItem2 => tradeItem2.Resolve(capi.World, "")).ToList();
 
-            list.AddMarginAndTitle(capi, marginTop: 7, titletext: Text.YouCanSell);
+            list.AddMarginAndTitle(capi, marginTop: 7, titletext: Lang.Get("You can Sell"));
             List<RichTextComponentBase> richTextSell = [];
             foreach (TradeItem item in buyingStacks)
             {
@@ -281,7 +281,7 @@ public static class HandbookExtensions
             }
             list.AddRange(richTextSell);
 
-            list.AddMarginAndTitle(capi, marginTop: 7, titletext: Text.YouCanBuy);
+            list.AddMarginAndTitle(capi, marginTop: 7, titletext: Lang.Get("You can Buy"));
             List<RichTextComponentBase> richTextBuy = [];
             foreach (TradeItem item in sellingStacks)
             {
@@ -306,7 +306,7 @@ public static class HandbookExtensions
         }
         if (any)
         {
-            list.AddMarginAndTitle(capi, marginTop: 7, titletext: Text.PurchasedBy);
+            list.AddMarginAndTitle(capi, marginTop: 7, titletext: Lang.Get("Purchased by"));
             list.AddRange(richTextSellBy);
         }
 
@@ -326,7 +326,7 @@ public static class HandbookExtensions
         }
         if (any)
         {
-            list.AddMarginAndTitle(capi, marginTop: 7, titletext: Text.SoldBy);
+            list.AddMarginAndTitle(capi, marginTop: 7, titletext: Lang.Get("Sold by"));
             list.AddRange(richTextBuyBy);
         }
     }
