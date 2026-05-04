@@ -1,11 +1,7 @@
 global using static ExtraInfo.Systems.Core;
 using ExtraInfo.Configuration;
 using HarmonyLib;
-using Newtonsoft.Json.Linq;
 using Vintagestory.API.Common;
-using Vintagestory.API.Datastructures;
-using Vintagestory.API.Util;
-using Vintagestory.GameContent;
 
 namespace ExtraInfo.Systems;
 
@@ -25,33 +21,7 @@ public class Core : ModSystem
         }
         
         HarmonyInstance.PatchAllUncategorized();
-    }
-
-    public override void Start(ICoreAPI api)
-    {
-        api.RegisterCollectibleBehaviorClass("ExtraInfo:TreeGrowthDescription", typeof(CollectibleBehaviorTreeGrowthDescription));
         Mod.Logger.Event("started mod");
-    }
-
-    public override void AssetsFinalize(ICoreAPI api)
-    {
-        if (api.Side != EnumAppSide.Client) return;
-
-        foreach (CollectibleObject obj in api.World.Collectibles)
-        {
-            if (obj == null || obj.Code == null) continue;
-
-            if (obj.Code.ToString().Contains("trader"))
-            {
-                obj.Attributes ??= new JsonObject(new JObject());
-                _ = obj.Attributes.Token?["handbook"] ??= new JObject();
-                _ = obj.Attributes.Token?["handbook"]?["exclude"] = JToken.FromObject(false);
-            }
-            if (obj is ItemTreeSeed or BlockPlant)
-            {
-                obj.CollectibleBehaviors = obj.CollectibleBehaviors.Append(new CollectibleBehaviorTreeGrowthDescription(obj));
-            }
-        }
     }
 
     public override void Dispose()

@@ -26,7 +26,7 @@ public static class HandbookTraderGoodsPatch
         CollectibleObject collObj = inSlot.Itemstack!.Collectible;
         if (collObj is ItemCreature itemCreature)
         {
-            if (!ModSystemTradeHandbookInfo.unresolvedTradeProps.TryGetValue(itemCreature.Code, out TradeProperties? tradeProps) || tradeProps == null)
+            if (!TradeHandbookInfoSystem.unresolvedTradeProps.TryGetValue(itemCreature.Code, out TradeProperties? tradeProps) || tradeProps == null)
             {
                 return;
             }
@@ -54,7 +54,7 @@ public static class HandbookTraderGoodsPatch
 
         bool any = false;
         List<RichTextComponentBase> richTextSellBy = [];
-        foreach ((AssetLocation traderCode, TradeProperties props) in ModSystemTradeHandbookInfo.unresolvedTradeProps)
+        foreach ((AssetLocation traderCode, TradeProperties props) in TradeHandbookInfoSystem.unresolvedTradeProps)
         {
             if (props.Buying.List.Any(x => x.Code == collObj.Code) == true)
             {
@@ -74,7 +74,7 @@ public static class HandbookTraderGoodsPatch
 
         any = false;
         List<RichTextComponentBase> richTextBuyBy = [];
-        foreach ((AssetLocation traderCode, TradeProperties props) in ModSystemTradeHandbookInfo.unresolvedTradeProps)
+        foreach ((AssetLocation traderCode, TradeProperties props) in TradeHandbookInfoSystem.unresolvedTradeProps)
         {
             if (props.Selling.List.Any(x => x.Code == collObj.Code) == true)
             {

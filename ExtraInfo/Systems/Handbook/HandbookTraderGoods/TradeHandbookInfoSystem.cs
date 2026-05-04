@@ -6,12 +6,12 @@ using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Datastructures;
 using Vintagestory.GameContent;
 
-namespace ExtraInfo.Systems;
+namespace ExtraInfo.Systems.Handbook.HandbookTraderGoods;
 
 /// <summary>
 /// Copy pasted from <see cref="TradeHandbookInfo"/>
 /// </summary>
-public class ModSystemTradeHandbookInfo : ModSystem
+public class TradeHandbookInfoSystem : ModSystem
 {
     public static Dictionary<AssetLocation, TradeProperties> unresolvedTradeProps = [];
 #nullable disable
@@ -39,8 +39,8 @@ public class ModSystemTradeHandbookInfo : ModSystem
             {
                 try
                 {
-                    filepath = ((stringpath == null) ? null : AssetLocation.Create(stringpath, entitytype.Code.Domain));
-                    tradeProps = ((!(filepath != null)) ? entitytype.Attributes?["tradeProps"].AsObject<TradeProperties>(null, entitytype.Code.Domain) : capi.Assets.Get(filepath.WithPathAppendixOnce(".json")).ToObject<TradeProperties>());
+                    filepath = stringpath == null ? null : AssetLocation.Create(stringpath, entitytype.Code.Domain);
+                    tradeProps = filepath == null ? entitytype.Attributes?["tradeProps"].AsObject<TradeProperties>(null, entitytype.Code.Domain) : capi.Assets.Get(filepath.WithPathAppendixOnce(".json")).ToObject<TradeProperties>();
                 }
                 catch (Exception e)
                 {

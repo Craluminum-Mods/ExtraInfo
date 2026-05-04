@@ -5,7 +5,7 @@ using Vintagestory.API.MathTools;
 using Vintagestory.GameContent;
 using static ExtraInfo.TextExtensions;
 
-namespace ExtraInfo;
+namespace ExtraInfo.Systems.TreeStats;
 
 public class CollectibleBehaviorTreeGrowthDescription : CollectibleBehavior
 {
