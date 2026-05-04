@@ -32,7 +32,7 @@ public static class HandbookTroughFeedOptionsPatch
             if (config.Content.Code.ToShortString().Contains("-*"))
             {
                 List<ItemStack> stacks = GetWildcardTroughStacks(capi, config);
-                list.AddStacks(capi, openDetailPageFor, stacks.ToArray());
+                list.AddStacks(capi, openDetailPageFor, [.. stacks]);
             }
             else
             {

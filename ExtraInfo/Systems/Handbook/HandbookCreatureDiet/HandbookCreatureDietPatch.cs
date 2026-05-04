@@ -59,7 +59,7 @@ public static class HandbookCreatureDietPatch
             }
             else
             {
-                list.AddStacks(capi, openDetailPageFor, groupedStacks[i].ToArray());
+                list.AddStacks(capi, openDetailPageFor, [.. groupedStacks[i]]);
             }
         }
     }

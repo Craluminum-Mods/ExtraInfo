@@ -47,7 +47,7 @@ public static class HandbookEatableByCreaturesPatch
             }
             else
             {
-                list.AddStacks(capi, openDetailPageFor, groupedStacks[i].ToArray());
+                list.AddStacks(capi, openDetailPageFor, [.. groupedStacks[i]]);
             }
         }
     }

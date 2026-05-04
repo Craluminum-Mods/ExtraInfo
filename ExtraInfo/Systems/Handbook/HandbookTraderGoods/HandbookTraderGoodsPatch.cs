@@ -32,8 +32,8 @@ public static class HandbookTraderGoodsPatch
             }
 
             ItemStack gear = new(capi.World.GetItem(new AssetLocation("gear-rusty")));
-            List<TradeItem> buyingStacks = tradeProps.Buying.List.Where(tradeItem => tradeItem.Resolve(capi.World, "")).ToList();
-            List<TradeItem> sellingStacks = tradeProps.Selling.List.Where(tradeItem2 => tradeItem2.Resolve(capi.World, "")).ToList();
+            List<TradeItem> buyingStacks = [.. tradeProps.Buying.List.Where(tradeItem => tradeItem.Resolve(capi.World, ""))];
+            List<TradeItem> sellingStacks = [.. tradeProps.Selling.List.Where(tradeItem2 => tradeItem2.Resolve(capi.World, ""))];
 
             list.AddMarginAndTitle(capi, marginTop: 7, titletext: Lang.Get("You can Sell"));
             List<RichTextComponentBase> richTextSell = [];

@@ -92,9 +92,7 @@ public static partial class HandbookPanningDropsPatch
 
             foreach (var entry in dropsBySourceMat)
             {
-                var matchingBlocks = capi.World.Blocks
-                    .Where(b => b?.Code != null && b.WildCardMatch(entry.Key) && !b.Variant.ContainsKey("layer"))
-                    .ToList();
+                List<Block> matchingBlocks = [.. capi.World.Blocks.Where(b => b?.Code != null && b.WildCardMatch(entry.Key) && !b.Variant.ContainsKey("layer"))];
 
                 if (matchingBlocks.Count == 0) continue;
 
@@ -106,7 +104,7 @@ public static partial class HandbookPanningDropsPatch
 
                     if (original.Code.Path.Contains("{rocktype}"))
                     {
-                        List<PanningDropExt> variantDrops = new();
+                        List<PanningDropExt> variantDrops = [];
                         foreach (var block in matchingBlocks)
                         {
                             string rock = block.Variant.Get("rock", "granite");
@@ -125,7 +123,7 @@ public static partial class HandbookPanningDropsPatch
 
                 finalGroups.Add(new PanningGroup
                 {
-                    Sources = matchingBlocks.Select(b => new ItemStack(b)).ToArray(),
+                    Sources = [.. matchingBlocks.Select(b => new ItemStack(b))],
                     Drops = resolvedDrops
                 });
             }
