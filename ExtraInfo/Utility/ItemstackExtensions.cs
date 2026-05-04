@@ -1,9 +1,15 @@
+using System.Collections.Generic;
+using Vintagestory.API.Client;
+using Vintagestory.API.Common;
+using Vintagestory.API.Common.Entities;
+
 namespace ExtraInfo;
 
 public static class ItemstackExtensions
 {
-    public static ItemStack? GetCreatureStack(this EntityProperties entityType, ICoreClientAPI capi)
+    public static ItemStack? GetCreatureStack(this EntityProperties? entityType, ICoreClientAPI capi)
     {
+        if (entityType == null) return null;
         AssetLocation location = entityType.Code.Clone().WithPathPrefix("creature-");
         Item? item = capi.World.GetItem(location);
         if (item == null) return null;
@@ -12,7 +18,7 @@ public static class ItemstackExtensions
 
     public static List<List<ItemStack>> GroupStacksByFirstCodePart(this List<ItemStack> stacks)
     {
-        Dictionary<string, List<ItemStack>> groups = new();
+        Dictionary<string, List<ItemStack>> groups = [];
 
         foreach (ItemStack stack in stacks)
         {
@@ -25,12 +31,12 @@ public static class ItemstackExtensions
             groups[firstCodePart].Add(stack);
         }
 
-        return groups.Values.ToList();
+        return [.. groups.Values];
     }
 
     public static List<List<ItemStack>> GetGroupedCreatureStacks(this List<EntityProperties> entityTypes, ICoreClientAPI capi)
     {
-        Dictionary<string, List<ItemStack>> groups = new();
+        Dictionary<string, List<ItemStack>> groups = [];
         foreach (EntityProperties entityType in entityTypes)
         {
             ItemStack? stack = entityType.GetCreatureStack(capi);
@@ -50,6 +56,6 @@ public static class ItemstackExtensions
             groups[groupcode].Add(stack);
 
         }
-        return groups.Values.ToList();
+        return [.. groups.Values];
     }
 }

@@ -1,4 +1,12 @@
-﻿namespace ExtraInfo.Systems.CokeOvenProgress;
+﻿using HarmonyLib;
+using System;
+using System.Text;
+using Vintagestory.API.Common;
+using Vintagestory.API.Config;
+using Vintagestory.API.MathTools;
+using Vintagestory.GameContent;
+
+namespace ExtraInfo.Systems.CokeOvenProgress;
 
 [HarmonyPatch(typeof(Block), nameof(Block.GetPlacedBlockInfo))]
 public static class CokeOvenProgressPatch
@@ -6,7 +14,7 @@ public static class CokeOvenProgressPatch
     [HarmonyPostfix]
     public static void Postfix(ref string __result, IWorldAccessor world, BlockPos pos)
     {
-        if (Core.Config?.ShowCokeOvenProgress != true) return;
+        if (Config?.ShowCokeOvenProgress != true) return;
 
         if (world.BlockAccessor.GetBlock(pos) is not BlockCokeOvenDoor) return;
 

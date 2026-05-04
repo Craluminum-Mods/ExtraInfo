@@ -1,3 +1,10 @@
+using System.Text;
+using Vintagestory.API.Common;
+using Vintagestory.API.Config;
+using Vintagestory.API.MathTools;
+using Vintagestory.GameContent;
+using static ExtraInfo.TextExtensions;
+
 namespace ExtraInfo;
 
 public class CollectibleBehaviorTreeGrowthDescription : CollectibleBehavior
@@ -6,11 +13,7 @@ public class CollectibleBehaviorTreeGrowthDescription : CollectibleBehavior
 
     public override void GetHeldItemInfo(ItemSlot inSlot, StringBuilder dsc, IWorldAccessor world, bool withDebugInfo)
     {
-        if (Core.Config == null || !Core.Config.ShowTreeStats)
-        {
-            return;
-        }
-
+        if (Config?.ShowTreeStats != true) return;
         AppendInfo(inSlot, dsc, world);
     }
 

@@ -1,6 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HarmonyLib;
 using System.Text;
+using Vintagestory.API.Common;
+using Vintagestory.API.Config;
+using Vintagestory.GameContent;
+using static ExtraInfo.TextExtensions;
 
 namespace ExtraInfo.Systems.StackMetalUnits;
 
@@ -10,7 +13,7 @@ public static class NuggetMetalUnitsPatch
     [HarmonyPostfix]
     public static void Postfix(ItemSlot inSlot, IWorldAccessor world, StringBuilder dsc)
     {
-        if (Core.Config?.ShowStackMetalUnits != true) return;
+        if (Config?.ShowStackMetalUnits != true) return;
         if (inSlot.Itemstack == null || inSlot.StackSize <= 1) return;
 
         CombustibleProperties props = inSlot.Itemstack.Collectible.GetCombustibleProperties(world, inSlot.Itemstack, null);

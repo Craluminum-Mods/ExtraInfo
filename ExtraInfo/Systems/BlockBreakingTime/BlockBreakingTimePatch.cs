@@ -1,4 +1,11 @@
-﻿using System.Security.Cryptography;
+﻿using HarmonyLib;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using Vintagestory.API.Common;
+using Vintagestory.API.Config;
+using Vintagestory.API.MathTools;
+using Vintagestory.Client.NoObf;
 
 namespace ExtraInfo.Systems.BreakingTime;
 
@@ -8,7 +15,7 @@ public static class BlockBreakingTimePatch
     [HarmonyPostfix]
     public static void Postfix(ref string __result, IWorldAccessor world, BlockPos pos)
     {
-        if (Core.Config?.ShowBlockBreakingTime != true) return;
+        if (Config?.ShowBlockBreakingTime != true) return;
 
         var damagedBlocks = (world as ClientMain)?.GetField<Dictionary<BlockPos, BlockDamage>>("damagedBlocks");
         if (damagedBlocks == null || !damagedBlocks.TryGetValue(pos, out var damage)) return;

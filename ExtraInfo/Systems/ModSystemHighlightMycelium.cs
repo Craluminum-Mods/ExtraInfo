@@ -1,6 +1,15 @@
-namespace ExtraInfo;
+using System;
+using System.Collections.Generic;
+using Vintagestory.API.Client;
+using Vintagestory.API.Common;
+using Vintagestory.API.Config;
+using Vintagestory.API.MathTools;
+using Vintagestory.GameContent;
+using static ExtraInfo.Constants;
 
-public class HighlightMycelium : ModSystemHighlight
+namespace ExtraInfo.Systems;
+
+public class ModSystemHighlightMycelium : ModSystemHighlight
 {
     public override string ThreadName => "ExtraInfo:Mycelium";
 
@@ -13,10 +22,7 @@ public class HighlightMycelium : ModSystemHighlight
 
     public override void StartClientSide(ICoreClientAPI api)
     {
-        if (Core.Config == null || !Core.Config.HighlightMycelium)
-        {
-            return;
-        }
+        if (Config?.HighlightMycelium != true) return;
 
         api.Input.RegisterHotKey(HotkeyCode, ToggleName(Name), GlKeys.M, HotkeyType.HelpAndOverlays, shiftPressed: true);
         api.Input.SetHotKeyHandler(HotkeyCode, _ => ToggleRun(api));
@@ -24,8 +30,8 @@ public class HighlightMycelium : ModSystemHighlight
 
     public override void OnRunning(ICoreClientAPI capi)
     {
-        List<BlockPos> positions = new();
-        List<int> colors = new();
+        List<BlockPos> positions = [];
+        List<int> colors = [];
         BlockPos playerPos = capi.World.Player.Entity.Pos.AsBlockPos;
 
         capi.World.BlockAccessor.WalkBlocks(playerPos.AddCopy(-Radius, -Radius, -Radius), playerPos.AddCopy(Radius, Radius, Radius), (_, x, y, z) =>
@@ -54,5 +60,8 @@ public class HighlightMycelium : ModSystemHighlight
         capi.Event.EnqueueMainThreadTask(new Action(() => capi.World.HighlightBlocks(capi.World.Player, 5229, positions, colors)), ThreadName);
     }
 
-    private static BlockEntityMycelium? GetMycelium(BlockPos pos, ICoreAPI api) => api.World.BlockAccessor.GetBlockEntity(pos) as BlockEntityMycelium;
+    private static BlockEntityMycelium? GetMycelium(BlockPos pos, ICoreAPI api)
+    {
+        return api.World.BlockAccessor.GetBlockEntity(pos) as BlockEntityMycelium;
+    }
 }

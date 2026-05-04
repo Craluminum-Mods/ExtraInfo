@@ -1,4 +1,12 @@
-﻿namespace ExtraInfo.Systems.CharcoalPitProgress;
+﻿using HarmonyLib;
+using System;
+using System.Text;
+using Vintagestory.API.Common;
+using Vintagestory.API.Config;
+using Vintagestory.API.MathTools;
+using Vintagestory.GameContent;
+
+namespace ExtraInfo.Systems.CharcoalPitProgress;
 
 [HarmonyPatch(typeof(Block), nameof(Block.GetPlacedBlockInfo))]
 public static class CharcoalPitProgressPatch
@@ -6,7 +14,7 @@ public static class CharcoalPitProgressPatch
     [HarmonyPostfix]
     public static void Postfix(ref string __result, IWorldAccessor world, BlockPos pos)
     {
-        if (Core.Config?.ShowCharcoalPitProgress != true) return;
+        if (Config?.ShowCharcoalPitProgress != true) return;
 
         if (world.BlockAccessor.GetBlockEntity(pos.DownCopy()) is not BlockEntityCharcoalPit blockEntity)
             return;

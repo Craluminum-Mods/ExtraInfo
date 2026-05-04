@@ -1,6 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HarmonyLib;
+using System;
 using System.Text;
+using Vintagestory.API.Config;
+using Vintagestory.GameContent;
 
 namespace ExtraInfo.Systems.SkepProgress;
 
@@ -10,7 +12,7 @@ public static class SkepProgressPatch
     [HarmonyPostfix]
     public static void Postfix(BlockEntityBeehive __instance, StringBuilder dsc)
     {
-        if (Core.Config?.ShowSkepProgress != true) return;
+        if (Config?.ShowSkepProgress != true) return;
 
         if (__instance.Harvestable) return;
 

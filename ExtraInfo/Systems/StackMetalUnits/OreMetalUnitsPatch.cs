@@ -1,4 +1,11 @@
-﻿namespace ExtraInfo.Systems.StackMetalUnits;
+﻿using HarmonyLib;
+using System.Text;
+using Vintagestory.API.Common;
+using Vintagestory.API.Config;
+using Vintagestory.GameContent;
+using static ExtraInfo.TextExtensions;
+
+namespace ExtraInfo.Systems.StackMetalUnits;
 
 [HarmonyPatch(typeof(ItemOre), nameof(ItemOre.GetHeldItemInfo))]
 public static class OreMetalUnitsPatch
@@ -6,7 +13,7 @@ public static class OreMetalUnitsPatch
     [HarmonyPostfix]
     public static void Postfix(ItemSlot inSlot, IWorldAccessor world, StringBuilder dsc)
     {
-        if (Core.Config?.ShowStackMetalUnits != true) return;
+        if (Config?.ShowStackMetalUnits != true) return;
         if (inSlot.Itemstack == null || inSlot.StackSize <= 1) return;
 
         var attr = inSlot.Itemstack.ItemAttributes;

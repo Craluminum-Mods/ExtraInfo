@@ -1,27 +1,19 @@
-global using HarmonyLib;
-global using System;
-global using System.Collections.Generic;
-global using System.Linq;
-global using System.Text;
-global using Vintagestory.API.Client;
-global using Vintagestory.API.Common;
-global using Vintagestory.API.Common.Entities;
-global using Vintagestory.API.Config;
-global using Vintagestory.API.Datastructures;
-global using Vintagestory.API.MathTools;
-global using Vintagestory.API.Util;
-global using Vintagestory.Client.NoObf;
-global using Vintagestory.GameContent;
-global using static ExtraInfo.Constants;
-global using static ExtraInfo.TextExtensions;
+global using static ExtraInfo.Systems.Core;
 using ExtraInfo.Configuration;
+using HarmonyLib;
 using Newtonsoft.Json.Linq;
+using Vintagestory.API.Common;
+using Vintagestory.API.Datastructures;
+using Vintagestory.API.Util;
+using Vintagestory.GameContent;
 
-namespace ExtraInfo;
+namespace ExtraInfo.Systems;
 
 public class Core : ModSystem
 {
-    public static Config Config { get; set; }
+    public Harmony HarmonyInstance => new(Mod.Info.ModID);
+
+    public static Config? Config { get; set; }
 
     public override void StartPre(ICoreAPI api)
     {
@@ -31,6 +23,8 @@ public class Core : ModSystem
         {
             _ = new ConfigLibCompatibility(api);
         }
+        
+        HarmonyInstance.PatchAllUncategorized();
     }
 
     public override void Start(ICoreAPI api)
@@ -41,10 +35,7 @@ public class Core : ModSystem
 
     public override void AssetsFinalize(ICoreAPI api)
     {
-        if (api.Side != EnumAppSide.Client)
-        {
-            return;
-        }
+        if (api.Side != EnumAppSide.Client) return;
 
         foreach (CollectibleObject obj in api.World.Collectibles)
         {
@@ -53,13 +44,18 @@ public class Core : ModSystem
             if (obj.Code.ToString().Contains("trader"))
             {
                 obj.Attributes ??= new JsonObject(new JObject());
-                obj.Attributes.Token["handbook"] ??= new JObject();
-                obj.Attributes.Token["handbook"]["exclude"] = JToken.FromObject(false);
+                _ = obj.Attributes.Token?["handbook"] ??= new JObject();
+                _ = obj.Attributes.Token?["handbook"]?["exclude"] = JToken.FromObject(false);
             }
             if (obj is ItemTreeSeed or BlockPlant)
             {
                 obj.CollectibleBehaviors = obj.CollectibleBehaviors.Append(new CollectibleBehaviorTreeGrowthDescription(obj));
             }
         }
+    }
+
+    public override void Dispose()
+    {
+        HarmonyInstance.UnpatchAll(HarmonyInstance.Id);
     }
 }

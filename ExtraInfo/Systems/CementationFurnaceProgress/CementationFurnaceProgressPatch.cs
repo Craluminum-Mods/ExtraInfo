@@ -1,3 +1,11 @@
+using HarmonyLib;
+using System;
+using System.Text;
+using Vintagestory.API.Common;
+using Vintagestory.API.Config;
+using Vintagestory.API.MathTools;
+using Vintagestory.GameContent;
+
 namespace ExtraInfo.Systems.CementationFurnaceProgress;
 
 [HarmonyPatch(typeof(Block), nameof(Block.GetPlacedBlockInfo))]
@@ -8,7 +16,7 @@ public static class CementationFurnaceProgressPatch
     [HarmonyPostfix]
     public static void Postfix(ref string __result, IWorldAccessor world, BlockPos pos)
     {
-        if (Core.Config?.ShowCementationFurnaceProgress != true) return;
+        if (Config?.ShowCementationFurnaceProgress != true) return;
 
         Block block = world.BlockAccessor.GetBlock(pos);
         if (block?.Code?.Path == null || !block.Code.Path.Contains("door")) return;
@@ -43,7 +51,7 @@ public static class CementationFurnaceProgressPatch
 
                 double hoursRemaining = Math.Max(0, (1.0 - progress) * TotalCarburizationHours);
 
-                string statusKey = receivesHeat ? "extrainfo:WillFinishIn" : "extrainfo:CementationFurnacePaused";
+                string statusKey = receivesHeat ? "extrainfo:WillFinishIn" : "Out of fuel.";
                 double displaySeconds = receivesHeat ? hoursRemaining * 3600 : 0;
 
                 sb.AppendLine(TimeFormatter.BuildVerticalTimeBlock(
@@ -60,7 +68,7 @@ public static class CementationFurnaceProgressPatch
                 {
                     if (fuelPile.IsBurning)
                     {
-                        sb.AppendFuelProgress(fuelPile, Lang.Get("Fuel"));
+                        InfoExtensions.AppendFuelProgress(sb, fuelPile, Lang.Get("Fuel"));
                     }
                     else if (!processComplete)
                     {

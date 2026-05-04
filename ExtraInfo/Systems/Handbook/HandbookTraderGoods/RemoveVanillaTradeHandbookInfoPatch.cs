@@ -1,17 +1,18 @@
-﻿namespace ExtraInfo;
+﻿using HarmonyLib;
+using Vintagestory.GameContent;
 
-[HarmonyPatchCategory("RemoveTradeHandbookInfo")]
+namespace ExtraInfo.Systems.Handbook.HandbookTraderGoods;
+
 [HarmonyPatch(typeof(TradeHandbookInfo), "AddTraderHandbookInfo")]
 public static class RemoveVanillaTradeHandbookInfoPatch
 {
     [HarmonyPrefix]
     public static bool Prefix()
     {
-        if (Core.Config == null || !Core.Config.ShowHandbookTraderGoods)
+        if (Config?.ShowHandbookTraderGoods != true)
         {
             return true;
         }
-
         return false;
     }
 }

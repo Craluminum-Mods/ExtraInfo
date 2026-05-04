@@ -1,16 +1,18 @@
+using HarmonyLib;
+using Vintagestory.API.Client;
+using Vintagestory.API.Common;
+using Vintagestory.API.Common.Entities;
+using Vintagestory.GameContent;
+
 namespace ExtraInfo;
 
-[HarmonyPatchCategory("OpenHandbookForEntity")]
 [HarmonyPatch(typeof(ModSystemSurvivalHandbook), methodName: "OnSurvivalHandbookHotkey")]
 public static class OpenHandbookForEntityPatch
 {
     [HarmonyPrefix]
     public static bool Prefix(ref bool __result, ModSystemSurvivalHandbook __instance)
     {
-        if (Core.Config == null || !Core.Config.OpenHandbookPageForEntity)
-        {
-            return true;
-        }
+        if (Config?.OpenHandbookPageForEntity != true) return true;
 
         GuiDialogHandbook dialog = __instance.GetField<GuiDialogHandbook>("dialog");
         ICoreClientAPI capi = __instance.GetField<ICoreClientAPI>("capi");
@@ -19,7 +21,7 @@ public static class OpenHandbookForEntityPatch
         {
             Entity entity = capi.World.Player.CurrentEntitySelection.Entity;
 
-            ItemStack stack = capi.World.GetEntityType(entity.Code).GetCreatureStack(capi);
+            ItemStack? stack = capi.World.GetEntityType(entity.Code)?.GetCreatureStack(capi);
             if (stack == null)
             {
                 __result = true;

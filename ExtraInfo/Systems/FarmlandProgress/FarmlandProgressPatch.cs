@@ -1,6 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HarmonyLib;
+using System;
 using System.Text;
+using Vintagestory.API.Common;
+using Vintagestory.API.Config;
+using Vintagestory.GameContent;
 
 namespace ExtraInfo.Systems.FarmlandProgress;
 
@@ -10,7 +13,7 @@ public static class FarmlandProgressPatch
     [HarmonyPostfix]
     public static void Postfix(BlockEntityFarmland __instance, StringBuilder dsc)
     {
-        if (Core.Config?.ShowFarmlandProgress != true) return;
+        if (Config?.ShowFarmlandProgress != true) return;
         if (__instance?.Api == null) return;
 
         Block cropBlock = __instance.GetCrop();

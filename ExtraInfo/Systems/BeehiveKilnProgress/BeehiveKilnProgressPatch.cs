@@ -1,6 +1,6 @@
-﻿using System;
+﻿using HarmonyLib;
+using System;
 using System.Text;
-using HarmonyLib;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.GameContent;
@@ -13,7 +13,7 @@ public static class PlacedBlockInfoPatch
     [HarmonyPostfix]
     public static void Postfix(BlockEntityBeeHiveKiln __instance, IPlayer forPlayer, StringBuilder dsc, bool ___receivesHeat)
     {
-        if (Core.Config?.ShowBeehiveKilnProgress != true) return;
+        if (Config?.ShowBeehiveKilnProgress != true) return;
 
         double targetHours = BlockEntityBeeHiveKiln.ItemBurnTimeHours;
 

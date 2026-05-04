@@ -1,14 +1,22 @@
-﻿namespace ExtraInfo;
+﻿using System;
+using System.Collections.Generic;
+using Vintagestory.API.Client;
+using Vintagestory.API.Common;
+using Vintagestory.API.Common.Entities;
+using Vintagestory.API.Datastructures;
+using Vintagestory.GameContent;
+
+namespace ExtraInfo.Systems;
 
 /// <summary>
-/// Copy pasted from TradeHandbookInfo
+/// Copy pasted from <see cref="TradeHandbookInfo"/>
 /// </summary>
-public class TraderInfoSystem : ModSystem
+public class ModSystemTradeHandbookInfo : ModSystem
 {
-    public static Dictionary<AssetLocation, TradeProperties> unresolvedTradeProps = new();
-
+    public static Dictionary<AssetLocation, TradeProperties> unresolvedTradeProps = [];
+#nullable disable
     private ICoreClientAPI capi;
-
+#nullable enable
     public override double ExecuteOrder() => 0.15;
 
     public override bool ShouldLoad(EnumAppSide forSide) => forSide == EnumAppSide.Client;
@@ -23,16 +31,16 @@ public class TraderInfoSystem : ModSystem
     {
         foreach (EntityProperties entitytype in capi.World.EntityTypes)
         {
-            TradeProperties tradeProps = null;
-            string stringpath = entitytype.Attributes?["tradePropsFile"].AsString();
-            AssetLocation filepath = null;
-            JsonObject attributes = entitytype.Attributes;
+            TradeProperties? tradeProps = null;
+            string? stringpath = entitytype.Attributes?["tradePropsFile"].AsString();
+            AssetLocation? filepath = null;
+            JsonObject? attributes = entitytype.Attributes;
             if ((attributes != null && attributes["tradeProps"].Exists) || stringpath != null)
             {
                 try
                 {
                     filepath = ((stringpath == null) ? null : AssetLocation.Create(stringpath, entitytype.Code.Domain));
-                    tradeProps = ((!(filepath != null)) ? entitytype.Attributes["tradeProps"].AsObject<TradeProperties>(null, entitytype.Code.Domain) : capi.Assets.Get(filepath.WithPathAppendixOnce(".json")).ToObject<TradeProperties>());
+                    tradeProps = ((!(filepath != null)) ? entitytype.Attributes?["tradeProps"].AsObject<TradeProperties>(null, entitytype.Code.Domain) : capi.Assets.Get(filepath.WithPathAppendixOnce(".json")).ToObject<TradeProperties>());
                 }
                 catch (Exception e)
                 {

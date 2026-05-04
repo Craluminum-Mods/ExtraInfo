@@ -1,6 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HarmonyLib;
+using System;
 using System.Text;
+using Vintagestory.API.Common;
+using Vintagestory.API.Config;
+using Vintagestory.GameContent;
 
 namespace ExtraInfo.Systems.BlockTransitionInfo;
 
@@ -10,7 +13,7 @@ public static class BlockTransitionInfoPatch
     [HarmonyPostfix]
     public static void Postfix(BlockEntity __instance, StringBuilder dsc)
     {
-        if (Core.Config?.ShowBlockTransitionInfo != true) return;
+        if (Config?.ShowBlockTransitionInfo != true) return;
 
         if (__instance is not BlockEntityTransient blockEntity) return;
 

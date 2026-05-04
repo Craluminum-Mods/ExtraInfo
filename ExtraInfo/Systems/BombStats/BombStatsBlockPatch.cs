@@ -1,6 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HarmonyLib;
 using System.Text;
+using Vintagestory.API.Common;
+using Vintagestory.GameContent;
 
 namespace ExtraInfo.Systems.BombStats;
 
@@ -10,7 +11,7 @@ public static class BombStatsBlockPatch
     [HarmonyPostfix]
     public static void Postfix(BlockEntity __instance, StringBuilder dsc)
     {
-        if (Core.Config?.ShowBombStats != true) return;
+        if (Config?.ShowBombStats != true) return;
         if (__instance is not BlockEntityBomb blockEntity) return;
 
         dsc.AppendLine(BombExtensions.BlastRadius(blockEntity.BlastRadius))

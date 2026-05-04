@@ -1,3 +1,5 @@
+using Vintagestory.API.Config;
+
 namespace ExtraInfo;
 
 public static class Constants

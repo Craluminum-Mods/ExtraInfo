@@ -1,4 +1,8 @@
+using System;
 using System.Threading;
+using Vintagestory.API.Client;
+using Vintagestory.API.Common;
+using static ExtraInfo.Constants;
 
 namespace ExtraInfo;
 
@@ -58,6 +62,6 @@ public class ModSystemHighlight : ModSystem, IThreadHighlight
 
     private void ClearHighlights(ICoreClientAPI capi)
     {
-        capi.Event.EnqueueMainThreadTask(new Action(() => capi.World.HighlightBlocks(capi.World.Player, 5229, new List<BlockPos>())), ThreadName);
+        capi.Event.EnqueueMainThreadTask(new Action(() => capi.World.HighlightBlocks(capi.World.Player, 5229, [])), ThreadName);
     }
 }

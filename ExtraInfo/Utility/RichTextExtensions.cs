@@ -1,26 +1,13 @@
 using Cairo;
+using System.Collections.Generic;
+using Vintagestory.API.Client;
+using Vintagestory.API.Common;
+using Vintagestory.GameContent;
 
 namespace ExtraInfo;
 
 public static class RichTextExtensions
 {
-    public static void AddTraderInfo(this List<RichTextComponentBase> richText, ICoreClientAPI capi, TradeItem val, ActionConsumable<string> openDetailPageFor, ItemStack gear)
-    {
-        if (val.ResolvedItemstack == null) return;
-
-        richText.AddStack(capi, openDetailPageFor, val.ResolvedItemstack, showStacksize: true);
-        richText.Add(new RichTextComponent(capi, "\t" + GetMinMax(val.Stock), CairoFont.WhiteSmallText())
-        {
-            VerticalAlign = EnumVerticalAlign.Middle
-        });
-        richText.AddEqualSign(capi);
-        richText.AddStack(capi, openDetailPageFor, gear);
-        richText.Add(new RichTextComponent(capi, GetMinMax(val.Price) + "\n", CairoFont.WhiteSmallText())
-        {
-            VerticalAlign = EnumVerticalAlign.Middle
-        });
-    }
-
     public static void AddMarginAndTitle(this List<RichTextComponentBase> list, ICoreClientAPI capi, float marginTop, string titletext)
     {
         list.Add(new ClearFloatTextComponent(capi, marginTop));

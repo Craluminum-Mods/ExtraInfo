@@ -1,4 +1,8 @@
-﻿namespace ExtraInfo;
+﻿using System;
+using System.Text;
+using Vintagestory.API.Config;
+
+namespace ExtraInfo;
 
 public static class TimeFormatter
 {

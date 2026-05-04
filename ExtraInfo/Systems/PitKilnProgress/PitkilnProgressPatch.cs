@@ -1,3 +1,10 @@
+using HarmonyLib;
+using System;
+using System.Text;
+using Vintagestory.API.Common;
+using Vintagestory.API.Config;
+using Vintagestory.GameContent;
+
 namespace ExtraInfo.Systems.PitKilnProgress;
 
 [HarmonyPatch(typeof(BlockEntityPitKiln), nameof(BlockEntityPitKiln.GetBlockInfo))]
@@ -6,7 +13,7 @@ public static class PitKilnProgressPatch
     [HarmonyPostfix]
     public static void Postfix(BlockEntityPitKiln __instance, StringBuilder dsc)
     {
-        if (Core.Config?.ShowPitKilnProgress != true) return;
+        if (Config?.ShowPitKilnProgress != true) return;
         if (__instance?.Api == null || !__instance.Lit) return;
 
         ICoreAPI api = __instance.Api;

@@ -1,3 +1,10 @@
+using HarmonyLib;
+using System.Text;
+using Vintagestory.API.Common;
+using Vintagestory.API.Config;
+using Vintagestory.API.MathTools;
+using Vintagestory.GameContent;
+
 namespace ExtraInfo.Systems.PileTotalItems;
 
 [HarmonyPatch(typeof(BlockEntityGroundStorage), nameof(BlockEntityGroundStorage.GetBlockInfo))]
@@ -6,7 +13,7 @@ public static class PileTotalItemsPatch
     [HarmonyPostfix]
     public static void Postfix(BlockEntityGroundStorage __instance, StringBuilder dsc)
     {
-        if (Core.Config?.ShowPileTotalItems != true) return;
+        if (Config?.ShowPileTotalItems != true) return;
         if (__instance == null) return;
         if (__instance.StorageProps?.Layout != EnumGroundStorageLayout.Stacking) return;
         if (__instance.Inventory?.Count == 0) return;
@@ -58,11 +65,11 @@ public static class PileTotalItemsPatch
         }
 
         dsc.AppendLine();
-        dsc.Append(ColorText("extrainfo:tabname-general")); // Everything
+        dsc.Append(Lang.Get("tabname-general")); // Everything
         dsc.Append(": ");
         dsc.Append(totalAmount).AppendLine();
 
-        dsc.Append(ColorText("extrainfo:Current"));
+        dsc.Append(Lang.Get("extrainfo:Current"));
         dsc.Append(": ");
         dsc.Append(totalAmountSame).AppendLine();
     }

@@ -1,21 +1,18 @@
 using ConfigLib;
 using ExtraInfo.Configuration;
 using ImGuiNET;
+using Vintagestory.API.Common;
+using Vintagestory.API.Config;
 
-namespace ExtraInfo;
+namespace ExtraInfo.Systems;
 
 public class ConfigLibCompatibility
 {
-    public const string Modid = "extrainfo";
-
-    private const string prefixSetting = $"{Modid}:Config.Setting.";
-    private const string categoryCrafting = $"{Modid}:Config.Category.Crafting";
-    private const string categoryHandbook = $"{Modid}:Config.Category.Handbook";
-    private const string categoryMisc = $"{Modid}:Config.Category.Miscellaneous";
+    public const string MOD_ID = "extrainfo";
 
     public ConfigLibCompatibility(ICoreAPI api)
     {
-        api.ModLoader.GetModSystem<ConfigLibModSystem>().RegisterCustomConfig(Modid, (id, buttons) =>
+        api.ModLoader.GetModSystem<ConfigLibModSystem>().RegisterCustomConfig(MOD_ID, (id, buttons) =>
         {
             if (buttons.Save) ModConfig.WriteConfig(api, Core.Config);
             if (buttons.Restore) Core.Config = ModConfig.ReadConfig(api);
@@ -29,7 +26,7 @@ public class ConfigLibCompatibility
         config.HighlightReinforcedBlocks = OnCheckBox(id, config.HighlightReinforcedBlocks, nameof(config.HighlightReinforcedBlocks));
         config.HighlightMycelium = OnCheckBox(id, config.HighlightMycelium, nameof(config.HighlightMycelium));
         ImGui.NewLine();
-        ImGui.TextWrapped(Lang.Get(categoryHandbook));
+        ImGui.TextWrapped(Lang.Get($"{MOD_ID}:Config.Category.Handbook"));
         config.OpenHandbookPageForEntity = OnCheckBox(id, config.OpenHandbookPageForEntity, nameof(config.OpenHandbookPageForEntity));
         config.ShowHandbookCreatureDiet = OnCheckBox(id, config.ShowHandbookCreatureDiet, nameof(config.ShowHandbookCreatureDiet));
         config.ShowHandbookEatableByCreatures = OnCheckBox(id, config.ShowHandbookEatableByCreatures, nameof(config.ShowHandbookEatableByCreatures));
@@ -40,7 +37,7 @@ public class ConfigLibCompatibility
         config.ShowHandbookTroughFeedOptions = OnCheckBox(id, config.ShowHandbookTroughFeedOptions, nameof(config.ShowHandbookTroughFeedOptions));
         config.ShowHandbookWorkableTemp = OnCheckBox(id, config.ShowHandbookWorkableTemp, nameof(config.ShowHandbookWorkableTemp));
         ImGui.NewLine();
-        ImGui.TextWrapped(Lang.Get(categoryCrafting));
+        ImGui.TextWrapped(Lang.Get($"{MOD_ID}:Config.Category.Crafting"));
         config.ShowAnvilWorkableTemp = OnCheckBox(id, config.ShowAnvilWorkableTemp, nameof(config.ShowAnvilWorkableTemp));
         config.ShowBeehiveKilnProgress = OnCheckBox(id, config.ShowBeehiveKilnProgress, nameof(config.ShowBeehiveKilnProgress));
         config.ShowBloomeryProgress = OnCheckBox(id, config.ShowBloomeryProgress, nameof(config.ShowBloomeryProgress));
@@ -51,7 +48,7 @@ public class ConfigLibCompatibility
         config.ShowQuernGrindingProgress = OnCheckBox(id, config.ShowQuernGrindingProgress, nameof(config.ShowQuernGrindingProgress));
         config.ShowSkepProgress = OnCheckBox(id, config.ShowSkepProgress, nameof(config.ShowSkepProgress));
         ImGui.NewLine();
-        ImGui.TextWrapped(Lang.Get(categoryMisc));
+        ImGui.TextWrapped(Lang.Get($"{MOD_ID}:Config.Category.Miscellaneous"));
         config.ShowBlockBreakingTime = OnCheckBox(id, config.ShowBlockBreakingTime, nameof(config.ShowBlockBreakingTime));
         config.ShowBlockTransitionInfo = OnCheckBox(id, config.ShowBlockTransitionInfo, nameof(config.ShowBlockTransitionInfo));
         config.ShowBombStats = OnCheckBox(id, config.ShowBombStats, nameof(config.ShowBombStats));
@@ -66,7 +63,7 @@ public class ConfigLibCompatibility
     private bool OnCheckBox(string id, bool value, string name)
     {
         bool newValue = value;
-        ImGui.Checkbox(Lang.Get(prefixSetting + name) + $"##{name}-{id}", ref newValue);
+        ImGui.Checkbox(Lang.Get($"{MOD_ID}:Config.Setting." + name) + $"##{name}-{id}", ref newValue);
         return newValue;
     }
 }

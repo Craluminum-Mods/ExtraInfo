@@ -1,3 +1,5 @@
+using Vintagestory.API.Common;
+
 namespace ExtraInfo.Configuration;
 
 static class ModConfig

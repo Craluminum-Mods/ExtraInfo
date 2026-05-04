@@ -1,6 +1,14 @@
-namespace ExtraInfo;
+using System;
+using System.Collections.Generic;
+using Vintagestory.API.Client;
+using Vintagestory.API.Config;
+using Vintagestory.API.MathTools;
+using Vintagestory.GameContent;
+using static ExtraInfo.Constants;
 
-public class HighlightReinforced : ModSystemHighlight
+namespace ExtraInfo.Systems;
+
+public class ModSystemHighlightReinforced : ModSystemHighlight
 {
     public override string ThreadName => "ExtraInfo:Reinforcements";
 
@@ -15,10 +23,7 @@ public class HighlightReinforced : ModSystemHighlight
 
     public override void StartClientSide(ICoreClientAPI api)
     {
-        if (Core.Config == null || !Core.Config.HighlightReinforcedBlocks)
-        {
-            return;
-        }
+        if (Config?.HighlightReinforcedBlocks != true) return;
 
         api.Input.RegisterHotKey(HotkeyCode, ToggleName(Name), GlKeys.T, HotkeyType.HelpAndOverlays, ctrlPressed: true);
         api.Input.SetHotKeyHandler(HotkeyCode, _ => ToggleRun(api));
@@ -28,8 +33,8 @@ public class HighlightReinforced : ModSystemHighlight
 
     public override void OnRunning(ICoreClientAPI capi)
     {
-        List<BlockPos> positions = new();
-        List<int> colors = new();
+        List<BlockPos> positions = [];
+        List<int> colors = [];
         BlockPos playerPos = capi.World.Player.Entity.Pos.AsBlockPos;
 
         capi.World.BlockAccessor.WalkBlocks(playerPos.AddCopy(-Radius, -Radius, -Radius), playerPos.AddCopy(Radius, Radius, Radius), (_, x, y, z) =>
