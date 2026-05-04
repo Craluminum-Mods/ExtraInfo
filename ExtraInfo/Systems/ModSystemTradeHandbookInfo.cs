@@ -44,16 +44,16 @@ public class ModSystemTradeHandbookInfo : ModSystem
                 }
                 catch (Exception e)
                 {
-                    capi.World.Logger.Error("Failed deserializing tradeProps attribute for entitiy {0}, exception logged to verbose debug", entitytype.Code);
-                    capi.World.Logger.Error(e);
-                    capi.World.Logger.VerboseDebug("Failed deserializing TradeProperties:");
-                    capi.World.Logger.VerboseDebug("=================");
-                    capi.World.Logger.VerboseDebug("Tradeprops json:");
+                    LoggerUtil.Error(capi, this, $"Failed deserializing tradeProps attribute for entitiy {entitytype.Code}, exception logged to verbose debug");
+                    LoggerUtil.Error(capi, this, e.ToString());
+                    LoggerUtil.Verbose(capi, this, "Failed deserializing TradeProperties:");
+                    LoggerUtil.Verbose(capi, this, "=================");
+                    LoggerUtil.Verbose(capi, this, "Tradeprops json:");
                     if (filepath != null)
                     {
-                        capi.World.Logger.VerboseDebug("File path {0}:", filepath);
+                        LoggerUtil.Verbose(capi, this, $"File path {filepath}:");
                     }
-                    capi.World.Logger.VerboseDebug("{0}", entitytype.Server?.Attributes["tradeProps"].ToJsonToken());
+                    LoggerUtil.Verbose(capi, this, $"{entitytype.Server?.Attributes["tradeProps"].ToJsonToken()}");
                 }
             }
             if (tradeProps != null)
@@ -62,7 +62,7 @@ public class ModSystemTradeHandbookInfo : ModSystem
                 unresolvedTradeProps.Add(traderCode, tradeProps);
             }
         }
-        capi.Logger.VerboseDebug("[Extra Info] Done traders handbook stuff");
+        LoggerUtil.Verbose(capi, this, "Done traders handbook stuff");
     }
 
     public override void Dispose()

@@ -30,7 +30,7 @@ public class Core : ModSystem
     public override void Start(ICoreAPI api)
     {
         api.RegisterCollectibleBehaviorClass("ExtraInfo:TreeGrowthDescription", typeof(CollectibleBehaviorTreeGrowthDescription));
-        api.World.Logger.Event("started '{0}' mod", Mod.Info.Name);
+        Mod.Logger.Event("started mod");
     }
 
     public override void AssetsFinalize(ICoreAPI api)
