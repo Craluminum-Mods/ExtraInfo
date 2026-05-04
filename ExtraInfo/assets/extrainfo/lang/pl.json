@@ -28,7 +28,6 @@
     "Config.Setting.ShowBlockBreakingTime": "Pokaż czas niszczenia bloku",
     "Config.Setting.ShowBlockTransitionInfo": "Pokaż liczbę godzin pozostałych do zakończenia przejścia stanu bloku",
     "Config.Setting.ShowBombStats": "Pokaż szczegółowe informacje o bombach, w tym promień wybuchu, typ wybuchu oraz czas zapłonu",
-    "Config.Setting.ShowFarmlandDropsSoil": "Pokaż szansę, że pole uprawne upuści ziemię (dla moda Farmland Drops Soil)",
     "Config.Setting.ShowFarmlandProgress": "Pokaż liczbę godzin pozostałych do następnego etapu wzrostu uprawy na polu uprawnym",
     "Config.Setting.ShowMechanicalBlockInfo": "Pokaż informacje o blokach mechanicznych, takie jak prędkość, moment obrotowy i odporność",
     "Config.Setting.ShowPileTotalItems": "Pokaż łączną liczbę przedmiotów w stosie",

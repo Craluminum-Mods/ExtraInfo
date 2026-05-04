@@ -4,6 +4,7 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<OutputPath>bin\$(Configuration)\Mods\mod</OutputPath>
+		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -35,36 +36,25 @@
 			<HintPath>$(VINTAGE_STORY)/VintagestoryLib.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
-		<Reference Include="protobuf-net">
-			<HintPath>$(VINTAGE_STORY)/Lib/protobuf-net.dll</HintPath>
-			<Private>False</Private>
-		</Reference>
 		<Reference Include="cairo-sharp">
 			<HintPath>$(VINTAGE_STORY)/Lib/cairo-sharp.dll</HintPath>
 			<Private>False</Private>
-		</Reference>
-		<Reference Include="SkiaSharp">
-			<HintPath>$(VINTAGE_STORY)/Lib/SkiaSharp.dll</HintPath>
-			<Private>false</Private>
 		</Reference>
 		<Reference Include="configlib">
 			<HintPath>../configlib.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
-		<PackageReference Include="VSImGui" Version="0.0.6" PrivateAssets="all"/>
+		<PackageReference Include="VSImGui" Version="0.0.6" PrivateAssets="all" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Include="assets\**">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
 		<Content Include="modinfo.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
-		<Content Include="modicon.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
-		<Content Include="../LICENSE">
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="modicon.png" Condition="Exists('modicon.png')">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>

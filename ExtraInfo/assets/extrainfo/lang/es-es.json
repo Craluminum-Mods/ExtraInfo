@@ -28,7 +28,6 @@
     "Config.Setting.ShowBlockBreakingTime": "Mostrar el tiempo de rotura del bloque.",
     "Config.Setting.ShowBlockTransitionInfo": "Mostrar las horas restantes para el completado de transición de un bloque.",
     "Config.Setting.ShowBombStats": "Mostrar información detallada sobre las Bombas, incluido el radio de explosión, el tipo de explosión y el tiempo de mecha.",
-    "Config.Setting.ShowFarmlandDropsSoil": "Mostrar la probabilidad de que la Tierra de Cultivo suelte tierra (en el mod Farmland Drops Soil).",
     "Config.Setting.ShowFarmlandProgress": "Mostrar las horas restantes hasta la siguiente fase del cultivo en la Tierra de Cultivo.",
     "Config.Setting.ShowMechanicalBlockInfo": "Mostrar información sobre bloques mecánicos, como velocidad, fuerza de giro y resistencia.",
     "Config.Setting.ShowPileTotalItems": "Mostrar el número total de elementos de un Motón.",

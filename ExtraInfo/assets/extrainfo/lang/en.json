@@ -1,7 +1,4 @@
 {
-    "Config.Setting.HighlightReinforcedBlocks": "Enable 'Highlight reinforced blocks' hotkey",
-    "Config.Setting.HighlightMycelium": "Enable 'Mycelium highlighting' hotkey",
-
     "Config.Category.Handbook": "Handbook",
     "Config.Setting.OpenHandbookPageForEntity": "Enable the option to open the handbook page for the creature you are looking at",
     "Config.Setting.ShowHandbookCreatureDiet": "Show the diet of a creature",
@@ -29,7 +26,6 @@
     "Config.Setting.ShowBlockBreakingTime": "Show block breaking time",
     "Config.Setting.ShowBlockTransitionInfo": "Show the number of hours left for a block's transition state to complete",
     "Config.Setting.ShowBombStats": "Show detailed information about bombs, including explosion radius, explosion type, and fuse time",
-    "Config.Setting.ShowFarmlandDropsSoil": "Show the chance of farmland dropping soil (for Farmland Drops Soil mod)",
     "Config.Setting.ShowFarmlandProgress": "Show the hours remaining until the next crop stage on farmland",
     "Config.Setting.ShowMechanicalBlockInfo": "Show mechanical block information, such as speed, torque, and resistance",
     "Config.Setting.ShowPileTotalItems": "Show the total number of items in a pile",
@@ -37,9 +33,20 @@
     "Config.Setting.ShowTranslocatorDestination": "Show the destination of the translocator",
     "Config.Setting.ShowTreeStats": "Show time a sapling takes to sprout and mature",
 
+    "block-info-header-until-broken": "Until broken:",
+    "WillFinishIn": "Will finish in:",
+    "NextStageIn": "Next growth stage in:",
+    "InGameTime": "In-game time: {0}",
+    "InRealTime": "Real-time: {0}",
+    "CenteredBoldText": "<font weight=\"bold\" align=\"center\">{0}</font>",
+    "TimeUntilTransition": "Time until transition:",
+    "quern-progress-info-header-total": "Total:",
+    "quern-progress-info-header-single-item": "Single item:",
+    "ground-storage-total-pile-item-count": "Total item count: {0}",
+    "ground-storage-current-pile-type-count": "Current type item count: {0}",
+
     "WorkableTemperature": "Workable Temperature: {0}°C",
     "AlwaysWorkable": "Workable Temperature: Always",
-    "RemainingResistance": "Remaining Resistance: {0}",
     "Current": "Current",
     "Damage": "Damage: {0}",
     "One": "One",
@@ -51,22 +58,13 @@
     "bomb-InjureRadius": "Radius of Injures: {0}",
     "bomb-BlastType": "Blast Type: {0}",
     "bomb-FuseTime": "Fuse Time: {0}",
-    "HighlightMycelium": "'Highlighting of Mycelium'",
-    "HighlightReinforcedBlocks": "'Highlighting of Reinforced Blocks'",
-    "Toggle": "Toggle {0}",
-    "Toggle.True": "{0} <font weight=\"bold\" color=\"#84ff84\">{1}</font>",
-    "Toggle.False": "{0} <font weight=\"bold\" color=\"#ff8484\">{1}</font>",
     "Color.Cyan": "<font color=\"#00FFF0\">{0}</font>",
 
-	  "sprout-in-days": "Will sprout in about {0} - {p1:# days|# day|# days}",
-	  "mature-in-days": "Will mature in about {0} - {p1:# days|# day|# days}",
+    "sprout-in-days": "Will sprout in about {0} - {p1:# days|# day|# days}",
+    "mature-in-days": "Will mature in about {0} - {p1:# days|# day|# days}",
 
     "Mechanics.Speed": "Speed: {0:G4}",
     "Mechanics.TotalAvailableTorque": "Available Torque: {0:G4}",
     "Mechanics.NetworkTorque": "Total Torque: {0:G4}",
-    "Mechanics.NetworkResistance": "Resistance: {0:G4}",
-
-    "Carburization.Starting": "Carburization: Starting...",
-    "Unfired": "Unfired",
-    "Fired": "Fired"
+    "Mechanics.NetworkResistance": "Resistance: {0:G4}"
 }
