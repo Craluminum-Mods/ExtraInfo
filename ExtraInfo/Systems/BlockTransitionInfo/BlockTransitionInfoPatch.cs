@@ -39,7 +39,10 @@ public static class BlockTransitionInfoPatch
                 completedPercent,
                 Lang.Get("extrainfo:TimeUntilTransition"));
 
-            dsc.AppendLine().Append(verticalBlock);
+            dsc.AppendLine()
+                .Append(verticalBlock)
+                .AppendLine()
+                .AppendLine();
         }
     }
 }
