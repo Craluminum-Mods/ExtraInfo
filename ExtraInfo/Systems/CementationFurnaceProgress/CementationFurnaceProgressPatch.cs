@@ -3,7 +3,7 @@ namespace ExtraInfo.Systems.CementationFurnaceProgress;
 [HarmonyPatch(typeof(Block), nameof(Block.GetPlacedBlockInfo))]
 public static class CementationFurnaceProgressPatch
 {
-    private const double TotalCarburizationHours = 40.0;
+    private const double TotalCarburizationHours = 160.0;
 
     [HarmonyPostfix]
     public static void Postfix(ref string __result, IWorldAccessor world, BlockPos pos)
@@ -11,10 +11,7 @@ public static class CementationFurnaceProgressPatch
         if (Core.Config?.ShowCementationFurnaceProgress != true) return;
 
         Block block = world.BlockAccessor.GetBlock(pos);
-        if (block == null) return;
-
-        string codePath = block.Code.Path;
-        if (codePath == null || !codePath.Contains("door")) return;
+        if (block?.Code?.Path == null || !block.Code.Path.Contains("door")) return;
 
         BlockPos[] neighborPositions = [pos.NorthCopy(3), pos.EastCopy(3), pos.SouthCopy(3), pos.WestCopy(3)];
 
@@ -43,8 +40,10 @@ public static class CementationFurnaceProgressPatch
             else if (progress > 0.0 || receivesHeat)
             {
                 float completedPercent = (float)Math.Clamp(progress * 100.0, 0, 100);
+
                 double hoursRemaining = Math.Max(0, (1.0 - progress) * TotalCarburizationHours);
-                string statusKey = receivesHeat ? "extrainfo:WillFinishIn" : "Out of fuel.";
+
+                string statusKey = receivesHeat ? "extrainfo:WillFinishIn" : "extrainfo:CementationFurnacePaused";
                 double displaySeconds = receivesHeat ? hoursRemaining * 3600 : 0;
 
                 sb.AppendLine(TimeFormatter.BuildVerticalTimeBlock(
@@ -61,26 +60,7 @@ public static class CementationFurnaceProgressPatch
                 {
                     if (fuelPile.IsBurning)
                     {
-                        double burnStart = fuelPile.GetField<double>("burnStartTotalHours");
-                        double hoursElapsed = Math.Max(0, world.Calendar.TotalHours - burnStart);
-
-                        double layerProgress = Math.Clamp(hoursElapsed / fuelPile.BurnHoursPerLayer, 0, 1);
-
-                        double effectiveLayersLeft = fuelPile.Layers - layerProgress;
-
-                        double maxLayers = 8.0;
-
-                        float totalFuelPercent = (float)Math.Clamp((effectiveLayersLeft / maxLayers) * 100, 0, 100);
-
-                        double totalRemainingHours = effectiveLayersLeft * fuelPile.BurnHoursPerLayer;
-
-                        sb.AppendLine();
-                        sb.Append(TimeFormatter.BuildVerticalTimeBlock(
-                            igSeconds: totalRemainingHours * 3600,
-                            speedOfTime: world.Calendar.SpeedOfTime,
-                            completedPercent: totalFuelPercent,
-                            headerKey: Lang.Get("Fuel")
-                        ));
+                        sb.AppendFuelProgress(fuelPile, Lang.Get("Fuel"));
                     }
                     else if (!processComplete)
                     {
