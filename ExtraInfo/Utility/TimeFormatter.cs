@@ -53,29 +53,44 @@ public static class TimeFormatter
             completedPercent = (float)Math.Clamp((reversed ? ratio : 1.0 - ratio) * 100, 0, 100);
         }
 
-        float speedOfTime = api.World.Calendar.SpeedOfTime;
-        float calendarMul = api.World.Calendar.CalendarSpeedMul;
+        double igSeconds;
+        double irlSeconds;
 
-        double igSeconds = props.HoursLeft * 3600;
-        double irlSeconds = (igSeconds / speedOfTime) / calendarMul;
-
-        var sb = new StringBuilder();
-
-        if (!string.IsNullOrEmpty(props.HeaderKey))
+        if (props.IsRawSeconds)
         {
-            sb.AppendLine(props.HeaderKey);
+            igSeconds = props.HoursLeft;
+            irlSeconds = props.HoursLeft;
+        }
+        else
+        {
+            float speedOfTime = api.World.Calendar.SpeedOfTime;
+            float calendarMul = api.World.Calendar.CalendarSpeedMul;
+            igSeconds = props.HoursLeft * 3600;
+            irlSeconds = (igSeconds / speedOfTime) / calendarMul;
         }
 
-        ProgressBarBuilder.Build(sb, completedPercent, width: 15);
-        sb.AppendLine();
+        var sb = new StringBuilder();
+        if (!string.IsNullOrEmpty(props.HeaderKey)) sb.AppendLine(props.HeaderKey);
+
+        if (props.ShowProgressBar)
+        {
+            ProgressBarBuilder.Build(sb, completedPercent, width: 15);
+            sb.AppendLine();
+        }
 
         if (igSeconds > 0)
         {
             string igTimeStr = FormatFullTime(igSeconds);
             string irlTimeStr = FormatFullTime(irlSeconds);
 
-            sb.AppendLine(Lang.Get("extrainfo:InGameTime", igTimeStr));
-            sb.Append(Lang.Get("extrainfo:InRealTime", irlTimeStr));
+            if (props.ShowInGameTime)
+            {
+                sb.AppendLine(Lang.Get("extrainfo:InGameTime", igTimeStr));
+            }
+            if (props.ShowRealTime)
+            {
+                sb.Append(Lang.Get("extrainfo:InRealTime", irlTimeStr));
+            }
         }
 
         return sb.ToString().TrimEnd();

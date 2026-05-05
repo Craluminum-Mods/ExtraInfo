@@ -18,6 +18,7 @@ public class Config
     public bool ShowCementationFurnaceProgress { get; set; } = true;
     public bool ShowCharcoalPitProgress { get; set; } = true;
     public bool ShowCokeOvenProgress { get; set; } = true;
+    public bool ShowFirepitProgress { get; set; } = true;
     public bool ShowPitKilnProgress { get; set; } = true;
     public bool ShowQuernGrindingProgress { get; set; } = true;
     public bool ShowSkepProgress { get; set; } = true;
@@ -58,6 +59,7 @@ public class Config
         ShowCementationFurnaceProgress = previousConfig.ShowCementationFurnaceProgress;
         ShowCharcoalPitProgress = previousConfig.ShowCharcoalPitProgress;
         ShowCokeOvenProgress = previousConfig.ShowCokeOvenProgress;
+        ShowFirepitProgress = previousConfig.ShowSkepProgress;
         ShowPitKilnProgress = previousConfig.ShowPitKilnProgress;
         ShowQuernGrindingProgress = previousConfig.ShowQuernGrindingProgress;
         ShowSkepProgress = previousConfig.ShowSkepProgress;

@@ -18,8 +18,9 @@
     "Config.Setting.ShowCementationFurnaceProgress": "Show progress for steel production in the cementation furnace",
     "Config.Setting.ShowCharcoalPitProgress": "Show progress of charcoal production in the charcoal pit",
     "Config.Setting.ShowCokeOvenProgress": "Show progress of the coke oven on the door",
+    "Config.Setting.ShowFirepitProgress": "Show cooking progress in a firepit",
     "Config.Setting.ShowPitKilnProgress": "Show progress of firing in the pit kiln",
-    "Config.Setting.ShowQuernGrindingProgress": "Show progress of the quern",
+    "Config.Setting.ShowQuernGrindingProgress": "Show grinding progress of the quern",
     "Config.Setting.ShowSkepProgress": "Show progress of honey production in the skep",
     "Config.Setting.ShowStackMetalUnits": "Show the total metal units based on an item's stack size",
 
@@ -53,6 +54,10 @@
     "WillMatureIn": "Will mature in:",
     "sprout-in-days": "Sprout time: {0} - {p1:# days|# day|# days}",
     "mature-in-days": "Mature time: {0} - {p1:# days|# day|# days}",
+    "firepit-progress-smeltable-total": "Total:",
+    "firepit-progress-smeltable-current": "Current:",
+    "firepit-progress-fuel-total": "All fuel will be depleted in:",
+    "firepit-progress-fuel-current": "Current fuel will be depleted in:",
 
     "WorkableTemperature": "Workable Temperature: {0}°C",
     "AlwaysWorkable": "Workable Temperature: Always",

@@ -42,6 +42,7 @@ public class ConfigLibCompatibility
         config.ShowCementationFurnaceProgress = OnCheckBox(id, config.ShowCementationFurnaceProgress, nameof(config.ShowCementationFurnaceProgress));
         config.ShowCharcoalPitProgress = OnCheckBox(id, config.ShowCharcoalPitProgress, nameof(config.ShowCharcoalPitProgress));
         config.ShowCokeOvenProgress = OnCheckBox(id, config.ShowCokeOvenProgress, nameof(config.ShowCokeOvenProgress));
+        config.ShowFirepitProgress = OnCheckBox(id, config.ShowFirepitProgress, nameof(config.ShowFirepitProgress));
         config.ShowPitKilnProgress = OnCheckBox(id, config.ShowPitKilnProgress, nameof(config.ShowPitKilnProgress));
         config.ShowQuernGrindingProgress = OnCheckBox(id, config.ShowQuernGrindingProgress, nameof(config.ShowQuernGrindingProgress));
         config.ShowSkepProgress = OnCheckBox(id, config.ShowSkepProgress, nameof(config.ShowSkepProgress));
