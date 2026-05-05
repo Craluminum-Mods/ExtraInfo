@@ -1,6 +1,5 @@
 using System;
 using System.Text;
-using Vintagestory.API.Config;
 using Vintagestory.GameContent;
 
 namespace ExtraInfo;
@@ -19,16 +18,16 @@ public static class InfoExtensions
         double hoursInLayersBelow = (fuelPile.Layers - 1) * fuelPile.BurnHoursPerLayer;
         double totalRemainingHours = hoursInLayersBelow + hoursLeftInCurrentLayer;
 
-        double maxLayers = fuelPile.MaxStackSize / 2.0;
-        double maxPossibleHours = maxLayers * fuelPile.BurnHoursPerLayer;
-        float totalFuelPercent = (float)Math.Clamp((totalRemainingHours / maxPossibleHours) * 100, 0, 100);
+        double currentPileCapacity = fuelPile.Layers * fuelPile.BurnHoursPerLayer;
+
+        var props = new TimeBasedProgressBarProperties
+        {
+            HeaderKey = headerKey,
+            HoursTotal = currentPileCapacity,
+            HoursLeft = totalRemainingHours
+        };
 
         sb.AppendLine();
-        sb.Append(TimeFormatter.BuildVerticalTimeBlock(
-            igSeconds: totalRemainingHours * 3600,
-            speedOfTime: fuelPile.Api.World.Calendar.SpeedOfTime,
-            completedPercent: totalFuelPercent,
-            headerKey: Lang.Get("Fuel")
-        ));
+        sb.Append(TimeFormatter.BuildTimeBlockPlusProgressBar(fuelPile.Api, props, reversed: true));
     }
 }

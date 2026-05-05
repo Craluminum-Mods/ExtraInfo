@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using System;
 using System.Text;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
@@ -14,40 +13,32 @@ public static class FarmlandProgressPatch
     public static void Postfix(BlockEntityFarmland __instance, StringBuilder dsc)
     {
         if (Config?.ShowFarmlandProgress != true) return;
+
         if (__instance?.Api == null) return;
 
         Block cropBlock = __instance.GetCrop();
+
         if (cropBlock?.CropProps == null) return;
 
         if (__instance.GetCropStage(cropBlock) >= cropBlock.CropProps.GrowthStages) return;
 
-        ICoreAPI api = __instance.Api;
-
         double targetHours = __instance.TotalHoursForNextStage;
-        double currentHours = api.World.Calendar.TotalHours;
+        double currentHours = __instance.Api.World.Calendar.TotalHours;
         double hoursRemaining = targetHours - currentHours;
 
         if (hoursRemaining > 0)
         {
             double lastUpdate = __instance.TotalHoursLastUpdate;
+            double totalStageWindow = targetHours - lastUpdate;
 
-            double totalWindow = targetHours - lastUpdate;
-            float completedPercent = 0;
-
-            if (totalWindow > 0)
+            var props = new TimeBasedProgressBarProperties()
             {
-                double elapsed = currentHours - lastUpdate;
-                completedPercent = (float)Math.Clamp((elapsed / totalWindow) * 100, 0, 100);
-            }
+                HeaderKey = Lang.Get("extrainfo:NextStageIn"),
+                HoursTotal = totalStageWindow,
+                HoursLeft = hoursRemaining
+            };
 
-            double igSeconds = hoursRemaining * 3600;
-            float speedOfTime = api.World.Calendar.SpeedOfTime;
-
-            string verticalBlock = TimeFormatter.BuildVerticalTimeBlock(
-                igSeconds: igSeconds,
-                speedOfTime: speedOfTime,
-                completedPercent: completedPercent,
-                headerKey: Lang.Get("extrainfo:NextStageIn"));
+            string verticalBlock = TimeFormatter.BuildTimeBlockPlusProgressBar(__instance.Api, props);
 
             dsc.AppendLine().Append(verticalBlock);
         }

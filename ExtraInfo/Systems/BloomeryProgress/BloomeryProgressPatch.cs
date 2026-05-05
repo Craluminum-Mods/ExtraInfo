@@ -1,7 +1,5 @@
 ﻿using HarmonyLib;
-using System;
 using System.Text;
-using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.GameContent;
 
@@ -11,31 +9,29 @@ namespace ExtraInfo.Systems.BloomeryProgress;
 public static class BloomeryProgressPatch
 {
     [HarmonyPostfix]
-    public static void Postfix(BlockEntityBloomery __instance, StringBuilder dsc, double ___burningUntilTotalDays, double ___burningStartTotalDays)
+    public static void Postfix(BlockEntityBloomery __instance, StringBuilder dsc, double ___burningUntilTotalDays, double ___burningStartTotalDays, bool ___burning)
     {
         if (Config?.ShowBloomeryProgress != true) return;
+
         if (__instance?.Api == null) return;
-        if (!__instance.GetField<bool>("burning")) return;
 
-        ICoreAPI api = __instance.Api;
+        if (!___burning) return;
 
-        double totalDurationDays = ___burningUntilTotalDays - ___burningStartTotalDays;
-        double remainingDays = ___burningUntilTotalDays - api.World.Calendar.TotalDays;
+        float hoursPerDay = __instance.Api.World.Calendar.HoursPerDay;
+        double totalDurationHours = (___burningUntilTotalDays - ___burningStartTotalDays) * hoursPerDay;
+        double hoursLeft = (___burningUntilTotalDays - __instance.Api.World.Calendar.TotalDays) * hoursPerDay;
 
-        if (remainingDays > 0 && totalDurationDays > 0)
+        if (hoursLeft > 0 && totalDurationHours > 0)
         {
-            double elapsedDays = api.World.Calendar.TotalDays - ___burningStartTotalDays;
-            float completedPercent = (float)Math.Clamp((elapsedDays / totalDurationDays) * 100, 0, 100);
+            TimeBasedProgressBarProperties barProps = new()
+            {
+                HeaderKey = Lang.Get("extrainfo:WillFinishIn"),
+                HoursTotal = totalDurationHours,
+                HoursLeft = hoursLeft
+            };
 
-            double igSeconds = remainingDays * api.World.Calendar.HoursPerDay * 3600;
-            float speedOfTime = api.World.Calendar.SpeedOfTime;
-
-            string verticalBlock = TimeFormatter.BuildVerticalTimeBlock(
-                igSeconds: igSeconds,
-                speedOfTime: speedOfTime,
-                completedPercent: completedPercent,
-                headerKey: Lang.Get("extrainfo:WillFinishIn"));
-
+            string verticalBlock = TimeFormatter.BuildTimeBlockPlusProgressBar(__instance.Api, barProps);
+            
             dsc.AppendLine().Append(verticalBlock);
         }
     }

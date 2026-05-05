@@ -1,5 +1,6 @@
 using HarmonyLib;
 using System;
+using System.Linq;
 using System.Text;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
@@ -11,7 +12,7 @@ namespace ExtraInfo.Systems.CementationFurnaceProgress;
 [HarmonyPatch(typeof(Block), nameof(Block.GetPlacedBlockInfo))]
 public static class CementationFurnaceProgressPatch
 {
-    private const double TotalCarburizationHours = 160.0;
+    private const double TotalCarburizationHours = 159.2;
 
     [HarmonyPostfix]
     public static void Postfix(ref string __result, IWorldAccessor world, BlockPos pos)
@@ -36,35 +37,29 @@ public static class CementationFurnaceProgressPatch
             StringBuilder sb = new(__result);
             sb.AppendLine().AppendLine();
 
+            TimeBasedProgressBarProperties barProps = new();
+
             if (processComplete)
             {
-                sb.AppendLine(TimeFormatter.BuildVerticalTimeBlock(
-                    igSeconds: 0,
-                    speedOfTime: world.Calendar.SpeedOfTime,
-                    completedPercent: 100f,
-                    headerKey: Lang.Get("Carburization process complete. Break to retrieve blister steel.")
-                ));
+                barProps.HeaderKey = Lang.Get("Carburization process complete. Break to retrieve blister steel.");
+                barProps.HoursTotal = TotalCarburizationHours;
+                barProps.HoursLeft = 0;
             }
             else if (progress > 0.0 || receivesHeat)
             {
-                float completedPercent = (float)Math.Clamp(progress * 100.0, 0, 100);
+                barProps.HeaderKey = Lang.Get(receivesHeat ? "extrainfo:WillFinishIn" : "Out of fuel.");
+                barProps.HoursTotal = TotalCarburizationHours;
+                barProps.HoursLeft = Math.Max(0, (1.0 - progress) * 160.0);
+            }
 
-                double hoursRemaining = Math.Max(0, (1.0 - progress) * TotalCarburizationHours);
-
-                string statusKey = receivesHeat ? "extrainfo:WillFinishIn" : "Out of fuel.";
-                double displaySeconds = receivesHeat ? hoursRemaining * 3600 : 0;
-
-                sb.AppendLine(TimeFormatter.BuildVerticalTimeBlock(
-                    igSeconds: displaySeconds,
-                    speedOfTime: world.Calendar.SpeedOfTime,
-                    completedPercent: completedPercent,
-                    headerKey: Lang.Get(statusKey)
-                ));
+            if (barProps.HoursTotal > 0)
+            {
+                sb.AppendLine(TimeFormatter.BuildTimeBlockPlusProgressBar(world.Api, barProps));
             }
 
             if (be.FuelPositions != null && be.FuelPositions.Length > 0)
             {
-                if (world.BlockAccessor.GetBlockEntity(be.FuelPositions[0]) is BlockEntityCoalPile fuelPile)
+                if (world.BlockAccessor.GetBlockEntity(be.FuelPositions.FirstOrDefault()) is BlockEntityCoalPile fuelPile)
                 {
                     if (fuelPile.IsBurning)
                     {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 
 namespace ExtraInfo;
@@ -43,22 +44,40 @@ public static class TimeFormatter
         return Lang.Get("{0} seconds", t.Seconds);
     }
 
-    public static string BuildVerticalTimeBlock(double igSeconds, float speedOfTime, float completedPercent, string headerKey)
+    public static string BuildTimeBlockPlusProgressBar(ICoreAPI api, TimeBasedProgressBarProperties props, bool reversed = false)
     {
-        StringBuilder sb = new StringBuilder();
+        float completedPercent = 0;
+        if (props.HoursTotal > 0)
+        {
+            double ratio = props.HoursLeft / props.HoursTotal;
+            completedPercent = (float)Math.Clamp((reversed ? ratio : 1.0 - ratio) * 100, 0, 100);
+        }
 
-        sb.AppendLine(headerKey);
+        float speedOfTime = api.World.Calendar.SpeedOfTime;
+        float calendarMul = api.World.Calendar.CalendarSpeedMul;
 
-        StringBuilder barBuilder = new StringBuilder();
-        ProgressBar.Build(barBuilder, completedPercent, width: 15);
-        sb.AppendLine(barBuilder.ToString());
+        double igSeconds = props.HoursLeft * 3600;
+        double irlSeconds = (igSeconds / speedOfTime) / calendarMul;
 
-        string igTime = FormatFullTime(igSeconds);
-        string irlTime = FormatFullTime(igSeconds / speedOfTime);
+        var sb = new StringBuilder();
 
-        sb.AppendLine(Lang.Get("extrainfo:InGameTime", igTime));
-        sb.Append(Lang.Get("extrainfo:InRealTime", irlTime));
+        if (!string.IsNullOrEmpty(props.HeaderKey))
+        {
+            sb.AppendLine(props.HeaderKey);
+        }
 
-        return sb.ToString();
+        ProgressBarBuilder.Build(sb, completedPercent, width: 15);
+        sb.AppendLine();
+
+        if (igSeconds > 0)
+        {
+            string igTimeStr = FormatFullTime(igSeconds);
+            string irlTimeStr = FormatFullTime(irlSeconds);
+
+            sb.AppendLine(Lang.Get("extrainfo:InGameTime", igTimeStr));
+            sb.Append(Lang.Get("extrainfo:InRealTime", irlTimeStr));
+        }
+
+        return sb.ToString().TrimEnd();
     }
 }

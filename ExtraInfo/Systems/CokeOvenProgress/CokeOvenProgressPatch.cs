@@ -15,7 +15,6 @@ public static class CokeOvenProgressPatch
     public static void Postfix(ref string __result, IWorldAccessor world, BlockPos pos)
     {
         if (Config?.ShowCokeOvenProgress != true) return;
-
         if (world.BlockAccessor.GetBlock(pos) is not BlockCokeOvenDoor) return;
 
         BlockPos[] positions = [pos.NorthCopy(), pos.EastCopy(), pos.SouthCopy(), pos.WestCopy()];
@@ -27,23 +26,21 @@ public static class CokeOvenProgressPatch
             if (!blockEntity.IsBurning) continue;
 
             double totalBurnHours = blockEntity.Layers * blockEntity.BurnHoursPerLayer;
-
             double burnStart = blockEntity.GetField<double>("burnStartTotalHours");
             double hoursElapsed = world.Calendar.TotalHours - burnStart;
             double hoursRemaining = Math.Max(0, totalBurnHours - hoursElapsed);
 
-            float completedPercent = (float)Math.Clamp((hoursElapsed / totalBurnHours) * 100, 0, 100);
-
             StringBuilder sb = new(__result);
-            sb.AppendLine();
+            sb.AppendLine().AppendLine();
 
-            string verticalBlock = TimeFormatter.BuildVerticalTimeBlock(
-                igSeconds: hoursRemaining * 3600,
-                speedOfTime: world.Calendar.SpeedOfTime,
-                completedPercent: completedPercent,
-                headerKey: Lang.Get("extrainfo:WillFinishIn")
-            );
+            TimeBasedProgressBarProperties barProps = new()
+            {
+                HeaderKey = Lang.Get("extrainfo:WillFinishIn"),
+                HoursTotal = totalBurnHours,
+                HoursLeft = hoursRemaining
+            };
 
+            string verticalBlock = TimeFormatter.BuildTimeBlockPlusProgressBar(world.Api, barProps);
             sb.Append(verticalBlock);
 
             __result = sb.ToString().TrimEnd();

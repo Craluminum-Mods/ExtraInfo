@@ -3,7 +3,7 @@ using System.Text;
 
 namespace ExtraInfo;
 
-public static class ProgressBar
+public static class ProgressBarBuilder
 {
     /// <summary>
     /// Generates a progress bar string using an integer percentage.

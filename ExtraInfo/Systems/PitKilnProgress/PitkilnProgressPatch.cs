@@ -1,5 +1,4 @@
 using HarmonyLib;
-using System;
 using System.Text;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
@@ -24,22 +23,14 @@ public static class PitKilnProgressPatch
 
         if (hoursRemaining > 0)
         {
-            float totalDuration = __instance.BurnTimeHours;
+            var props = new TimeBasedProgressBarProperties()
+            {
+                HeaderKey = Lang.Get("extrainfo:WillFinishIn"),
+                HoursTotal = __instance.BurnTimeHours,
+                HoursLeft = hoursRemaining
+            };
 
-            double startHours = targetHours - totalDuration;
-            double elapsed = currentHours - startHours;
-
-            float completedPercent = (float)Math.Clamp((elapsed / totalDuration) * 100, 0, 100);
-
-            double igSeconds = hoursRemaining * 3600;
-
-            float speedOfTime = api.World.Calendar.SpeedOfTime;
-
-            string verticalBlock = TimeFormatter.BuildVerticalTimeBlock(
-                igSeconds: igSeconds,
-                speedOfTime: speedOfTime,
-                completedPercent: completedPercent,
-                headerKey: Lang.Get("extrainfo:WillFinishIn"));
+            string verticalBlock = TimeFormatter.BuildTimeBlockPlusProgressBar(api, props);
 
             dsc.AppendLine().Append(verticalBlock);
         }

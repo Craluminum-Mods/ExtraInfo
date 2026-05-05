@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using System;
 using System.Text;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
@@ -26,18 +25,14 @@ public static class BlockTransitionInfoPatch
 
         if (hoursLeft > 0)
         {
-            float totalHours = props.InGameHours;
+            TimeBasedProgressBarProperties barProps = new()
+            {
+                HeaderKey = Lang.Get("extrainfo:TimeUntilTransition"),
+                HoursTotal = props.InGameHours,
+                HoursLeft = hoursLeft
+            };
 
-            float completedPercent = (float)Math.Clamp((1.0 - (hoursLeft / totalHours)) * 100, 0, 100);
-
-            double igSeconds = hoursLeft * 3600;
-            float speedOfTime = blockEntity.Api.World.Calendar.SpeedOfTime;
-
-            string verticalBlock = TimeFormatter.BuildVerticalTimeBlock(
-                igSeconds,
-                speedOfTime,
-                completedPercent,
-                Lang.Get("extrainfo:TimeUntilTransition"));
+            string verticalBlock = TimeFormatter.BuildTimeBlockPlusProgressBar(blockEntity.Api, barProps);
 
             dsc.AppendLine()
                 .Append(verticalBlock)

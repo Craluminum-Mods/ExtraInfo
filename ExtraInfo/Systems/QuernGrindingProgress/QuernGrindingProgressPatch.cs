@@ -22,7 +22,7 @@ public static class QuernGrindingProgressPatch
         {
             dsc.AppendLine();
             dsc.AppendLine(Lang.Get("extrainfo:quern-progress-info-header-total"));
-            ProgressBar.Build(dsc, 100f, width: 15);
+            ProgressBarBuilder.Build(dsc, 100f, width: 15);
             dsc.AppendLine();
             return;
         }
@@ -42,11 +42,11 @@ public static class QuernGrindingProgressPatch
         dsc.AppendLine();
 
         dsc.AppendLine(Lang.Get("extrainfo:quern-progress-info-header-total"));
-        ProgressBar.Build(dsc, (float)totalPercent, width: 15);
+        ProgressBarBuilder.Build(dsc, (float)totalPercent, width: 15);
         dsc.AppendLine();
 
         dsc.AppendLine(Lang.Get("extrainfo:quern-progress-info-header-single-item"));
-        ProgressBar.Build(dsc, (float)perItemPercent, width: 15);
+        ProgressBarBuilder.Build(dsc, (float)perItemPercent, width: 15);
         dsc.AppendLine();
     }
 }

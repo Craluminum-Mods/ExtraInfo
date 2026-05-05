@@ -8,10 +8,11 @@ using Vintagestory.GameContent;
 namespace ExtraInfo.Systems.BeehiveKilnProgress;
 
 [HarmonyPatch(typeof(BlockEntityBeeHiveKiln), nameof(BlockEntityBeeHiveKiln.GetBlockInfo))]
-public static class PlacedBlockInfoPatch
+public static class BeehiveKilnProgressPatch
 {
     [HarmonyPostfix]
-    public static void Postfix(BlockEntityBeeHiveKiln __instance, IPlayer forPlayer, StringBuilder dsc, bool ___receivesHeat)
+    public static void Postfix(BlockEntityBeeHiveKiln __instance, IPlayer forPlayer, StringBuilder dsc,
+        bool ___receivesHeat, BEBehaviorDoor ___beBehaviorDoor)
     {
         if (Config?.ShowBeehiveKilnProgress != true) return;
 
@@ -19,21 +20,21 @@ public static class PlacedBlockInfoPatch
 
         if (__instance.TotalHoursHeatReceived <= 0 || __instance.TotalHoursHeatReceived >= targetHours) return;
 
+        bool isProcessing = ___receivesHeat && __instance.StructureComplete && !___beBehaviorDoor.Opened;
+
         double hoursRemaining = Math.Max(0, targetHours - __instance.TotalHoursHeatReceived);
-        float completedPercent = (float)Math.Clamp((float)(__instance.TotalHoursHeatReceived / targetHours) * 100, 0, 100);
 
-        string statusKey = ___receivesHeat ? "extrainfo:WillFinishIn" : "Out of fuel.";
+        string statusKey = isProcessing ? "extrainfo:WillFinishIn" : "Out of fuel.";
 
-        double displaySeconds = ___receivesHeat ? hoursRemaining * 3600 : 0;
+        var props = new TimeBasedProgressBarProperties()
+        {
+            HeaderKey = Lang.Get(statusKey),
+            HoursTotal = targetHours,
+            HoursLeft = hoursRemaining
+        };
 
-        string verticalBlock = TimeFormatter.BuildVerticalTimeBlock(
-            igSeconds: displaySeconds,
-            speedOfTime: __instance.Api.World.Calendar.SpeedOfTime,
-            completedPercent: completedPercent,
-            headerKey: Lang.Get(statusKey)
-        );
+        string verticalBlock = TimeFormatter.BuildTimeBlockPlusProgressBar(__instance.Api, props);
 
-        dsc.AppendLine();
-        dsc.Append(verticalBlock);
+        dsc.AppendLine().Append(verticalBlock);
     }
 }

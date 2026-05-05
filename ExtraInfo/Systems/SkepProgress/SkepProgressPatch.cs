@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using System;
 using System.Text;
+using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.GameContent;
 
@@ -10,51 +11,31 @@ namespace ExtraInfo.Systems.SkepProgress;
 public static class SkepProgressPatch
 {
     [HarmonyPostfix]
-    public static void Postfix(BlockEntityBeehive __instance, StringBuilder dsc)
+    public static void Postfix(BlockEntityBeehive __instance, StringBuilder dsc, EnumHivePopSize ___hivePopSize, double ___harvestableAtTotalHours)
     {
         if (Config?.ShowSkepProgress != true) return;
-
         if (__instance.Harvestable) return;
 
-        EnumHivePopSize popSize = __instance.GetField<EnumHivePopSize>("hivePopSize");
-        int flowers = __instance.GetField<int>("quantityNearbyFlowers");
-        int hives = __instance.GetField<int>("quantityNearbyHives");
+        // progress bar is not shown, because poor population prevents any progress
+        if (___hivePopSize <= EnumHivePopSize.Poor) return;
 
-        double targetHours = __instance.GetField<double>("harvestableAtTotalHours");
-        double currentHours = __instance.Api.World.Calendar.TotalHours;
-        double hoursLeft = targetHours - currentHours;
+        ICoreAPI api = __instance.Api;
+        double currentTotalHours = api.World.Calendar.TotalHours;
+        double honeyHoursLeft = ___harvestableAtTotalHours - currentTotalHours;
+        double honeyTotal = 132.0;
 
-        float completedPercent = 0f;
-
-        if (popSize == EnumHivePopSize.Poor)
+        if (honeyHoursLeft > 0)
         {
-            int effectiveFlowers = flowers - (3 * hives);
-            completedPercent = Math.Clamp((effectiveFlowers / 3f) * 25f, 5f, 25f);
-        }
-        else
-        {
-            double totalCycle = 72.0;
-            float timeProgress = (float)Math.Clamp((1.0 - (hoursLeft / totalCycle)) * 75f, 0, 75f);
+            var props = new TimeBasedProgressBarProperties()
+            {
+                HeaderKey = Lang.Get("extrainfo:WillFinishIn"),
+                HoursTotal = honeyTotal,
+                HoursLeft = Math.Clamp(honeyHoursLeft, 0, honeyTotal)
+            };
 
-            completedPercent = 25f + timeProgress;
-        }
+            string honeyBlock = TimeFormatter.BuildTimeBlockPlusProgressBar(api, props);
 
-        if (completedPercent > 0)
-        {
-            float speedOfTime = __instance.Api.World.Calendar.SpeedOfTime;
-
-            double displaySeconds = (popSize > EnumHivePopSize.Poor && hoursLeft > 0 && hoursLeft < 500)
-                ? hoursLeft * 3600
-                : 0;
-
-            string verticalBlock = TimeFormatter.BuildVerticalTimeBlock(
-                igSeconds: displaySeconds,
-                speedOfTime: speedOfTime,
-                completedPercent: completedPercent,
-                headerKey: Lang.Get("extrainfo:WillFinishIn")
-            );
-
-            dsc.AppendLine().Append(verticalBlock);
+            dsc.AppendLine().Append(honeyBlock);
         }
     }
 }

@@ -16,8 +16,7 @@ public static class CharcoalPitProgressPatch
     {
         if (Config?.ShowCharcoalPitProgress != true) return;
 
-        if (world.BlockAccessor.GetBlockEntity(pos.DownCopy()) is not BlockEntityCharcoalPit blockEntity)
-            return;
+        if (world.BlockAccessor.GetBlockEntity(pos.DownCopy()) is not BlockEntityCharcoalPit blockEntity) return;
 
         string blockName = blockEntity.Block.GetPlacedBlockName(world, pos.DownCopy());
 
@@ -27,55 +26,47 @@ public static class CharcoalPitProgressPatch
         if (blockEntity.Lit)
         {
             EnumCharcoalPitState state = (EnumCharcoalPitState)blockEntity.GetField<int>("state");
-
             double finishedAfterTotalHours = blockEntity.GetField<double>("finishedAfterTotalHours");
             double startingAfterTotalHours = blockEntity.GetField<double>("startingAfterTotalHours");
-            float burnHours = 18f;
-
             double currentHours = world.Calendar.TotalHours;
-            float speedOfTime = world.Calendar.SpeedOfTime;
+
+            var props = new TimeBasedProgressBarProperties();
 
             switch (state)
             {
                 case EnumCharcoalPitState.Sealed:
                 case EnumCharcoalPitState.Unsealed:
                     {
+                        double burnHours = 18.0;
                         double hoursRemaining = finishedAfterTotalHours - currentHours;
+
                         if (hoursRemaining > 0)
                         {
-                            double startHours = finishedAfterTotalHours - burnHours;
-                            float completedPercent = (float)Math.Clamp(((currentHours - startHours) / burnHours) * 100, 0, 100);
-
-                            dsc.AppendLine()
-                                .Append(TimeFormatter.BuildVerticalTimeBlock(
-                                    igSeconds: hoursRemaining * 3600,
-                                    speedOfTime: speedOfTime,
-                                    completedPercent: completedPercent,
-                                    headerKey: Lang.Get("extrainfo:WillFinishIn")));
+                            props.HeaderKey = Lang.Get("extrainfo:WillFinishIn");
+                            props.HoursTotal = burnHours;
+                            props.HoursLeft = hoursRemaining;
                         }
-
                         break;
                     }
 
                 default:
                     {
+                        double ignitionDuration = 0.5;
                         double hoursRemaining = startingAfterTotalHours - currentHours;
+
                         if (hoursRemaining > 0)
                         {
-                            float ignitionDuration = 0.5f;
-                            double startHours = startingAfterTotalHours - ignitionDuration;
-                            float completedPercent = (float)Math.Clamp(((currentHours - startHours) / ignitionDuration) * 100, 0, 100);
-
-                            dsc.AppendLine()
-                                .Append(TimeFormatter.BuildVerticalTimeBlock(
-                                    igSeconds: hoursRemaining * 3600,
-                                    speedOfTime: speedOfTime,
-                                    completedPercent: completedPercent,
-                                    headerKey: Lang.Get("Warming up...")));
+                            props.HeaderKey = Lang.Get("Warming up...");
+                            props.HoursTotal = ignitionDuration;
+                            props.HoursLeft = hoursRemaining;
                         }
-
                         break;
                     }
+            }
+
+            if (props.HoursTotal > 0)
+            {
+                dsc.AppendLine().Append(TimeFormatter.BuildTimeBlockPlusProgressBar(world.Api, props));
             }
         }
 
