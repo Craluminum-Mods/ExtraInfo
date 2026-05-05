@@ -21,16 +21,18 @@ public class Config
     public bool ShowPitKilnProgress { get; set; } = true;
     public bool ShowQuernGrindingProgress { get; set; } = true;
     public bool ShowSkepProgress { get; set; } = true;
+    public bool ShowStackMetalUnits { get; set; } = true;
+
+    public bool ShowFarmlandProgress { get; set; } = true;
+    public bool ShowTreeProgress { get; set; } = true;
+    public bool ShowTreeStats { get; set; } = true;
 
     public bool ShowBlockBreakingTime { get; set; } = true;
     public bool ShowBlockTransitionInfo { get; set; } = true;
     public bool ShowBombStats { get; set; } = true;
-    public bool ShowFarmlandProgress { get; set; } = true;
     public bool ShowMechanicalBlockInfo { get; set; }
     public bool ShowPileTotalItems { get; set; } = true;
-    public bool ShowStackMetalUnits { get; set; } = true;
     public bool ShowTranslocatorDestination { get; set; } = true;
-    public bool ShowTreeStats { get; set; } = true;
 
     public Config() { }
 
@@ -57,15 +59,17 @@ public class Config
         ShowPitKilnProgress = previousConfig.ShowPitKilnProgress;
         ShowQuernGrindingProgress = previousConfig.ShowQuernGrindingProgress;
         ShowSkepProgress = previousConfig.ShowSkepProgress;
+        ShowStackMetalUnits = previousConfig.ShowStackMetalUnits;
+
+        ShowFarmlandProgress = previousConfig.ShowFarmlandProgress;
+        ShowTreeProgress = previousConfig.ShowTreeProgress;
+        ShowTreeStats = previousConfig.ShowTreeStats;
 
         ShowBlockBreakingTime = previousConfig.ShowBlockBreakingTime;
         ShowBlockTransitionInfo = previousConfig.ShowBlockTransitionInfo;
         ShowBombStats = previousConfig.ShowBombStats;
-        ShowFarmlandProgress = previousConfig.ShowFarmlandProgress;
         ShowMechanicalBlockInfo = previousConfig.ShowMechanicalBlockInfo;
         ShowPileTotalItems = previousConfig.ShowPileTotalItems;
-        ShowStackMetalUnits = previousConfig.ShowStackMetalUnits;
         ShowTranslocatorDestination = previousConfig.ShowTranslocatorDestination;
-        ShowTreeStats = previousConfig.ShowTreeStats;
     }
 }

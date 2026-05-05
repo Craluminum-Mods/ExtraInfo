@@ -45,17 +45,20 @@ public class ConfigLibCompatibility
         config.ShowPitKilnProgress = OnCheckBox(id, config.ShowPitKilnProgress, nameof(config.ShowPitKilnProgress));
         config.ShowQuernGrindingProgress = OnCheckBox(id, config.ShowQuernGrindingProgress, nameof(config.ShowQuernGrindingProgress));
         config.ShowSkepProgress = OnCheckBox(id, config.ShowSkepProgress, nameof(config.ShowSkepProgress));
+        config.ShowStackMetalUnits = OnCheckBox(id, config.ShowStackMetalUnits, nameof(config.ShowStackMetalUnits));
+        ImGui.NewLine();
+        ImGui.TextWrapped(Lang.Get($"{MOD_ID}:Config.Category.Farming"));
+        config.ShowFarmlandProgress = OnCheckBox(id, config.ShowFarmlandProgress, nameof(config.ShowFarmlandProgress));
+        config.ShowTreeProgress = OnCheckBox(id, config.ShowTreeProgress, nameof(config.ShowTreeProgress));
+        config.ShowTreeStats = OnCheckBox(id, config.ShowTreeStats, nameof(config.ShowTreeStats));
         ImGui.NewLine();
         ImGui.TextWrapped(Lang.Get($"{MOD_ID}:Config.Category.Miscellaneous"));
         config.ShowBlockBreakingTime = OnCheckBox(id, config.ShowBlockBreakingTime, nameof(config.ShowBlockBreakingTime));
         config.ShowBlockTransitionInfo = OnCheckBox(id, config.ShowBlockTransitionInfo, nameof(config.ShowBlockTransitionInfo));
         config.ShowBombStats = OnCheckBox(id, config.ShowBombStats, nameof(config.ShowBombStats));
-        config.ShowFarmlandProgress = OnCheckBox(id, config.ShowFarmlandProgress, nameof(config.ShowFarmlandProgress));
         config.ShowMechanicalBlockInfo = OnCheckBox(id, config.ShowMechanicalBlockInfo, nameof(config.ShowMechanicalBlockInfo));
         config.ShowPileTotalItems = OnCheckBox(id, config.ShowPileTotalItems, nameof(config.ShowPileTotalItems));
-        config.ShowStackMetalUnits = OnCheckBox(id, config.ShowStackMetalUnits, nameof(config.ShowStackMetalUnits));
         config.ShowTranslocatorDestination = OnCheckBox(id, config.ShowTranslocatorDestination, nameof(config.ShowTranslocatorDestination));
-        config.ShowTreeStats = OnCheckBox(id, config.ShowTreeStats, nameof(config.ShowTreeStats));
     }
 
     private bool OnCheckBox(string id, bool value, string name)
