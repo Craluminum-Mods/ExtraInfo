@@ -69,7 +69,7 @@ public class ConfigLibCompatibility
         config.ShowTreeStats = OnCheckBox(id, config.ShowTreeStats, nameof(config.ShowTreeStats));
         ImGui.NewLine();
 
-        ImGui.TextWrapped(Lang.Get($"{MOD_ID}:Config.Category.Miscellaneous"));
+        ImGui.TextWrapped(Lang.Get($"{MOD_ID}:Config.Category.Misc"));
         config.ShowBombStats = OnCheckBox(id, config.ShowBombStats, nameof(config.ShowBombStats));
         config.ShowMechanicalBlockInfo = OnCheckBox(id, config.ShowMechanicalBlockInfo, nameof(config.ShowMechanicalBlockInfo));
         config.ShowPileTotalItems = OnCheckBox(id, config.ShowPileTotalItems, nameof(config.ShowPileTotalItems));
@@ -79,7 +79,8 @@ public class ConfigLibCompatibility
     private bool OnCheckBox(string id, bool value, string name)
     {
         bool newValue = value;
-        ImGui.Checkbox(Lang.Get($"{MOD_ID}:Config.Setting." + name) + $"##{name}-{id}", ref newValue);
+        var fullName = Lang.Get($"{MOD_ID}:Config.Setting." + name);
+        ImGui.Checkbox(fullName + $"##{name}-{id}", ref newValue);
         return newValue;
     }
 }

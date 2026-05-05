@@ -12,7 +12,6 @@
     "Config.Setting.ShowHandbookCreatureDiet": "Show creature diets in the handbook",
     "Config.Setting.ShowHandbookEatableByCreatures": "Show the creatures that can consume a specific food item",
     "Config.Setting.ShowHandbookEntityDrops": "Show the items harvested from creatures",
-    "Config.Setting.ShowHandbookEntityStats": "Show a creature's health, damage, and damage tier",
     "Config.Setting.ShowHandbookPanningDrops": "Show potential panning drops in the handbook",
     "Config.Setting.ShowHandbookPitKiln": "Show burn times for each type of pit kiln fuel",
     "Config.Setting.ShowHandbookTraderGoods": "Show the goods available from traders",
@@ -33,14 +32,14 @@
     "Config.Setting.ShowPitKilnProgress": "Show progress of firing in the pit kiln",
     "Config.Setting.ShowQuernGrindingProgress": "Show grinding progress of the quern",
     
-    "Config.Category.Farming": "Husbandry",
+    "Config.Category.Husbandry": "Husbandry",
     "Config.Setting.ShowBerryBushProgress": "Show the remaining time until the next berry bush stage",
     "Config.Setting.ShowFarmlandProgress": "Show the remaining time until the next crop stage",
     "Config.Setting.ShowSkepProgress": "Show progress of honey production in the skep",
     "Config.Setting.ShowTreeProgress": "Show remaining growth time for planted saplings",
     "Config.Setting.ShowTreeStats": "Show sapling sprout and maturation times in tooltips",
 
-    "Config.Category.Miscellaneous": "Miscellaneous",
+    "Config.Category.Misc": "Miscellaneous",
     "Config.Setting.ShowBombStats": "Show detailed information about bombs, including explosion radius, explosion type, and fuse time",
     "Config.Setting.ShowMechanicalBlockInfo": "Show mechanical block information, such as speed, torque, and resistance",
     "Config.Setting.ShowPileTotalItems": "Show the total number of items in a pile",
@@ -79,7 +78,6 @@
     "bomb-InjureRadius": "Radius of Injures: {0}",
     "bomb-BlastType": "Blast Type: {0}",
     "bomb-FuseTime": "Fuse Time: {0}",
-    "Color.Cyan": "<font color=\"#00FFF0\">{0}</font>",
 
     "Mechanics.Speed": "Speed: {0:G4}",
     "Mechanics.TotalAvailableTorque": "Available Torque: {0:G4}",
