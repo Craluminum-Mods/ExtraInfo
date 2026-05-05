@@ -24,7 +24,8 @@
     "Config.Setting.ShowStackMetalUnits": "Show the total metal units based on an item's stack size",
 
     "Config.Category.Farming": "Farming",
-    "Config.Setting.ShowFarmlandProgress": "Show the hours remaining until the next crop stage",
+    "Config.Setting.ShowBerryBushProgress": "Show the remaining time until the next berry bush stage",
+    "Config.Setting.ShowFarmlandProgress": "Show the remaining time until the next crop stage",
     "Config.Setting.ShowTreeProgress": "Show remaining growth time for planted saplings",
     "Config.Setting.ShowTreeStats": "Show sapling sprout and maturation times in tooltips",
 

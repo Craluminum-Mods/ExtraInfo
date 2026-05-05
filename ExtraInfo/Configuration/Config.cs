@@ -23,6 +23,7 @@ public class Config
     public bool ShowSkepProgress { get; set; } = true;
     public bool ShowStackMetalUnits { get; set; } = true;
 
+    public bool ShowBerryBushProgress { get; set; } = true;
     public bool ShowFarmlandProgress { get; set; } = true;
     public bool ShowTreeProgress { get; set; } = true;
     public bool ShowTreeStats { get; set; } = true;
@@ -61,6 +62,7 @@ public class Config
         ShowSkepProgress = previousConfig.ShowSkepProgress;
         ShowStackMetalUnits = previousConfig.ShowStackMetalUnits;
 
+        ShowBerryBushProgress = previousConfig.ShowBerryBushProgress;
         ShowFarmlandProgress = previousConfig.ShowFarmlandProgress;
         ShowTreeProgress = previousConfig.ShowTreeProgress;
         ShowTreeStats = previousConfig.ShowTreeStats;

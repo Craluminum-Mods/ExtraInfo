@@ -48,6 +48,7 @@ public class ConfigLibCompatibility
         config.ShowStackMetalUnits = OnCheckBox(id, config.ShowStackMetalUnits, nameof(config.ShowStackMetalUnits));
         ImGui.NewLine();
         ImGui.TextWrapped(Lang.Get($"{MOD_ID}:Config.Category.Farming"));
+        config.ShowBerryBushProgress = OnCheckBox(id, config.ShowBerryBushProgress, nameof(config.ShowBerryBushProgress));
         config.ShowFarmlandProgress = OnCheckBox(id, config.ShowFarmlandProgress, nameof(config.ShowFarmlandProgress));
         config.ShowTreeProgress = OnCheckBox(id, config.ShowTreeProgress, nameof(config.ShowTreeProgress));
         config.ShowTreeStats = OnCheckBox(id, config.ShowTreeStats, nameof(config.ShowTreeStats));
