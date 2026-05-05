@@ -46,6 +46,8 @@ public static class TimeFormatter
 
     public static string BuildTimeBlockPlusProgressBar(ICoreAPI api, TimeBasedProgressBarProperties props, bool reversed = false)
     {
+        if (!props.ShowProgressBar && !props.ShowInGameTime && !props.ShowRealTime) return "";
+
         float completedPercent = 0;
         if (props.HoursTotal > 0)
         {
@@ -89,7 +91,7 @@ public static class TimeFormatter
             }
             if (props.ShowRealTime)
             {
-                sb.Append(Lang.Get("extrainfo:InRealTime", irlTimeStr));
+                sb.AppendLine(Lang.Get("extrainfo:InRealTime", irlTimeStr));
             }
         }
 
