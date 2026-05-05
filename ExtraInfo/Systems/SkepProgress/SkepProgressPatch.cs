@@ -13,7 +13,8 @@ public static class SkepProgressPatch
     [HarmonyPostfix]
     public static void Postfix(BlockEntityBeehive __instance, StringBuilder dsc, EnumHivePopSize ___hivePopSize, double ___harvestableAtTotalHours)
     {
-        if (Config?.ShowSkepProgress != true) return;
+        if (!ApplyTimersOrProgressBars()) return;
+        if (!Config.ShowSkepProgress) return;
         if (__instance.Harvestable) return;
 
         // progress bar is not shown, because poor population prevents any progress
@@ -30,7 +31,11 @@ public static class SkepProgressPatch
             {
                 HeaderKey = Lang.Get("extrainfo:WillFinishIn"),
                 HoursTotal = honeyTotal,
-                HoursLeft = Math.Clamp(honeyHoursLeft, 0, honeyTotal)
+                HoursLeft = Math.Clamp(honeyHoursLeft, 0, honeyTotal),
+
+                ShowProgressBar = Config.ShowProgressBars,
+                ShowRealTime = Config.ShowRealTimeInfo,
+                ShowInGameTime = Config.ShowInGameTimeInfo
             };
 
             string honeyBlock = TimeFormatter.BuildTimeBlockPlusProgressBar(api, props);

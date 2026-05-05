@@ -13,7 +13,8 @@ public static class TreeProgressPatch
     [HarmonyPostfix]
     public static void Postfix(BlockEntitySapling __instance, StringBuilder dsc)
     {
-        if (Config?.ShowTreeProgress != true) return;
+        if (!ApplyTimersOrProgressBars()) return;
+        if (!Config.ShowTreeProgress) return;
 
         double targetHours = __instance.GetField<double>("totalHoursTillGrowth");
         double currentHours = __instance.Api.World.Calendar.TotalHours;
@@ -30,7 +31,11 @@ public static class TreeProgressPatch
             {
                 HeaderKey = Lang.Get(__instance.stage == EnumTreeGrowthStage.Seed ? "extrainfo:WillSproutIn" : "extrainfo:WillMatureIn"),
                 HoursTotal = totalStageHours,
-                HoursLeft = Math.Clamp(hoursRemaining, 0, totalStageHours)
+                HoursLeft = Math.Clamp(hoursRemaining, 0, totalStageHours),
+
+                ShowProgressBar = Config.ShowProgressBars,
+                ShowRealTime = Config.ShowRealTimeInfo,
+                ShowInGameTime = Config.ShowInGameTimeInfo
             };
 
             dsc.AppendLine().Append(TimeFormatter.BuildTimeBlockPlusProgressBar(__instance.Api, props));

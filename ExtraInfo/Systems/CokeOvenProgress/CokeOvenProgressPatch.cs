@@ -14,7 +14,8 @@ public static class CokeOvenProgressPatch
     [HarmonyPostfix]
     public static void Postfix(ref string __result, IWorldAccessor world, BlockPos pos)
     {
-        if (Config?.ShowCokeOvenProgress != true) return;
+        if (!ApplyTimersOrProgressBars()) return;
+        if (!Config.ShowCokeOvenProgress) return;
         if (world.BlockAccessor.GetBlock(pos) is not BlockCokeOvenDoor) return;
 
         BlockPos[] positions = [pos.NorthCopy(), pos.EastCopy(), pos.SouthCopy(), pos.WestCopy()];
@@ -37,7 +38,11 @@ public static class CokeOvenProgressPatch
             {
                 HeaderKey = Lang.Get("extrainfo:WillFinishIn"),
                 HoursTotal = totalBurnHours,
-                HoursLeft = hoursRemaining
+                HoursLeft = hoursRemaining,
+
+                ShowProgressBar = Config.ShowProgressBars,
+                ShowRealTime = Config.ShowRealTimeInfo,
+                ShowInGameTime = Config.ShowInGameTimeInfo
             };
 
             string verticalBlock = TimeFormatter.BuildTimeBlockPlusProgressBar(world.Api, barProps);

@@ -24,10 +24,19 @@ public static class InfoExtensions
         {
             HeaderKey = headerKey,
             HoursTotal = currentPileCapacity,
-            HoursLeft = totalRemainingHours
+            HoursLeft = totalRemainingHours,
+
+            ShowProgressBar = Config.ShowProgressBars,
+            ShowRealTime = Config.ShowRealTimeInfo,
+            ShowInGameTime = Config.ShowInGameTimeInfo
         };
 
         sb.AppendLine();
         sb.Append(TimeFormatter.BuildTimeBlockPlusProgressBar(fuelPile.Api, props, reversed: true));
+    }
+
+    public static bool ApplyTimersOrProgressBars()
+    {
+        return Config != null && (Config.ShowProgressBars || Config.ShowRealTimeInfo || Config.ShowInGameTimeInfo);
     }
 }

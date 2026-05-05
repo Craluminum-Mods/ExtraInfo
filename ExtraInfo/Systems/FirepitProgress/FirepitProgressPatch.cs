@@ -12,7 +12,8 @@ public static class FirepitProgressPatch
     [HarmonyPostfix]
     public static void Postfix(BlockEntityOpenableContainer __instance, StringBuilder dsc)
     {
-        if (Config?.ShowFirepitProgress != true) return;
+        if (!ApplyTimersOrProgressBars()) return;
+        if (!Config.ShowFirepitProgress) return;
         if (__instance is not BlockEntityFirepit blockEntity) return;
 
         int inputCount = blockEntity.inputSlot?.Itemstack?.StackSize ?? 0;
@@ -32,7 +33,10 @@ public static class FirepitProgressPatch
                 HoursTotal = totalMaxTime,
                 HoursLeft = Math.Max(0, totalRemaining),
                 ShowInGameTime = false,
-                IsRawSeconds = true
+                IsRawSeconds = true,
+
+                ShowProgressBar = Config.ShowProgressBars,
+                ShowRealTime = Config.ShowRealTimeInfo
             };
 
             dsc.AppendLine().AppendLine(TimeFormatter.BuildTimeBlockPlusProgressBar(blockEntity.Api, stackProps, reversed: false));
@@ -52,7 +56,10 @@ public static class FirepitProgressPatch
                     HoursTotal = maxTime,
                     HoursLeft = remaining,
                     ShowInGameTime = false,
-                    IsRawSeconds = true
+                    IsRawSeconds = true,
+
+                    ShowProgressBar = Config.ShowProgressBars,
+                    ShowRealTime = Config.ShowRealTimeInfo
                 };
 
                 dsc.AppendLine().AppendLine(TimeFormatter.BuildTimeBlockPlusProgressBar(blockEntity.Api, itemProps, reversed: false));
@@ -77,6 +84,8 @@ public static class FirepitProgressPatch
                     ShowInGameTime = false,
                     ShowProgressBar = false,
                     IsRawSeconds = true,
+
+                    ShowRealTime = Config.ShowRealTimeInfo
                 };
                 dsc.AppendLine().AppendLine(TimeFormatter.BuildTimeBlockPlusProgressBar(blockEntity.Api, totalFuelProps, reversed: true));
             }
@@ -88,7 +97,10 @@ public static class FirepitProgressPatch
                 HoursTotal = blockEntity.maxFuelBurnTime,
                 HoursLeft = blockEntity.fuelBurnTime,
                 ShowInGameTime = false,
-                IsRawSeconds = true
+                IsRawSeconds = true,
+
+                ShowProgressBar = Config.ShowProgressBars,
+                ShowRealTime = Config.ShowRealTimeInfo
             };
             dsc.AppendLine().AppendLine(TimeFormatter.BuildTimeBlockPlusProgressBar(blockEntity.Api, fuelProps, reversed: true));
         }

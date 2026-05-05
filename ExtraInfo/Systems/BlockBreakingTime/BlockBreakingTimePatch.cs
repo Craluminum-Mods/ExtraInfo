@@ -15,7 +15,9 @@ public static class BlockBreakingTimePatch
     [HarmonyPostfix]
     public static void Postfix(ref string __result, IWorldAccessor world, BlockPos pos)
     {
-        if (Config?.ShowBlockBreakingTime != true) return;
+        if (!ApplyTimersOrProgressBars()) return;
+        if (!Config.ShowProgressBars) return;
+        if (!Config.ShowBlockBreakingTime) return;
 
         var damagedBlocks = (world as ClientMain)?.GetField<Dictionary<BlockPos, BlockDamage>>("damagedBlocks");
         if (damagedBlocks == null || !damagedBlocks.TryGetValue(pos, out var damage)) return;

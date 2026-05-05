@@ -1,4 +1,5 @@
 global using static ExtraInfo.Systems.Core;
+global using static ExtraInfo.InfoExtensions;
 using ExtraInfo.Configuration;
 using HarmonyLib;
 using Vintagestory.API.Common;

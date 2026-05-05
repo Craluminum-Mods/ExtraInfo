@@ -11,10 +11,9 @@ public static class BloomeryProgressPatch
     [HarmonyPostfix]
     public static void Postfix(BlockEntityBloomery __instance, StringBuilder dsc, double ___burningUntilTotalDays, double ___burningStartTotalDays, bool ___burning)
     {
-        if (Config?.ShowBloomeryProgress != true) return;
-
+        if (!ApplyTimersOrProgressBars()) return;
+        if (!Config.ShowBloomeryProgress) return;
         if (__instance?.Api == null) return;
-
         if (!___burning) return;
 
         float hoursPerDay = __instance.Api.World.Calendar.HoursPerDay;
@@ -27,7 +26,11 @@ public static class BloomeryProgressPatch
             {
                 HeaderKey = Lang.Get("extrainfo:WillFinishIn"),
                 HoursTotal = totalDurationHours,
-                HoursLeft = hoursLeft
+                HoursLeft = hoursLeft,
+
+                ShowProgressBar = Config.ShowProgressBars,
+                ShowRealTime = Config.ShowRealTimeInfo,
+                ShowInGameTime = Config.ShowInGameTimeInfo
             };
 
             string verticalBlock = TimeFormatter.BuildTimeBlockPlusProgressBar(__instance.Api, barProps);

@@ -12,7 +12,8 @@ public static class FarmlandProgressPatch
     [HarmonyPostfix]
     public static void Postfix(BlockEntityFarmland __instance, StringBuilder dsc)
     {
-        if (Config?.ShowFarmlandProgress != true) return;
+        if (!ApplyTimersOrProgressBars()) return;
+        if (!Config.ShowFarmlandProgress) return;
 
         if (__instance?.Api == null) return;
 
@@ -35,7 +36,11 @@ public static class FarmlandProgressPatch
             {
                 HeaderKey = Lang.Get("extrainfo:NextStageIn"),
                 HoursTotal = totalStageWindow,
-                HoursLeft = hoursRemaining
+                HoursLeft = hoursRemaining,
+
+                ShowProgressBar = Config.ShowProgressBars,
+                ShowRealTime = Config.ShowRealTimeInfo,
+                ShowInGameTime = Config.ShowInGameTimeInfo
             };
 
             string verticalBlock = TimeFormatter.BuildTimeBlockPlusProgressBar(__instance.Api, props);

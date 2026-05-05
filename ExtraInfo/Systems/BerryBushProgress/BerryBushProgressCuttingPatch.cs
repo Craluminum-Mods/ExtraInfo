@@ -13,7 +13,8 @@ public static class BerryBushProgressCuttingPatch
     [HarmonyPostfix]
     public static void Postfix(BEBehaviorFruitingBushCutting __instance, StringBuilder dsc)
     {
-        if (Config?.ShowBerryBushProgress != true) return;
+        if (!ApplyTimersOrProgressBars()) return;
+        if (!Config.ShowBerryBushProgress) return;
 
         ICoreAPI api = __instance.Api;
         double currentDays = api.World.Calendar.TotalDays;
@@ -30,7 +31,11 @@ public static class BerryBushProgressCuttingPatch
             {
                 HeaderKey = Lang.Get("extrainfo:WillMatureIn"),
                 HoursTotal = totalHours,
-                HoursLeft = Math.Clamp(hoursLeft, 0, totalHours)
+                HoursLeft = Math.Clamp(hoursLeft, 0, totalHours),
+
+                ShowProgressBar = Config.ShowProgressBars,
+                ShowRealTime = Config.ShowRealTimeInfo,
+                ShowInGameTime = Config.ShowInGameTimeInfo
             };
 
             dsc.AppendLine().Append(TimeFormatter.BuildTimeBlockPlusProgressBar(api, props));

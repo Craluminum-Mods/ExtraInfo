@@ -12,7 +12,8 @@ public static class PitKilnProgressPatch
     [HarmonyPostfix]
     public static void Postfix(BlockEntityPitKiln __instance, StringBuilder dsc)
     {
-        if (Config?.ShowPitKilnProgress != true) return;
+        if (!ApplyTimersOrProgressBars()) return;
+        if (!Config.ShowPitKilnProgress) return;
         if (__instance?.Api == null || !__instance.Lit) return;
 
         ICoreAPI api = __instance.Api;
@@ -27,7 +28,11 @@ public static class PitKilnProgressPatch
             {
                 HeaderKey = Lang.Get("extrainfo:WillFinishIn"),
                 HoursTotal = __instance.BurnTimeHours,
-                HoursLeft = hoursRemaining
+                HoursLeft = hoursRemaining,
+
+                ShowProgressBar = Config.ShowProgressBars,
+                ShowRealTime = Config.ShowRealTimeInfo,
+                ShowInGameTime = Config.ShowInGameTimeInfo
             };
 
             string verticalBlock = TimeFormatter.BuildTimeBlockPlusProgressBar(api, props);

@@ -14,7 +14,8 @@ public static class BeehiveKilnProgressPatch
     public static void Postfix(BlockEntityBeeHiveKiln __instance, IPlayer forPlayer, StringBuilder dsc,
         bool ___receivesHeat, BEBehaviorDoor ___beBehaviorDoor)
     {
-        if (Config?.ShowBeehiveKilnProgress != true) return;
+        if (!ApplyTimersOrProgressBars()) return;
+        if (!Config.ShowBeehiveKilnProgress) return;
 
         double targetHours = BlockEntityBeeHiveKiln.ItemBurnTimeHours;
 
@@ -30,7 +31,11 @@ public static class BeehiveKilnProgressPatch
         {
             HeaderKey = Lang.Get(statusKey),
             HoursTotal = targetHours,
-            HoursLeft = hoursRemaining
+            HoursLeft = hoursRemaining,
+
+            ShowProgressBar = Config.ShowProgressBars,
+            ShowRealTime = Config.ShowRealTimeInfo,
+            ShowInGameTime = Config.ShowInGameTimeInfo
         };
 
         string verticalBlock = TimeFormatter.BuildTimeBlockPlusProgressBar(__instance.Api, props);

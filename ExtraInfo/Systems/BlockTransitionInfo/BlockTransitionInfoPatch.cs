@@ -12,8 +12,8 @@ public static class BlockTransitionInfoPatch
     [HarmonyPostfix]
     public static void Postfix(BlockEntity __instance, StringBuilder dsc)
     {
-        if (Config?.ShowBlockTransitionInfo != true) return;
-
+        if (!ApplyTimersOrProgressBars()) return;
+        if (!Config.ShowBlockTransitionInfo) return;
         if (__instance is not BlockEntityTransient blockEntity) return;
 
         TransientProperties props = blockEntity.GetField<TransientProperties>("props");
@@ -29,7 +29,11 @@ public static class BlockTransitionInfoPatch
             {
                 HeaderKey = Lang.Get("extrainfo:TimeUntilTransition"),
                 HoursTotal = props.InGameHours,
-                HoursLeft = hoursLeft
+                HoursLeft = hoursLeft,
+
+                ShowProgressBar = Config.ShowProgressBars,
+                ShowRealTime = Config.ShowRealTimeInfo,
+                ShowInGameTime = Config.ShowInGameTimeInfo
             };
 
             string verticalBlock = TimeFormatter.BuildTimeBlockPlusProgressBar(blockEntity.Api, barProps);

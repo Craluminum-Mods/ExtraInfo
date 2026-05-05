@@ -11,7 +11,9 @@ public static class CoalPileProgressPatch
     [HarmonyPostfix]
     public static void Postfix(BlockEntityItemPile __instance, StringBuilder dsc)
     {
-        if (Config?.ShowFuelProgress != true) return;
+        if (!ApplyTimersOrProgressBars()) return;
+        if (!Config.ShowProgressBars) return;
+        if (!Config.ShowFuelProgress) return;
 
         if (__instance is not BlockEntityCoalPile coalPile) return;
 

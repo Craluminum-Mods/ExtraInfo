@@ -14,7 +14,8 @@ public static class CharcoalPitProgressPatch
     [HarmonyPostfix]
     public static void Postfix(ref string __result, IWorldAccessor world, BlockPos pos)
     {
-        if (Config?.ShowCharcoalPitProgress != true) return;
+        if (!ApplyTimersOrProgressBars()) return;
+        if (!Config.ShowCharcoalPitProgress) return;
 
         if (world.BlockAccessor.GetBlockEntity(pos.DownCopy()) is not BlockEntityCharcoalPit blockEntity) return;
 
@@ -30,7 +31,12 @@ public static class CharcoalPitProgressPatch
             double startingAfterTotalHours = blockEntity.GetField<double>("startingAfterTotalHours");
             double currentHours = world.Calendar.TotalHours;
 
-            var props = new TimeBasedProgressBarProperties();
+            var props = new TimeBasedProgressBarProperties()
+            {
+                ShowProgressBar = Config.ShowProgressBars,
+                ShowRealTime = Config.ShowRealTimeInfo,
+                ShowInGameTime = Config.ShowInGameTimeInfo
+            };
 
             switch (state)
             {

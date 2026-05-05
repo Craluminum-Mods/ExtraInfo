@@ -12,7 +12,9 @@ public static class BurnablePileProgressPatch
     [HarmonyPostfix]
     public static void Postfix(BlockEntityGroundStorage __instance, StringBuilder dsc, float ___burnHoursPerItem)
     {
-        if (Config?.ShowFuelProgress != true || !__instance.IsBurning) return;
+        if (!ApplyTimersOrProgressBars()) return;
+        if (!Config.ShowFuelProgress) return;
+        if (!__instance.IsBurning) return;
         if (___burnHoursPerItem <= 0 || __instance.Inventory == null || __instance.Inventory.Empty) return;
 
         double elapsedOnCurrentItem = __instance.GetHoursLeft(__instance.Api.World.Calendar.TotalHours);
@@ -29,7 +31,11 @@ public static class BurnablePileProgressPatch
             {
                 HeaderKey = Lang.Get("extrainfo:Fuel"),
                 HoursTotal = currentPileCapacity,
-                HoursLeft = totalRemainingHours
+                HoursLeft = totalRemainingHours,
+
+                ShowProgressBar = Config.ShowProgressBars,
+                ShowRealTime = Config.ShowRealTimeInfo,
+                ShowInGameTime = Config.ShowInGameTimeInfo
             };
 
             dsc.AppendLine().Append(TimeFormatter.BuildTimeBlockPlusProgressBar(__instance.Api, props, reversed: true));

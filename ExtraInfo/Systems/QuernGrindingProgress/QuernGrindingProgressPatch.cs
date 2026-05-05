@@ -12,7 +12,9 @@ public static class QuernGrindingProgressPatch
     [HarmonyPostfix]
     public static void Postfix(BlockEntityOpenableContainer __instance, StringBuilder dsc)
     {
-        if (Config?.ShowQuernGrindingProgress != true) return;
+        if (!ApplyTimersOrProgressBars()) return;
+        if (!Config.ShowProgressBars) return;
+        if (!Config.ShowQuernGrindingProgress) return;
         if (__instance is not BlockEntityQuern blockEntity) return;
 
         int inputCount = blockEntity.InputSlot?.Itemstack?.StackSize ?? 0;

@@ -17,7 +17,8 @@ public static class CementationFurnaceProgressPatch
     [HarmonyPostfix]
     public static void Postfix(ref string __result, IWorldAccessor world, BlockPos pos)
     {
-        if (Config?.ShowCementationFurnaceProgress != true) return;
+        if (!ApplyTimersOrProgressBars()) return;
+        if (!Config.ShowCementationFurnaceProgress) return;
 
         Block block = world.BlockAccessor.GetBlock(pos);
         if (block?.Code?.Path == null || !block.Code.Path.Contains("door")) return;
@@ -35,7 +36,12 @@ public static class CementationFurnaceProgressPatch
             StringBuilder sb = new(__result);
             bool barAdded = false;
 
-            TimeBasedProgressBarProperties barProps = new();
+            var barProps = new TimeBasedProgressBarProperties()
+            {
+                ShowProgressBar = Config.ShowProgressBars,
+                ShowRealTime = Config.ShowRealTimeInfo,
+                ShowInGameTime = Config.ShowInGameTimeInfo
+            };
 
             if (processComplete)
             {
