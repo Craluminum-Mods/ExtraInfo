@@ -31,6 +31,7 @@ public class Config
     public bool ShowBlockBreakingTime { get; set; } = true;
     public bool ShowBlockTransitionInfo { get; set; } = true;
     public bool ShowBombStats { get; set; } = true;
+    public bool ShowFuelProgress { get; set; } = true;
     public bool ShowMechanicalBlockInfo { get; set; }
     public bool ShowPileTotalItems { get; set; } = true;
     public bool ShowTranslocatorDestination { get; set; } = true;
@@ -70,6 +71,7 @@ public class Config
         ShowBlockBreakingTime = previousConfig.ShowBlockBreakingTime;
         ShowBlockTransitionInfo = previousConfig.ShowBlockTransitionInfo;
         ShowBombStats = previousConfig.ShowBombStats;
+        ShowFuelProgress = previousConfig.ShowFuelProgress;
         ShowMechanicalBlockInfo = previousConfig.ShowMechanicalBlockInfo;
         ShowPileTotalItems = previousConfig.ShowPileTotalItems;
         ShowTranslocatorDestination = previousConfig.ShowTranslocatorDestination;

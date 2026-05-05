@@ -26,16 +26,14 @@ public static class CementationFurnaceProgressPatch
 
         foreach (BlockPos coffinPos in neighborPositions)
         {
-            if (world.BlockAccessor.GetBlockEntity(coffinPos) is not BlockEntityStoneCoffin be) continue;
-
-            if (!be.StructureComplete) continue;
+            if (world.BlockAccessor.GetBlockEntity(coffinPos) is not BlockEntityStoneCoffin be || !be.StructureComplete) continue;
 
             bool processComplete = be.GetField<bool>("processComplete");
             double progress = be.GetField<double>("progress");
             bool receivesHeat = be.GetField<bool>("receivesHeat");
 
             StringBuilder sb = new(__result);
-            sb.AppendLine().AppendLine();
+            bool barAdded = false;
 
             TimeBasedProgressBarProperties barProps = new();
 
@@ -54,20 +52,25 @@ public static class CementationFurnaceProgressPatch
 
             if (barProps.HoursTotal > 0)
             {
+                sb.AppendLine().AppendLine();
                 sb.AppendLine(TimeFormatter.BuildTimeBlockPlusProgressBar(world.Api, barProps));
+                barAdded = true;
             }
 
-            if (be.FuelPositions != null && be.FuelPositions.Length > 0)
+            if (Config.ShowFuelProgress && be.FuelPositions?.Length > 0)
             {
                 if (world.BlockAccessor.GetBlockEntity(be.FuelPositions.FirstOrDefault()) is BlockEntityCoalPile fuelPile)
                 {
                     if (fuelPile.IsBurning)
                     {
-                        InfoExtensions.AppendFuelProgress(sb, fuelPile, Lang.Get("Fuel"));
+                        InfoExtensions.AppendFuelProgress(sb, fuelPile, Lang.Get("extrainfo:Fuel"));
                     }
                     else if (!processComplete)
                     {
-                        sb.AppendLine().Append($"{Lang.Get("Fuel")}: {Lang.Get("Not burning")}");
+                        if (!barAdded) sb.AppendLine().AppendLine();
+                        else sb.AppendLine();
+                        
+                        sb.Append($"{Lang.Get("extrainfo:Fuel")}: {Lang.Get("Not burning")}");
                     }
                 }
             }

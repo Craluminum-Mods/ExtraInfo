@@ -57,6 +57,7 @@ public class ConfigLibCompatibility
         config.ShowBlockBreakingTime = OnCheckBox(id, config.ShowBlockBreakingTime, nameof(config.ShowBlockBreakingTime));
         config.ShowBlockTransitionInfo = OnCheckBox(id, config.ShowBlockTransitionInfo, nameof(config.ShowBlockTransitionInfo));
         config.ShowBombStats = OnCheckBox(id, config.ShowBombStats, nameof(config.ShowBombStats));
+        config.ShowFuelProgress = OnCheckBox(id, config.ShowFuelProgress, nameof(config.ShowFuelProgress));
         config.ShowMechanicalBlockInfo = OnCheckBox(id, config.ShowMechanicalBlockInfo, nameof(config.ShowMechanicalBlockInfo));
         config.ShowPileTotalItems = OnCheckBox(id, config.ShowPileTotalItems, nameof(config.ShowPileTotalItems));
         config.ShowTranslocatorDestination = OnCheckBox(id, config.ShowTranslocatorDestination, nameof(config.ShowTranslocatorDestination));
