@@ -10,6 +10,10 @@ public class Config
     public bool ShowBlockTransitionInfo { get; set; } = true;
     public bool ShowFuelProgress { get; set; } = true;
     #endregion
+    #region Preview
+    public bool ShowClayformingPlacementPreview { get; set; } = true;
+    public byte[] ClayformingPlacementPreviewColor { get; set; } = [0, 255, 255, 255]; // RGBA
+    #endregion
     #region Handbook
     public bool OpenHandbookPageForEntity { get; set; } = true;
     public bool ShowHandbookCreatureDiet { get; set; } = true;
@@ -49,7 +53,6 @@ public class Config
     public bool ShowPileTotalItems { get; set; } = true;
     public bool ShowTranslocatorDestination { get; set; } = true;
     #endregion
-
     public Config() { }
 
     public Config(Config? previousConfig)

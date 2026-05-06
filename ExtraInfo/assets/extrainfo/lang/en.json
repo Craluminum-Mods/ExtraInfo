@@ -7,6 +7,10 @@
     "Config.Setting.ShowBlockTransitionInfo": "Show the number of hours left for a block's transition state to complete",
     "Config.Setting.ShowFuelProgress": "Display time remaining for burning fuel and coal piles",
 
+    "Config.Category.Clayforming": "Clayforming placement preview",
+    "Config.Setting.ShowClayformingPlacementPreview": "Enabled",
+    "Config.Setting.ClayformingPlacementPreviewColor": "Wireframe color",
+
     "Config.Category.Handbook": "Handbook",
     "Config.Setting.OpenHandbookPageForEntity": "Enable the option to open the handbook page for the creature you are looking at",
     "Config.Setting.ShowHandbookCreatureDiet": "Show creature diets in the handbook",

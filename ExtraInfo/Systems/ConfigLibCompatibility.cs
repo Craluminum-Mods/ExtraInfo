@@ -1,6 +1,7 @@
 using ConfigLib;
 using ExtraInfo.Configuration;
 using ImGuiNET;
+using System.Numerics;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 
@@ -31,7 +32,15 @@ public class ConfigLibCompatibility
         config.ShowBlockBreakingTime = OnCheckBox(id, config.ShowBlockBreakingTime, nameof(config.ShowBlockBreakingTime));
         config.ShowBlockTransitionInfo = OnCheckBox(id, config.ShowBlockTransitionInfo, nameof(config.ShowBlockTransitionInfo));
         config.ShowFuelProgress = OnCheckBox(id, config.ShowFuelProgress, nameof(config.ShowFuelProgress));
-        ImGui.NewLine();
+
+        ImGui.Separator();
+        if (ImGui.CollapsingHeader(Lang.Get($"{MOD_ID}:Config.Category.Clayforming") + $"##clayforming-{id}"))
+        {
+            config.ShowClayformingPlacementPreview = OnCheckBox(id, config.ShowClayformingPlacementPreview, nameof(config.ShowClayformingPlacementPreview));
+            config.ClayformingPlacementPreviewColor = PickColor(id, config.ClayformingPlacementPreviewColor, nameof(config.ClayformingPlacementPreviewColor));
+            ImGui.NewLine();
+        }
+        ImGui.Separator();
 
         ImGui.TextWrapped(Lang.Get($"{MOD_ID}:Config.Category.Handbook"));
         config.OpenHandbookPageForEntity = OnCheckBox(id, config.OpenHandbookPageForEntity, nameof(config.OpenHandbookPageForEntity));
@@ -83,5 +92,29 @@ public class ConfigLibCompatibility
         var fullName = Lang.Get($"{MOD_ID}:Config.Setting." + name);
         ImGui.Checkbox(fullName + $"##{name}-{id}", ref newValue);
         return newValue;
+    }
+
+    private byte[] PickColor(string id, byte[] color, string name)
+    {
+        var fullName = Lang.Get($"{MOD_ID}:Config.Setting." + name);
+
+        Vector4 newValue = new Vector4(
+            color[0] / 255f, // R
+            color[1] / 255f, // G
+            color[2] / 255f, // B
+            color[3] / 255f  // A
+        );
+
+        ImGui.SetNextItemWidth(150);
+        ImGuiColorEditFlags flags = ImGuiColorEditFlags.PickerHueBar | ImGuiColorEditFlags.DisplayHex | ImGuiColorEditFlags.AlphaBar;
+        if (ImGui.ColorEdit4(fullName + $"##{name}-{id}", ref newValue, flags))
+        {
+            color[0] = (byte)(newValue.X * 255);
+            color[1] = (byte)(newValue.Y * 255);
+            color[2] = (byte)(newValue.Z * 255);
+            color[3] = (byte)(newValue.W * 255);
+        }
+
+        return color;
     }
 }
