@@ -32,6 +32,7 @@
 
     "Config.Category.Processing": "Processing",
     "Config.Setting.ShowBeehiveKilnProgress": "Show beehive kiln progress info on the door",
+    "Config.Setting.ShowBoilerProgress": "Show boiler fuel progress",
     "Config.Setting.ShowFirepitProgress": "Show cooking progress in a firepit",
     "Config.Setting.ShowPitKilnProgress": "Show progress of firing in the pit kiln",
     "Config.Setting.ShowQuernGrindingProgress": "Show grinding progress of the quern",
@@ -72,6 +73,7 @@
     "animal-ready-to-mate-in": "Ready to mate in:",
     "animal-will-give-birth-in": "Will give birth in:",
     "animal-giving-birth-soon": "Will give birth very soon",
+    "boiler-progress-distilling": "Will finish distilling {0}ml in:",
 
     "WorkableTemperature": "Workable Temperature: {0}°C",
     "AlwaysWorkable": "Workable Temperature: Always",

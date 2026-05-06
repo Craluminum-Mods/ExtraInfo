@@ -38,7 +38,6 @@ public class ConfigLibCompatibility
         {
             config.ShowClayformingPlacementPreview = OnCheckBox(id, config.ShowClayformingPlacementPreview, nameof(config.ShowClayformingPlacementPreview));
             config.ClayformingPlacementPreviewColor = PickColor(id, config.ClayformingPlacementPreviewColor, nameof(config.ClayformingPlacementPreviewColor));
-            ImGui.NewLine();
         }
         ImGui.Separator();
 
@@ -65,6 +64,7 @@ public class ConfigLibCompatibility
 
         ImGui.TextWrapped(Lang.Get($"{MOD_ID}:Config.Category.Processing"));
         config.ShowBeehiveKilnProgress = OnCheckBox(id, config.ShowBeehiveKilnProgress, nameof(config.ShowBeehiveKilnProgress));
+        config.ShowBoilerProgress = OnCheckBox(id, config.ShowBoilerProgress, nameof(config.ShowBoilerProgress));
         config.ShowFirepitProgress = OnCheckBox(id, config.ShowFirepitProgress, nameof(config.ShowFirepitProgress));
         config.ShowPitKilnProgress = OnCheckBox(id, config.ShowPitKilnProgress, nameof(config.ShowPitKilnProgress));
         config.ShowQuernGrindingProgress = OnCheckBox(id, config.ShowQuernGrindingProgress, nameof(config.ShowQuernGrindingProgress));
@@ -88,15 +88,15 @@ public class ConfigLibCompatibility
 
     private bool OnCheckBox(string id, bool value, string name)
     {
+        string fullName = Lang.Get($"{MOD_ID}:Config.Setting." + name);
         bool newValue = value;
-        var fullName = Lang.Get($"{MOD_ID}:Config.Setting." + name);
         ImGui.Checkbox(fullName + $"##{name}-{id}", ref newValue);
         return newValue;
     }
 
     private byte[] PickColor(string id, byte[] color, string name)
     {
-        var fullName = Lang.Get($"{MOD_ID}:Config.Setting." + name);
+        string fullName = Lang.Get($"{MOD_ID}:Config.Setting." + name);
 
         Vector4 newValue = new Vector4(
             color[0] / 255f, // R

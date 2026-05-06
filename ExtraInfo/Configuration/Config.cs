@@ -10,7 +10,7 @@ public class Config
     public bool ShowBlockTransitionInfo { get; set; } = true;
     public bool ShowFuelProgress { get; set; } = true;
     #endregion
-    #region Preview
+    #region Clayforming
     public bool ShowClayformingPlacementPreview { get; set; } = true;
     public byte[] ClayformingPlacementPreviewColor { get; set; } = [0, 255, 255, 255]; // RGBA
     #endregion
@@ -35,6 +35,7 @@ public class Config
     #endregion
     #region Processsing
     public bool ShowBeehiveKilnProgress { get; set; } = true;
+    public bool ShowBoilerProgress { get; set; } = true;
     public bool ShowFirepitProgress { get; set; } = true;
     public bool ShowPitKilnProgress { get; set; } = true;
     public bool ShowQuernGrindingProgress { get; set; } = true;
