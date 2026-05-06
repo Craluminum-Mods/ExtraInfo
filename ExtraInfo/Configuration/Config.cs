@@ -36,6 +36,7 @@ public class Config
     public bool ShowQuernGrindingProgress { get; set; } = true;
     #endregion
     #region Husbandry
+    public bool ShowAnimalPregnancyProgress { get; set; } = true;
     public bool ShowBerryBushProgress { get; set; } = true;
     public bool ShowFarmlandProgress { get; set; } = true;
     public bool ShowSkepProgress { get; set; } = true;

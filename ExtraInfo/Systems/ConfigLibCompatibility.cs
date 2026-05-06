@@ -62,6 +62,7 @@ public class ConfigLibCompatibility
         ImGui.NewLine();
 
         ImGui.TextWrapped(Lang.Get($"{MOD_ID}:Config.Category.Husbandry"));
+        config.ShowAnimalPregnancyProgress = OnCheckBox(id, config.ShowAnimalPregnancyProgress, nameof(config.ShowAnimalPregnancyProgress));
         config.ShowBerryBushProgress = OnCheckBox(id, config.ShowBerryBushProgress, nameof(config.ShowBerryBushProgress));
         config.ShowFarmlandProgress = OnCheckBox(id, config.ShowFarmlandProgress, nameof(config.ShowFarmlandProgress));
         config.ShowSkepProgress = OnCheckBox(id, config.ShowSkepProgress, nameof(config.ShowSkepProgress));

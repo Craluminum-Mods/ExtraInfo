@@ -33,6 +33,7 @@
     "Config.Setting.ShowQuernGrindingProgress": "Show grinding progress of the quern",
     
     "Config.Category.Husbandry": "Husbandry",
+    "Config.Setting.ShowAnimalPregnancyProgress": "Show the remaining time until animal is ready to mate or give birth",
     "Config.Setting.ShowBerryBushProgress": "Show the remaining time until the next berry bush stage",
     "Config.Setting.ShowFarmlandProgress": "Show the remaining time until the next crop stage",
     "Config.Setting.ShowSkepProgress": "Show progress of honey production in the skep",
@@ -64,6 +65,9 @@
     "firepit-progress-smeltable-current": "Current:",
     "firepit-progress-fuel-total": "All fuel will be depleted in:",
     "firepit-progress-fuel-current": "Current fuel will be depleted in:",
+    "animal-ready-to-mate-in": "Ready to mate in:",
+    "animal-will-give-birth-in": "Will give birth in:",
+    "animal-giving-birth-soon": "Will give birth very soon",
 
     "WorkableTemperature": "Workable Temperature: {0}°C",
     "AlwaysWorkable": "Workable Temperature: Always",
