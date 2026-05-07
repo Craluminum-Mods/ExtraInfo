@@ -37,30 +37,14 @@ public class ConfigLibCompatibility
         }
         if (BeginSection(id, "ProgressBar"))
         {
-            DrawCheckBox(id, config, nameof(config.ShowProgressBars));
-            DrawPickSymbol(id, config, nameof(config.ProgressBarFillChar));
-            DrawPickSymbol(id, config, nameof(config.ProgressBarEmptyChar));
-            DrawPickSymbol(id, config, nameof(config.ProgressBarStartCap));
-            DrawPickSymbol(id, config, nameof(config.ProgressBarEndCap));
-            DrawInputInt(id, config, nameof(config.ProgressBarWidth), 50);
-
-            ImGui.Spacing();
-            ImGui.SeparatorText(Lang.Get($"{MOD_ID}:Config.Setting.Preview"));
-
-            ImGui.PushStyleColor(ImGuiCol.ChildBg, ImGui.GetColorU32(ImGuiCol.FrameBg));
-
-            if (ImGui.BeginChild("preview_frame", new Vector2(0, 70), true, ImGuiWindowFlags.AlwaysAutoResize))
-            {
-                var barProps = new TimeBasedProgressBarProperties();
-                barProps.IsRawSeconds = true;
-                barProps.HoursLeft = 367;
-                barProps.HoursTotal = 1100;
-                ImGui.SetCursorPosY(ImGui.GetCursorPosY() + 5);
-                ImGui.TextUnformatted(TimeFormatter.BuildTimeBlockPlusProgressBar(api, barProps));
-                ImGui.EndChild();
-            }
-            ImGui.PopStyleColor();
-
+            bool changedAnyValue = false;
+            changedAnyValue |= DrawCheckBox(id, config, nameof(config.ShowProgressBars));
+            changedAnyValue |= DrawPickSymbol(id, config, nameof(config.ProgressBarFillChar));
+            changedAnyValue |= DrawPickSymbol(id, config, nameof(config.ProgressBarEmptyChar));
+            changedAnyValue |= DrawPickSymbol(id, config, nameof(config.ProgressBarStartCap));
+            changedAnyValue |= DrawPickSymbol(id, config, nameof(config.ProgressBarEndCap));
+            changedAnyValue |= DrawInputInt(id, config, nameof(config.ProgressBarWidth), 50);
+            DrawProgressBarPreview(api, changedAnyValue);
             EndSection();
         }
         if (BeginSection(id, "Clayforming"))
@@ -131,33 +115,33 @@ public class ConfigLibCompatibility
         ImGui.Spacing();
     }
 
-    private static void DrawCheckBox(string id, Configuration.Config config, string propertyName)
+    private static bool DrawCheckBox(string id, Configuration.Config config, string propertyName)
     {
         var propertyInfo = config.GetType().GetProperty(propertyName);
         bool configValue = (bool)propertyInfo.GetValue(config);
-
         if (ImGui.Checkbox($"##{propertyName}-{id}", ref configValue))
         {
             propertyInfo.SetValue(config, configValue);
+            return true;
         }
-
         ImGui.SameLine();
         ImGui.Text(Lang.Get($"{MOD_ID}:Config.Setting.{propertyName}"));
+        return false;
     }
 
-    private static void DrawInputInt(string id, Configuration.Config config, string propertyName, int max = 100)
+    private static bool DrawInputInt(string id, Configuration.Config config, string propertyName, int max = 100)
     {
         var propertyInfo = config.GetType().GetProperty(propertyName);
         int configValue = (int)propertyInfo.GetValue(config);
-
         ImGui.SetNextItemWidth(100);
         if (ImGui.InputInt($"##{propertyName}-{id}", ref configValue, 1, 10))
         {
             propertyInfo.SetValue(config, Math.Clamp(configValue, 0, max));
+            return true;
         }
-
         ImGui.SameLine();
         ImGui.Text(Lang.Get($"{MOD_ID}:Config.Setting.{propertyName}"));
+        return false;
     }
 
     private static void DrawPickColor(string id, Configuration.Config config, string propertyName)
@@ -172,15 +156,21 @@ public class ConfigLibCompatibility
         ImGui.Text(Lang.Get($"{MOD_ID}:Config.Setting.{propertyName}"));
     }
 
-    private static void DrawPickSymbol(string id, Configuration.Config config, string propertyName)
+    private static bool DrawPickSymbol(string id, Configuration.Config config, string propertyName)
     {
         var propertyInfo = config.GetType().GetProperty(propertyName);
         char configValue = (char)propertyInfo.GetValue(config);
-
-        propertyInfo.SetValue(config, PickSymbolInternal(id, configValue, propertyName));
+        char newValue = PickSymbolInternal(id, configValue, propertyName);
 
         ImGui.SameLine();
         ImGui.Text(Lang.Get($"{MOD_ID}:Config.Setting.{propertyName}"));
+
+        if (newValue != configValue)
+        {
+            propertyInfo.SetValue(config, newValue);
+            return true;
+        }
+        return false;
     }
 
     private static byte[] PickColorInternal(string id, byte[] color, string name)
@@ -252,5 +242,86 @@ public class ConfigLibCompatibility
         }
 
         return newValue;
+    }
+
+    private static float _progressBarTimeSinceChange = -100f;
+
+    private static void DrawProgressBarPreview(ICoreAPI api, bool changed)
+    {
+        if (changed) _progressBarTimeSinceChange = (float)ImGui.GetTime();
+
+        ImGui.Spacing();
+        ImGui.SeparatorText(Lang.Get($"{MOD_ID}:Config.Setting.Preview"));
+
+        Vector2 size = new Vector2(ImGui.GetContentRegionAvail().X, 80);
+        ImGui.Dummy(size);
+        Vector2 pMin = ImGui.GetItemRectMin();
+        Vector2 pMax = ImGui.GetItemRectMax();
+        Vector2 center = (pMin + pMax) * 0.5f;
+
+        var barProps = new TimeBasedProgressBarProperties { IsRawSeconds = true, HoursLeft = 367, HoursTotal = 1100 };
+        string fullText = TimeFormatter.BuildTimeBlockPlusProgressBar(api, barProps);
+        string[] lines = fullText.Split(["\r\n", "\r", "\n"], StringSplitOptions.None);
+
+        float time = (float)ImGui.GetTime();
+        float timeSinceChange = time - _progressBarTimeSinceChange;
+        var dl = ImGui.GetWindowDrawList();
+
+        float intensity = Math.Max(0, 1.0f - timeSinceChange);
+
+        float angle = (float)Math.Sin(time * 30.0f) * 0.15f * intensity;
+        float scale = 1.0f + (float)Math.Abs(Math.Sin(time * 40.0f)) * 0.1f * intensity;
+
+        Vector2[] corners = new Vector2[4]
+        {
+            Rotate(pMin, center, angle, scale),
+            Rotate(new Vector2(pMax.X, pMin.Y), center, angle, scale),
+            Rotate(pMax, center, angle, scale),
+            Rotate(new Vector2(pMin.X, pMax.Y), center, angle, scale)
+        };
+
+        dl.AddQuadFilled(corners[0], corners[1], corners[2], corners[3], ImGui.GetColorU32(ImGuiCol.FrameBg));
+        dl.AddQuad(corners[0], corners[1], corners[2], corners[3], ImGui.GetColorU32(ImGuiCol.Border), 1.0f);
+
+        float fontSize = ImGui.GetFontSize();
+        float lineHeight = fontSize * scale;
+        float totalHeight = lines.Length * lineHeight;
+        float currentYOffset = 0;
+
+        foreach (string line in lines)
+        {
+            float charXOffset = 0;
+            Vector2 lineSize = ImGui.CalcTextSize(line);
+            float startX = (size.X - (lineSize.X * scale)) * 0.5f;
+
+            foreach (char letter in line)
+            {
+                string s = letter.ToString();
+                Vector2 charSize = ImGui.CalcTextSize(s);
+
+                Vector2 localPos = new Vector2(
+                    (pMin.X + startX + charXOffset) - center.X,
+                    (pMin.Y + currentYOffset + (size.Y - totalHeight) * 0.5f) - center.Y
+                );
+
+                Vector2 rotatedCharPos = Rotate(center + localPos, center, angle, 1.0f);
+
+                dl.AddText(ImGui.GetFont(), fontSize * scale, rotatedCharPos, ImGui.GetColorU32(ImGuiCol.Text), s);
+
+                charXOffset += charSize.X * scale;
+            }
+            currentYOffset += lineHeight;
+        }
+    }
+
+    private static Vector2 Rotate(Vector2 point, Vector2 center, float angle, float scale)
+    {
+        float cos = (float)Math.Cos(angle);
+        float sin = (float)Math.Sin(angle);
+        Vector2 rel = (point - center) * scale;
+        return new Vector2(
+            rel.X * cos - rel.Y * sin + center.X,
+            rel.X * sin + rel.Y * cos + center.Y
+        );
     }
 }
