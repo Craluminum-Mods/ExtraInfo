@@ -44,7 +44,30 @@
 			<HintPath>../configlib.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
-		<PackageReference Include="VSImGui" Version="0.0.6" PrivateAssets="all" />
+		<Reference Include="VSImGui">
+			<HintPath>../VSImGui.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="ImGui.NET">
+			<HintPath>../ImGui.NET.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="ImGuiController_OpenTK">
+			<HintPath>../ImGuiController_OpenTK.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="ImGuizmo.NET">
+			<HintPath>../ImGuizmo.NET.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="ImNodes.NET">
+			<HintPath>../ImNodes.NET.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="ImPlot.NET">
+			<HintPath>../ImPlot.NET.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
 	</ItemGroup>
 
 	<ItemGroup>
