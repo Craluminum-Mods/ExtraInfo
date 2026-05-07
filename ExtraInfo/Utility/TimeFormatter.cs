@@ -15,20 +15,30 @@ public static class TimeFormatter
         {
             int days = (int)Math.Floor(t.TotalDays);
             int hours = t.Hours;
+            int minutes = t.Minutes;
 
-            return hours > 0
-                ? Lang.Get("{0} days, {1} hours", days, hours)
-                : Lang.Get("count-days", days);
+            if (hours > 0 && minutes > 0)
+                return Lang.Get("{0} days, {1} hours, {2} minutes", days, hours, minutes);
+
+            if (hours > 0)
+                return Lang.Get("{0} days, {1} hours", days, hours);
+
+            return Lang.Get("count-days", days);
         }
 
         if (t.TotalHours >= 1)
         {
             int hours = (int)Math.Floor(t.TotalHours);
             int minutes = t.Minutes;
+            int seconds = t.Seconds;
 
-            return minutes > 0
-                ? Lang.Get("{0} hours, {1} minutes", hours, minutes)
-                : Lang.Get("{0} hours", hours);
+            if (minutes > 0 && seconds > 0)
+                return Lang.Get("{0} hours, {1} minutes, {2} seconds", hours, minutes, seconds);
+
+            if (minutes > 0)
+                return Lang.Get("{0} hours, {1} minutes", hours, minutes);
+
+            return Lang.Get("{0} hours", hours);
         }
 
         if (t.TotalMinutes >= 1)
