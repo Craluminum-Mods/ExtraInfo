@@ -237,7 +237,7 @@ public class ConfigLibCompatibility
                     bool isSelected = s == symbol;
                     if (isSelected) ImGui.PushStyleColor(ImGuiCol.Button, ImGui.GetStyle().Colors[(int)ImGuiCol.ButtonActive]);
 
-                    string sLabel = s == '#' ? s + " " : s.ToString();
+                    string sLabel = s == '#' ? $"{s} " : $"{s}";
                     if (ImGui.Button($"{sLabel}##{id}_{s}", new Vector2(30, 30)))
                     {
                         newValue = s;
