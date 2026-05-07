@@ -76,7 +76,7 @@ public static class TimeFormatter
 
         if (props.ShowProgressBar)
         {
-            ProgressBarBuilder.Build(sb, completedPercent, width: 15);
+            ProgressBarBuilder.Build(sb, completedPercent);
             sb.AppendLine();
         }
 

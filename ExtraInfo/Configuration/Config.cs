@@ -3,12 +3,19 @@ namespace ExtraInfo.Configuration;
 public class Config
 {
     #region General
-    public bool ShowProgressBars { get; set; } = true;
     public bool ShowRealTimeInfo { get; set; } = true;
     public bool ShowInGameTimeInfo { get; set; } = true;
     public bool ShowBlockBreakingTime { get; set; } = true;
     public bool ShowBlockTransitionInfo { get; set; } = true;
     public bool ShowFuelProgress { get; set; } = true;
+    #endregion
+    #region ProgressBar
+    public bool ShowProgressBars { get; set; } = true;
+    public char ProgressBarFillChar { get; set; } = '#';
+    public char ProgressBarEmptyChar { get; set; } = '_';
+    public char ProgressBarStartCap { get; set; } = '[';
+    public char ProgressBarEndCap { get; set; } = ']';
+    public int ProgressBarWidth { get; set; } = 20;
     #endregion
     #region Clayforming
     public bool ShowClayformingPlacementPreview { get; set; } = true;
@@ -33,7 +40,7 @@ public class Config
     public bool ShowCokeOvenProgress { get; set; } = true;
     public bool ShowStackMetalUnits { get; set; } = true;
     #endregion
-    #region Processsing
+    #region Processing
     public bool ShowBeehiveKilnProgress { get; set; } = true;
     public bool ShowBoilerProgress { get; set; } = true;
     public bool ShowFirepitProgress { get; set; } = true;
@@ -50,7 +57,7 @@ public class Config
     #endregion
     #region Misc
     public bool ShowBombStats { get; set; } = true;
-    public bool ShowMechanicalBlockInfo { get; set; }
+    public bool ShowMechanicalBlockInfo { get; set; } = false;
     public bool ShowPileTotalItems { get; set; } = true;
     public bool ShowTranslocatorDestination { get; set; } = true;
     #endregion

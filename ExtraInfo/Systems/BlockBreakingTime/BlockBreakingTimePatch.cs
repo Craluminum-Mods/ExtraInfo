@@ -30,7 +30,7 @@ public static class BlockBreakingTimePatch
         StringBuilder sb = new(__result);
         sb.AppendLine();
         sb.AppendLine(Lang.Get("extrainfo:block-info-header-until-broken"));
-        ProgressBarBuilder.Build(sb, completedPercent, width: 15);
+        ProgressBarBuilder.Build(sb, completedPercent);
         __result = sb.ToString().TrimEnd();
     }
 }

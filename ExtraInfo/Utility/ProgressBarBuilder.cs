@@ -5,42 +5,34 @@ namespace ExtraInfo;
 
 public static class ProgressBarBuilder
 {
-    /// <summary>
-    /// Generates a progress bar string using an integer percentage.
-    /// </summary>
-    /// <returns>A formatted string: [████░░░░] 50%</returns>
-    public static string Get(int progress, int width = 20) => Get((double)progress, width);
-
-    /// <summary>
-    /// Generates a progress bar string using a float percentage.
-    /// </summary>
-    /// <returns>A formatted string: [████░░░░] 50%</returns>
-    public static string Get(float progress, int width = 20) => Get((double)progress, width);
-
-    /// <summary>
-    /// Generates a progress bar string using a double percentage.
-    /// </summary>
-    /// <returns>A formatted string: [████░░░░] 50%</returns>
-    public static string Get(double progress, int width = 20)
-    {
-        StringBuilder sb = new StringBuilder(width + 15);
-        Build(sb, progress, width);
-        return sb.ToString();
-    }
-
-    public static void Build(StringBuilder sb, double progress, int width = 20)
+    public static void Build(StringBuilder sb, double progress)
     {
         progress = Math.Clamp(progress, 0.0, 100.0);
 
-        int completedWidth = (int)(progress / 100.0 * width);
-        int remainingWidth = width - completedWidth;
+        int completedWidth = (int)Math.Round(progress / 100.0 * Config.ProgressBarWidth);
+        int remainingWidth = Config.ProgressBarWidth - completedWidth;
 
-        sb.Append('[');
-        sb.Append('█', completedWidth);
-        sb.Append('░', remainingWidth);
-        sb.Append("] ");
+        sb.Append(Config.ProgressBarStartCap);
 
+        if (completedWidth > 0)
+        {
+            sb.Append(Config.ProgressBarFillChar, completedWidth);
+        }
+
+        if (remainingWidth > 0)
+        {
+            sb.Append(Config.ProgressBarEmptyChar, remainingWidth);
+        }
+
+        sb.Append(Config.ProgressBarEndCap + " ");
         sb.Append(progress.ToString("F0"));
         sb.Append('%');
+    }
+
+    public static string Build(double progress)
+    {
+        StringBuilder sb = new();
+        Build(sb, progress);
+        return sb.ToString();
     }
 }
