@@ -51,6 +51,7 @@ public class Config
     public bool ShowAnimalPregnancyProgress { get; set; } = true;
     public bool ShowBerryBushProgress { get; set; } = true;
     public bool ShowFarmlandProgress { get; set; } = true;
+    public bool ShowPumpkinVineProgress { get; set; } = true;
     public bool ShowSkepProgress { get; set; } = true;
     public bool ShowTreeProgress { get; set; } = true;
     public bool ShowTreeStats { get; set; } = true;

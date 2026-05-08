@@ -103,6 +103,7 @@ public class ConfigLibCompatibility
             DrawCheckBox(id, config, nameof(config.ShowAnimalPregnancyProgress));
             DrawCheckBox(id, config, nameof(config.ShowBerryBushProgress));
             DrawCheckBox(id, config, nameof(config.ShowFarmlandProgress));
+            DrawCheckBox(id, config, nameof(config.ShowPumpkinVineProgress));
             DrawCheckBox(id, config, nameof(config.ShowSkepProgress));
             DrawCheckBox(id, config, nameof(config.ShowTreeProgress));
             DrawCheckBox(id, config, nameof(config.ShowTreeStats));

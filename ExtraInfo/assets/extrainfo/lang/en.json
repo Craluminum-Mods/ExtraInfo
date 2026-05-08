@@ -49,6 +49,7 @@
     "Config.Setting.ShowAnimalPregnancyProgress": "Pregnancy/Mating progress",
     "Config.Setting.ShowBerryBushProgress": "Berry bush growth progress",
     "Config.Setting.ShowFarmlandProgress": "Crop growth progress",
+    "Config.Setting.ShowPumpkinVineProgress": "Pumpkin/Vine growth progress",
     "Config.Setting.ShowSkepProgress": "Honey production progress (beehives, skeps)",
     "Config.Setting.ShowTreeProgress": "Planted sapling/tree seed growth progress",
     "Config.Setting.ShowTreeStats": "Sapling/tree seed tooltip stats",
@@ -83,6 +84,8 @@
     "animal-giving-birth-soon": "Will give birth very soon",
     "boiler-progress-distilling": "Will finish distilling {0}ml in:",
     "pick-symbol": "Pick",
+    "NextPumpkinStageIn": "Next pumpkin stage in:",
+    "NextVineStageIn": "Next vine stage in:",
 
     "WorkableTemperature": "Workable Temperature: {0}°C",
     "AlwaysWorkable": "Workable Temperature: Always",
