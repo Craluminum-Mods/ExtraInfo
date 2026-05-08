@@ -28,15 +28,18 @@ public class ConfigLibCompatibility
     {
         if (BeginSection(id, "General"))
         {
+            ImGui.Indent();
             DrawCheckBox(id, config, nameof(config.ShowRealTimeInfo));
             DrawCheckBox(id, config, nameof(config.ShowInGameTimeInfo));
             DrawCheckBox(id, config, nameof(config.ShowBlockBreakingTime));
             DrawCheckBox(id, config, nameof(config.ShowBlockTransitionInfo));
             DrawCheckBox(id, config, nameof(config.ShowFuelProgress));
+            ImGui.Unindent();
             EndSection();
         }
         if (BeginSection(id, "ProgressBar"))
         {
+            ImGui.Indent();
             bool changedAnyValue = false;
             changedAnyValue |= DrawCheckBox(id, config, nameof(config.ShowProgressBars));
             changedAnyValue |= DrawPickSymbol(id, config, nameof(config.ProgressBarFillChar));
@@ -45,16 +48,20 @@ public class ConfigLibCompatibility
             changedAnyValue |= DrawPickSymbol(id, config, nameof(config.ProgressBarEndCap));
             changedAnyValue |= DrawInputInt(id, config, nameof(config.ProgressBarWidth), 50);
             DrawProgressBarPreview(api, changedAnyValue);
+            ImGui.Unindent();
             EndSection();
         }
         if (BeginSection(id, "Clayforming"))
         {
+            ImGui.Indent();
             DrawCheckBox(id, config, nameof(config.ShowClayformingPlacementPreview));
             DrawPickColor(id, config, nameof(config.ClayformingPlacementPreviewColor));
+            ImGui.Unindent();
             EndSection();
         }
         if (BeginSection(id, "Handbook"))
         {
+            ImGui.Indent();
             DrawCheckBox(id, config, nameof(config.OpenHandbookPageForEntity));
             DrawCheckBox(id, config, nameof(config.ShowHandbookCreatureDiet));
             DrawCheckBox(id, config, nameof(config.ShowHandbookEatableByCreatures));
@@ -64,43 +71,52 @@ public class ConfigLibCompatibility
             DrawCheckBox(id, config, nameof(config.ShowHandbookTraderGoods));
             DrawCheckBox(id, config, nameof(config.ShowHandbookTroughFeedOptions));
             DrawCheckBox(id, config, nameof(config.ShowHandbookWorkableTemp));
+            ImGui.Unindent();
             EndSection();
         }
         if (BeginSection(id, "Metalworking"))
         {
+            ImGui.Indent();
             DrawCheckBox(id, config, nameof(config.ShowAnvilWorkableTemp));
             DrawCheckBox(id, config, nameof(config.ShowBloomeryProgress));
             DrawCheckBox(id, config, nameof(config.ShowCementationFurnaceProgress));
             DrawCheckBox(id, config, nameof(config.ShowCharcoalPitProgress));
             DrawCheckBox(id, config, nameof(config.ShowCokeOvenProgress));
             DrawCheckBox(id, config, nameof(config.ShowStackMetalUnits));
+            ImGui.Unindent();
             EndSection();
         }
         if (BeginSection(id, "Processing"))
         {
+            ImGui.Indent();
             DrawCheckBox(id, config, nameof(config.ShowBeehiveKilnProgress));
             DrawCheckBox(id, config, nameof(config.ShowBoilerProgress));
             DrawCheckBox(id, config, nameof(config.ShowFirepitProgress));
             DrawCheckBox(id, config, nameof(config.ShowPitKilnProgress));
             DrawCheckBox(id, config, nameof(config.ShowQuernGrindingProgress));
+            ImGui.Unindent();
             EndSection();
         }
         if (BeginSection(id, "Husbandry"))
         {
+            ImGui.Indent();
             DrawCheckBox(id, config, nameof(config.ShowAnimalPregnancyProgress));
             DrawCheckBox(id, config, nameof(config.ShowBerryBushProgress));
             DrawCheckBox(id, config, nameof(config.ShowFarmlandProgress));
             DrawCheckBox(id, config, nameof(config.ShowSkepProgress));
             DrawCheckBox(id, config, nameof(config.ShowTreeProgress));
             DrawCheckBox(id, config, nameof(config.ShowTreeStats));
+            ImGui.Unindent();
             EndSection();
         }
         if (BeginSection(id, "Misc"))
         {
+            ImGui.Indent();
             DrawCheckBox(id, config, nameof(config.ShowBombStats));
             DrawCheckBox(id, config, nameof(config.ShowMechanicalBlockInfo));
             DrawCheckBox(id, config, nameof(config.ShowPileTotalItems));
             DrawCheckBox(id, config, nameof(config.ShowTranslocatorDestination));
+            ImGui.Unindent();
             EndSection();
         }
     }
