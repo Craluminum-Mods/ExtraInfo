@@ -100,6 +100,7 @@ public class ConfigLibCompatibility
         if (BeginSection(id, "Husbandry"))
         {
             ImGui.Indent();
+            DrawCheckBox(id, config, nameof(config.ShowAnimalLactationProgress));
             DrawCheckBox(id, config, nameof(config.ShowAnimalPregnancyProgress));
             DrawCheckBox(id, config, nameof(config.ShowBerryBushProgress));
             DrawCheckBox(id, config, nameof(config.ShowFarmlandProgress));

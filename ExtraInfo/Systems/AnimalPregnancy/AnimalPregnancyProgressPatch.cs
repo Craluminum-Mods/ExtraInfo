@@ -4,10 +4,10 @@ using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.GameContent;
 
-namespace ExtraInfo.Systems.AnimalPregnancy;
+namespace ExtraInfo.Systems.AnimalPregnancyProgress;
 
 [HarmonyPatch(typeof(EntityBehaviorMultiply), nameof(EntityBehaviorMultiply.GetInfoText))]
-public static class AnimalPregnancyPatch
+public static class AnimalPregnancyProgressPatch
 {
     [HarmonyPostfix]
     public static void Postfix(EntityBehaviorMultiply __instance, StringBuilder infotext)

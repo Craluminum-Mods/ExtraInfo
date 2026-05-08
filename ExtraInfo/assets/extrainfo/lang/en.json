@@ -46,6 +46,7 @@
     "Config.Setting.ShowQuernGrindingProgress": "Quern grinding progress",
     
     "Config.Category.Husbandry": "Husbandry",
+    "Config.Setting.ShowAnimalLactationProgress": "Lactation progress",
     "Config.Setting.ShowAnimalPregnancyProgress": "Pregnancy/Mating progress",
     "Config.Setting.ShowBerryBushProgress": "Berry bush growth progress",
     "Config.Setting.ShowFarmlandProgress": "Crop growth progress",
@@ -86,6 +87,8 @@
     "pick-symbol": "Pick",
     "NextPumpkinStageIn": "Next pumpkin stage in:",
     "NextVineStageIn": "Next vine stage in:",
+    "animal-lactation-ends-in": "Lactation ends in:",
+    "animal-milk-refill-in": "Next milk available in:",
 
     "WorkableTemperature": "Workable Temperature: {0}°C",
     "AlwaysWorkable": "Workable Temperature: Always",
