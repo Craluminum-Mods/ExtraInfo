@@ -9,6 +9,10 @@ public static class TimeFormatter
 {
     public static string FormatFullTime(double totalSeconds)
     {
+        if (double.IsNaN(totalSeconds) || double.IsInfinity(totalSeconds)) return "";
+
+        totalSeconds = Math.Clamp(totalSeconds, 0, TimeSpan.MaxValue.TotalSeconds - 1);
+
         TimeSpan t = TimeSpan.FromSeconds(totalSeconds);
 
         if (t.TotalDays >= 1)
